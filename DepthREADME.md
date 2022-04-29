@@ -53,43 +53,43 @@
     - 팔로우 관련 API :  팔로우 등록 /  팔로워 조회 / 팔로잉 조회 / 팔로우 취소
     - 좋아요 관련 API : 좋아요 등록 / 좋아요 누른이 조회 / 좋아요 취소
 
-#### 3. 웹서버 환경 구축 
+#### 3. 웹서버 환경 구축 (100% 완료) 
 - EC2 인스턴스 생성  : 기존 인스턴스 활용
 - Nginx 서버 구축 
 - 도메인 & HTTPS 적용 : 가비아에서 도메인 구입후 적용 (https://today-fruit.shop/)
-    - 이슈 발생
-        <details>
-        <summary>이슈1</summary>
-        <div markdown="1">
-        <b> Issue </b> :  EC2의 공인 IP로 도메인(today-fruit.shop)을 새로 적용했는데, 홈페이지 연결이 되지않는다. <br> 
-        <b> Problem </b>  : 공인 ip와 도메인간의 연결은 되었는데, 아직 도메인 주소 활성화 되지 않아서 그런것 같다.  <br>
-        <b> Solution </b>: 1시간 정도 기다리니 도메인(today-fruit.shop)이 연결되어 nignx 첫 화면을 볼 수 있었다.   
-        </div>
-        </details>
+  <details>
+  <summary>이슈1</summary>
+    <div markdown="1">
+    <b> Issue </b> :  EC2의 공인 IP로 도메인(today-fruit.shop)을 새로 적용했는데, 홈페이지 연결이 되지않는다. <br> 
+    <b> Problem </b>  : 공인 ip와 도메인간의 연결은 되었는데, 아직 도메인 주소 활성화 되지 않아서 그런것 같다.  <br>
+    <b> Solution </b>: 1시간 정도 기다리니 도메인(today-fruit.shop)이 연결되어 nignx 첫 화면을 볼 수 있었다.   
+    </div>
+  </details>
         
-        <details>
-        <summary>이슈2</summary>
-        <div markdown="1">
-        <b> Issue </b> : nginx 화면은 볼 수 있지만, 어떤 경로가 root 경로로 설정되어 있는지 알 수 없었다. <br> 
-        <b> Problem </b> : nginx 설정 (vim /etc/nginx/sites-available/default)을 변경하여야 했다.  <br>
-        <b> Solution </b> : http://today-fruit.shop 사이트와 연관된 root 경로를 재설정 하였다. 
-        </div>
-        </details>
-- 서브 도메인 추가 : 
-- dev.today-fruit.shop , prod.today-fruit.shop
+  <details>
+  <summary>이슈2</summary>
+    <div markdown="1">
+    <b> Issue </b> : nginx 화면은 볼 수 있지만, 어떤 경로가 root 경로로 설정되어 있는지 알 수 없었다. <br> 
+    <b> Problem </b> : nginx 설정 (vim /etc/nginx/sites-available/default)을 변경하여야 했다.  <br>
+    <b> Solution </b> : http://today-fruit.shop 사이트와 연관된 root 경로를 재설정 하였다. 
+    </div>
+  </details>
+- 서브 도메인 추가 : dev.today-fruit.shop , prod.today-fruit.shop
 - 리다이렉션 적용 (ip to domain)
 - RDS 인스턴스 생성 : 기존 RDS (Mysql 8.0.26) 활용
 
-#### 4. Spring boot 개발환경 구축
+#### 4. Spring boot 개발환경 구축 (100% 완료)
 - Spring boot 프로젝트 생성 (+starter dependency 추가)
 - Spring boot와 RDS 연동
 - Spring boot 최초 빌드 및 실행 (Test API)
 - 프로젝트 파일을 깃허브에 업로드
 - EC2에서 Test API 실행
 
-
-
-
+#### 5. 위클리 스크럼 (1차)
+- 회의 결과 
+    - 상품 도메인 : 상품별 카테고리 세분화는 목표로한 API가 모두 구현한 후 진행
+    - API 명세서에 특정 유저가 작성한 게시물 조회 API 추가 필요 : /posts/userId 
+    - 협업 방식 조율 : 하루 동안 개발한 APi를 local에서 테스트 → Github의 depth 브랜치에 push → EC2 (프로젝트 폴더)에서 API 테스트 → Github의 main 브랜치에 pull Request
 
 
 
