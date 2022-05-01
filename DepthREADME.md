@@ -93,9 +93,33 @@
 
 
 
+## 2022-05-01 진행상황
+#### 1. 기본 패키지 추가 및 엔티티 클래스 생성
+- ~~controller, model (+dto), repository (or Dao), service 패키지에서~~ 도메인 중심의 패키지 설계로 변경
+  <details>
+  <summary>이슈</summary>
+    <div markdown="1">
+    <b> Issue </b> : 향후 DTO 클래스까지 생각했을때  model 패키지가 엄청 복잡해 질수 있습니다. <br> 
+    <b> Problem </b> : 가독성을 위해 model 패키지의 클래스 파일 과포화를 방지해야 합니다.  <br>
+    <b> Solution </b> : 기존의 Controller ~ Dao 패키지 중심의 설계 방식에서 도메인 중심의 패키지 설계방식으로 변경 
+    </div>
+  </details>
+
+#### 2. Spring boot SQL 로그 확인 코드 추가
+- application.yml 파일에 [다음 코드](링크 추가 예정) 추가
 
 
+#### 3. user 엔티티 설계
+- ERD 수정사항 
+    - user 테이블 : status 칼럼을 VARCHAR(10) 타입으로 변경, Value는 0/1 형식에서 INACTIVE/ACTIVE으로 변경
+- User클래스 생성 : @Entity, @Table(name = "user"), @Column 등 활용
+- UserStatus 클래스 생성 : status 칼럼 표현을 위해 enum 형태로 지정  (INACTIVE가 0, ACTIVE가 1)
 
 
+#### 4. user 관련 API 개발
+- 프로필 조회 API  
+    - UserController.java, UserService.java, UserDao.java 클래스 생성
+    - Pathvariable 값으로 userId를 입력받아 해당 사용자 조회
+    - findById(userId) 함수 활용 
 
 
