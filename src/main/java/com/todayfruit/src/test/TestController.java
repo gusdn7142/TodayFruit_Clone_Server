@@ -1,4 +1,4 @@
-package com.todayfruit.test;
+package com.todayfruit.src.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

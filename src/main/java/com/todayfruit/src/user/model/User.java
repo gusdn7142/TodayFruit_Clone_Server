@@ -1,6 +1,7 @@
-package com.todayfruit.user;
+package com.todayfruit.src.user.model;
 
 
+import com.todayfruit.src.user.model.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Generated;
