@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-//@Data
 public class GetUserRes {
 
     private Long id;
+    private String name;
     private String image;
     private String nickName;
     private String introduction;

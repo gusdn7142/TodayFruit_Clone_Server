@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="385f6052-4820-48ca-8e62-a451e30bd8a6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponseStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/GetUserRes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/PostUserReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -17,33 +16,22 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/test/TestController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/user/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/user/UserController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/user/UserDao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/user/UserService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/user/UserStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/config/BasicResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/config/BasicResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/config/BasicResponseStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/config/BasicResponseStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/model/GetUserRes.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/model/GetUserRes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/model/User.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/cart/Cart.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/comment/Comment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/follow/Follow.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/like/Like.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/order/Order.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/post/Post.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/postImage/PostImage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/postNotice/PostNotice.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/product/Product.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/productOption/ProductOption.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/purchaseNotice/PurchaseNotice.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/reply/Reply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/review/Review.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/search/Search.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/test/TestController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/user/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/user/UserController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/user/UserDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/user/UserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/user/UserStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponseStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponseStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/GetUserRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/GetUserRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,6 +136,8 @@
       <workItem from="1651380851483" duration="12445000" />
       <workItem from="1651398313205" duration="12920000" />
       <workItem from="1651456392011" duration="31709000" />
+      <workItem from="1651499015750" duration="720000" />
+      <workItem from="1651542437027" duration="36705000" />
     </task>
     <servers />
   </component>
@@ -164,5 +154,15 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IllegalArgumentException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

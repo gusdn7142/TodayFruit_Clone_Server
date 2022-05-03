@@ -25,14 +25,14 @@ public class BasicResponse {  //제네릭
     private int responseCode;             //응답 코드
     private String message;      //응답 메시지
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)   //실패일떄 null이기 때문에 출력 안되게 설정!
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Object result;           //Json body 출력
 
 
 
     /* 요청에 성공한 경우 */
     public BasicResponse(Object result) {
-        this.responseStatus = BasicResponseStatus.SUCCESS.getResponseStatus();  //ex, true
+        this.responseStatus = BasicResponseStatus.SUCCESS.getResponseStatus();  //ex, SUCCESS
         this.responseCode = BasicResponseStatus.SUCCESS.getResponseCode();        //ex, 상태코드 : 1000
         this.message = BasicResponseStatus.SUCCESS.getMessage();   //ex, 메시지 : "요청에 성공하였습니다."
 
@@ -45,9 +45,16 @@ public class BasicResponse {  //제네릭
         this.responseStatus = status.getResponseStatus();  //ex, DATABASE_ERROR의 FAIL에 해당
         this.responseCode = status.getResponseCode();  //ex, DATABASE_ERROR의 5000에 해당
         this.message = status.getMessage();  //ex, DATABASE_ERROR의 "DB에서 조회에 실해하였습니다."에 해당
-
-
     }
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
 
 

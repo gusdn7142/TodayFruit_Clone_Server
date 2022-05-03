@@ -5,15 +5,21 @@ import static com.todayfruit.config.BasicResponseStatus.*;
 
 
 import com.todayfruit.src.user.model.GetUserRes;
+import com.todayfruit.src.user.model.PostUserReq;
 import com.todayfruit.src.user.model.User;
 import com.todayfruit.src.user.UserDao;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.awt.print.Book;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 
 @Service
@@ -79,6 +85,65 @@ public class UserService {
 //            return user;  //user.get();
 //        }
 //        throw new EntityNotFoundException("id를 통한 프로필 조회 실패");
+
+
+
+
+
+
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* 1. 회원 가입 -  createUser() */
+    public String createUser(PostUserReq postUserReq) throws BasicException {
+
+        //이메일 중복 검사 ("ACTIVE"가 1일떄 포함)
+        if (userDao.checkByemail(postUserReq.getEmail()) != null){   //테이블에 같은 이메일이 여러개면 오류난다....List로 처리해야함 그럴땐!!
+            throw new BasicException(POST_USERS_EXISTS_EMAIL); //"이미 가입된 이메일 입니다."
+        }
+//        User checkUser = userDao.findByEmail(postUserReq.getEmail());  //테이블에 같은 이메일이 여러개면 오류난다....List로 처리해야함 그럴땐!!
+
+
+        //DB에 유저 등록 (이메일, 비밀번호, 이름, 전화번호, 닉네임 저장)
+        try{
+            User userCreate = new User();  //userCreate 객체 생성
+            BeanUtils.copyProperties(postUserReq,userCreate);  //postUserReq(dto) 객체의 내용을 userCreate로 옮긴다.
+
+
+            //패스워드 암호화
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);  //BCryptPasswordEncoder 클래스 활용 (암호화 속도는 default가 10)
+            userCreate.setPassword(encoder.encode(postUserReq.getPassword()));  //userCreate 객체에 암호화된 패스워드 삽입
+
+
+
+            //String salt = "asdasd2312eawsdsad";
+            //.getSalt(salt)
+//            String decryptPassword = userDao.getPassword(postUserReq.getEmail());  //이메일로 패스워드 뺴오기
+
+//            BCryptPasswordEncoder encoder2 = new BCryptPasswordEncoder();  //BCryptPasswordEncoder 클래스 활용
+            //패스워드 복호화 (matches로 확인만 한다!)
+//            if(encoder2.matches("AS",decryptPassword)){
+//                System.out.println("암호화된 비밀번호는 다음과 같습니다."+decryptPassword);
+//                System.out.println("패스워드가 일치합니다!");
+//            }
+//            else{
+//                System.out.println("패스워드가 일치하지 않습니다.");
+//
+//            }
+
+
+            userDao.save(userCreate);   //"user" DB에 정보 저장
+            return "사용자 등록에 성공하였습니다.";
+
+        } catch (Exception exception) {
+            throw new BasicException(DATABASE_ERROR_CREATE_USER);  //유저 생성 실패 에러
+        }
+    }
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
     /* 3. 프로필 조회 API */

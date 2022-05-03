@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.awt.print.Book;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,13 +25,32 @@ public interface UserDao extends JpaRepository<User, Long> {   //해당 엔티�
 
     /* 3. 프로필 조회 API */
 //    @Query(value="select id, image, nick_Name as nickName, introduction, email from user where id = :id", nativeQuery = true)
-    @Query(value="select new com.todayfruit.src.user.model.GetUserRes(id, image, nickName, introduction, email) from User where id = :id")    //nativeQuery 사용!  nativeQuery = true
+    @Query(value="select new com.todayfruit.src.user.model.GetUserRes(id, name, image, nickName, introduction, email) from User where id = :id")    //nativeQuery 사용!  nativeQuery = true
     GetUserRes getUser(@Param("id") Long userId);  //@param과 쿼리의 칼럼이 매핑된다.
 
 
+    /* 1. 이메일 중복 검사    (회원 가입 API) API */
+    @Query(value="select u from User u where u.email = :email and  u.status = 'ACTIVE'")
+    User checkByemail(@Param("email") String email);
+
+
+    /* 1. 패스워드 가져오기    ( API) API */
+    @Query(value="select u.password from User u where u.email = :email")
+    String getPassword(@Param("email") String email);
 
 
 
+//    @PersistenceContext
+//    EntityManager em = null;
+//    List<User> email2 =  em.createQuery("select u from User u where u.email = :email and  u.status = 'ACTIVE'")
+//                .setParameter("email", email)
+//                .getResultList();
+//    }
+
+
+
+
+//Optional : 'null일 수도 있는 객체'를 감싸는 일종의 Wrapper 클래스
 
 
 
