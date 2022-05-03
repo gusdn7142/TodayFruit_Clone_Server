@@ -122,4 +122,31 @@
     - Pathvariable 값으로 userId를 입력받아 해당 사용자 조회
     - findById(userId) 함수 활용 
 
+## 2022-05-02 진행상황
+#### 1. 형식적⋆의미적 Validation 처리 코드 구현
+- @ResponseEntity, @RestControllerAdvice 등을 활용한 Validation 적용 방법을 찾아보았지만, 
+- controller단계에서의 형식적 validation 처리와, service 단계에서의 의미적 validation 처리를 Json 형식으로 보기좋게 (ex, 오류별 상태코드 번호 지정) 처리하기에는 어렵다는 판단을 하여 Exception 클래스를 상속받아 커스텀한 코드를 사용하였습니다.
+- 오류별 상태코드 지정 : 1000번(Request 성공), 2000번(Request 오류), 3000번(Response 오류), 4000번(Database, Server 오류)   
 
+#### 2. (Update) 프로필 조회 API
+- JPA에서 제공하는 findById(userId) 메서드를 @Query를 활용한 JPQL 방식으로 변경
+- JPQL로 변경 이유 : 전체 칼럼이 아닌 이미지, 닉네임 등의 세부적인 요소만 조회하기 위함  
+    <details>
+    <summary>이슈1</summary>
+        <div markdown="1">
+        <b> Issue </b> :  JPA native query 사용시 dto mapping 실패 <br> 
+        <b> Problem </b>  : user 칼럼을 조회하는 과정에서 쿼리의 칼럼들과 GetUserRes.java (DTO 클래스)의 멤버 변수들이 매칭이 되지 않는 문제가 발생  <br>
+        <b> Solution </b>: GetUserRes.java(DTO 클래스) 파일을 interface 타입으로 변경 후 각 칼럼과 매핑될 getter() 함수들 직접 생성  
+        </div>
+    </details>
+     
+    <details>
+    <summary>이슈2</summary>
+        <div markdown="1">
+        <b> Issue </b> : 이슈1을 통해 임시적인 해결을 하였지만, GetUserRes.java가 interface 타입으로 getter()함수만 정의되어 setter() 함수를 사용하지 못합니다.  <br> 
+        <b> Problem </b> : GetUserRes.java 파일을 클래스 타입으로 다시 변환시켜 사용할 수 있는 방법을 찾아야 합니다.  <br>
+        <b> Solution </b> : @Query 쿼리문의 nativeQuery 속성을 false로 바꾸어 Mysql에서 엔티티 중심의 쿼리문(new 키워드 활용)으로 변환
+        </div>
+   </details>   
+#### 3. 인프런에서 김영한 강사님의 강의를 보며 JPQL 공부 진행
+    - 실무에서는 Query DSL를 많이 사용한다는 정보를 얻었지만, 이 프로젝트에서는 JPQL을 중심으로 학습하여 활용하는것을 목표로 잡음
