@@ -150,3 +150,33 @@
    </details>   
 #### 3. 인프런에서 김영한 강사님의 강의를 보며 JPQL 공부 진행
     - 실무에서는 Query DSL를 많이 사용한다는 정보를 얻었지만, 이 프로젝트에서는 JPQL을 중심으로 학습하여 활용하는것을 목표로 잡음
+
+## 2022-05-03 진행상황
+#### 1. 회원가입 API 개발
+- Dto에 형식적 Validation 적용
+    - build.gradle에 의존성 추가 : org.springframework.boot:spring-boot-starter-validation  
+    - PostUserReq에 Validation 적용 : @NotBlank, @Pattern 어노테이션 추가
+    - UserController에 Validation 적용 : @Valid, BindingResult 어노테이션 활용
+- DB에 User 정보 저장
+    - UserController : createUser() 함수 구현
+    - UserService : createUser() 함수 구현
+    - UserDao : 이메일 중복체크 함수 checkByemail() 구현     
+
+- 패스워드 암호화 적용
+    - build.gradle에 의존성 추가 : org.springframework.boot:spring-boot-starter-security
+    - UserService : 패스워드 암호화를 위해 BCryptPasswordEncoder클래스의 encode() 함수 활용
+    - SecurityConfig : csrf disable 설정 적용!
+
+      <details>
+        <summary>Spring Security 관련 이슈 해결</summary>
+            <div markdown="1">
+            <b> Issue </b> : SecurityConfig 적용후 postman으로 API 실행시 403 Forbidden 에러 발생  <br> 
+            <b> Problem </b> : SpringSecurity 의존성을 설정하는 순간 CSRF protection이 deafult로 설정되어 GET 요청을 제외한 POST, PUT, DELETE 요청에 대한 모든 호출은 403 에러로 처리합니다.  <br>
+            <b> Solution </b> : WebSecurityConfigurerAdapter 클래스를 상속받는 SecurityConfig 클래스를 새로 생성 후 http.csrf().disable(); 설정 적용
+            </div>
+      </details>   
+
+
+
+
+
