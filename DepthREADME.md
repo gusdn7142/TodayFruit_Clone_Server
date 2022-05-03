@@ -157,6 +157,17 @@
     - build.gradle에 의존성 추가 : org.springframework.boot:spring-boot-starter-validation  
     - PostUserReq에 Validation 적용 : @NotBlank, @Pattern 어노테이션 추가
     - UserController에 Validation 적용 : @Valid, BindingResult 어노테이션 활용
+
+       <details>
+        <summary>save() 함수 관련 관련 이슈 해결</summary>
+            <div markdown="1">
+            <b> Issue </b> : user 엔티티 클래스에 default 값을 지정해 주었지만, save() 함수로 칼럼 값을 저장시 create_at, status, update_at 칼럼들에 default값이 자동으로 들어가지 않음.  <br> 
+            <b> Problem </b> : postUserReq (DTO) 객체를 User클래스 형식의 userCreate 객체에 복사할때 create_at, status, update_at 칼럼들은 null 값으로 지정되어 save() 함수로 DB 저장시 null 값이 그대로 들어갑니다..  <br>
+            <b> Solution </b> : DB에 insert와 update시 null인 필드는 제외하도록 user 엔티티 클래스에 @DynamicInsert와 @DynamicUpdate 어노테이션을 추가하여 create_at, status, update_at 칼럼에는 default값이 적용되게 해주었습니다. 
+            </div>
+      </details>   
+    
+    
 - DB에 User 정보 저장
     - UserController : createUser() 함수 구현
     - UserService : createUser() 함수 구현
