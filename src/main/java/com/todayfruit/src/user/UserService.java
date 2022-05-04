@@ -115,11 +115,19 @@ public class UserService {
         //jwtservice.getJwtContents(refreshToken);
 
 
+        // 해당 사용자가 발급한 refresh 토큰을 모두 INACTIVE 시킴
+        try{
+            logoutDao.refreshTokenInactive(userLogin.getId());
+        }catch (Exception exception) {
+            throw new BasicException(DATABASE_ERROR_INACTIVE_RefreshToken);  //"refresh 토큰 비활성화에 실패하였습니다."
+        }
+
 
         try{
             //Refresh 토큰을 DB에 저장
             Logout logoutDBCreate = new Logout();  //logoutDBCreate 객체 생성
             logoutDBCreate.setRefreshToken(refreshToken);
+            logoutDBCreate.setUserId(userLogin.getId());
 
             logoutDao.save(logoutDBCreate);  //"logout" DB에 정보 저장
         }catch (Exception exception) {
@@ -130,7 +138,7 @@ public class UserService {
         try {
             //postLoginRes 객체에 userIdx와 jwt를 담아 클라이언트에게 전송
             PostLoginRes postLoginRes = PostLoginRes.builder()
-                    .id(userLogin.getId())
+                    .userId(userLogin.getId())
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
                     .build();

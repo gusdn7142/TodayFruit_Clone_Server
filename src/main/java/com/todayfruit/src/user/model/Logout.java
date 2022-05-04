@@ -28,6 +28,8 @@ public class Logout {
 
 
     /*사용자 인덱스는 일단 보류!! */
+    @Column
+    private Long userId;
 //    @Column(nullable=false, columnDefinition="varchar(30)")  //NULL 허용여부와 타입 세부 지정
 //    private User user;  //전화번호
 

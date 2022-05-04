@@ -49,7 +49,8 @@ public enum BasicResponseStatus {  //enum 타입
 //    DATABASE_ERROR2("FAIL", 4000, "잘못된 형식의 값을 입력하셨습니다.");;
     DATABASE_ERROR_CREATE_USER("FAIL", 4000, "DB에 유저 등록이 실패하였습니다."),
     DATABASE_ERROR_SAVE_RefreshToken("FAIL", 4000, "refresh 토큰 저장에 실패하였습니다."),
-    DATABASE_ERROR_LOGIN_USER("FAIL", 4000, "로그인에 실패하였습니다.");
+    DATABASE_ERROR_LOGIN_USER("FAIL", 4000, "로그인에 실패하였습니다."),
+    DATABASE_ERROR_INACTIVE_RefreshToken("FAIL", 4000, "refresh 토큰 비활성화에 실패하였습니다."),;
 
 
 
