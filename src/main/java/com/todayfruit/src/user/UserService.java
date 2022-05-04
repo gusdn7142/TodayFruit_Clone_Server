@@ -4,11 +4,11 @@ import com.todayfruit.config.BasicException;
 import static com.todayfruit.config.BasicResponseStatus.*;
 
 
-import com.todayfruit.src.user.model.GetUserRes;
-import com.todayfruit.src.user.model.PostUserReq;
-import com.todayfruit.src.user.model.User;
+import com.todayfruit.src.user.model.*;
 import com.todayfruit.src.user.UserDao;
+import com.todayfruit.util.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.awt.print.Book;
+import java.sql.SQLDataException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +29,8 @@ import java.util.Random;
 public class UserService {
 
     private final UserDao userDao;
-
+    private final JwtService jwtservice;
+    private final LogoutDao logoutDao;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -42,50 +45,6 @@ public class UserService {
 //        throw new EntityNotFoundException("전체 유저의 프로필 조회 실패"); //id 찾기 실패
 //
 //    }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//    /* (id로) 프로필 조회 API*/
-//    public Optional<User> getUser(Long userId) throws BasicException {
-//
-//        Optional<User> user = userDao.findById(userId);  //BookRepository에서 도서의 id를 통해 raw를 받아옴?
-//
-//        if (!user.isPresent()) {    //값이 존재하면 true
-//            System.out.println(user);
-//            throw new BasicException(DATABASE_ERROR);   //'회원 탈퇴(유저 비활성화)에 실패하였습니다.'
-//        }
-//
-//        return user;
-//    }
-
-
-
-
-
-//        try {
-//                throw new RuntimeException("Customer not found");
-
-//        }
-//        catch(Exception exception){
-//            System.out.println("객체가 없어요");
-//            throw new BasicException(DATABASE_ERROR2);   //'회원 탈퇴(유저 비활성화)에 실패하였습니다.'
-//        }
-
-
-
-
-
-
-//        System.out.println(user);
-//        System.out.println("차이가 사람을 만든다.");
-//        System.out.println(user.get());
-
-//            if (user.isEmpty()){ //값이 존재하면 true
-//        if (user.isPresent()){ //값이 존재하면 true
-//            return user;  //user.get();
-//        }
-//        throw new EntityNotFoundException("id를 통한 프로필 조회 실패");
-
 
 
 
@@ -106,30 +65,12 @@ public class UserService {
         //DB에 유저 등록 (이메일, 비밀번호, 이름, 전화번호, 닉네임 저장)
         try{
             User userCreate = new User();  //userCreate 객체 생성
-            BeanUtils.copyProperties(postUserReq,userCreate);  //postUserReq(dto) 객체의 내용을 userCreate로 옮긴다.
+            BeanUtils.copyProperties(postUserReq,userCreate);  //postUserReq(dto) 객체의 내용을 userCreate로 옮긴다. (DB에 저장하기 위함.)
 
 
             //패스워드 암호화
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);  //BCryptPasswordEncoder 클래스 활용 (암호화 속도는 default가 10)
             userCreate.setPassword(encoder.encode(postUserReq.getPassword()));  //userCreate 객체에 암호화된 패스워드 삽입
-
-
-
-            //String salt = "asdasd2312eawsdsad";
-            //.getSalt(salt)
-//            String decryptPassword = userDao.getPassword(postUserReq.getEmail());  //이메일로 패스워드 뺴오기
-
-//            BCryptPasswordEncoder encoder2 = new BCryptPasswordEncoder();  //BCryptPasswordEncoder 클래스 활용
-            //패스워드 복호화 (matches로 확인만 한다!)
-//            if(encoder2.matches("AS",decryptPassword)){
-//                System.out.println("암호화된 비밀번호는 다음과 같습니다."+decryptPassword);
-//                System.out.println("패스워드가 일치합니다!");
-//            }
-//            else{
-//                System.out.println("패스워드가 일치하지 않습니다.");
-//
-//            }
-
 
             userDao.save(userCreate);   //"user" DB에 정보 저장
             return "사용자 등록에 성공하였습니다.";
@@ -141,11 +82,72 @@ public class UserService {
 
 
 
+
+
+ ///////////////////////////////////////////////////////////////////////////////////////////////////
+    /* 2. 로그인 -  login() */
+    public PostLoginRes login(PostLoginReq postLoginReq) throws BasicException {
+
+        //DB에서 해당 이메일에 해당하는 사용자를 조회하여 (암호화된)패스워드를 가져옴.
+        String bcryptPassword = null;
+        if(userDao.checkByPassword(postLoginReq.getEmail()) != null){  //이메일에 해당하는 패스워드가 존재하면.
+            bcryptPassword = userDao.checkByPassword(postLoginReq.getEmail());
+        }
+        else{ //이메일에 해당하는 패스워드가 없다면 오류메시지 출력
+            throw new BasicException(FAILED_TO_JOIN_CHECK); //"가입되지 않은 사용자입니다."
+        }
+
+
+        //패스워드 일치여부 확인 (matches로 확인만 한다! 복호화 no)
+        BCryptPasswordEncoder encoder2 = new BCryptPasswordEncoder();  //BCryptPasswordEncoder 클래스 활용
+        if(!encoder2.matches(postLoginReq.getPassword(),bcryptPassword)){      //입력받은 password와 DB에서 불러온 (암호화된)password를 비교
+            throw new BasicException(PASSWORD_MATCH_FAIL); //"잘못된 패스워드입니다."
+        }
+
+
+        //jwt 발급 (accessToken, refreshToken)
+        User userLogin = userDao.findByEmail(postLoginReq.getEmail());           //userIdx를 보내기 위함 (이미 앞에서 검증하여 오류X)
+        String accessToken = jwtservice.createAccessToken(userLogin.getId());    //accessToken 발급
+        String refreshToken = jwtservice.createRefreshToken(userLogin.getId());    //refreshToken 발급
+
+        //만료기한 확인해보기
+        //jwtservice.getJwtContents(accessToken);
+        //jwtservice.getJwtContents(refreshToken);
+
+
+
+        try{
+            //Refresh 토큰을 DB에 저장
+            Logout logoutDBCreate = new Logout();  //logoutDBCreate 객체 생성
+            logoutDBCreate.setRefreshToken(refreshToken);
+
+            logoutDao.save(logoutDBCreate);  //"logout" DB에 정보 저장
+        }catch (Exception exception) {
+            throw new BasicException(DATABASE_ERROR_SAVE_RefreshToken);  //"refresh 토큰 저장에 실패하였습니다."
+        }
+
+
+        try {
+            //postLoginRes 객체에 userIdx와 jwt를 담아 클라이언트에게 전송
+            PostLoginRes postLoginRes = PostLoginRes.builder()
+                    .id(userLogin.getId())
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
+
+            return postLoginRes;
+
+        }catch (Exception exception) {
+            throw new BasicException(DATABASE_ERROR_LOGIN_USER);  //"로그인 실패"
+        }
+
+
+
+
+    }
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
     /* 3. 프로필 조회 API */
     public GetUserRes getUser(Long userId) throws BasicException {
 

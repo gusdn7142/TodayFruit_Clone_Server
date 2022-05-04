@@ -4,9 +4,7 @@ package com.todayfruit.src.user;
 import com.sun.istack.NotNull;
 import com.todayfruit.config.BasicException;
 import com.todayfruit.config.BasicResponse;
-import com.todayfruit.src.user.model.GetUserRes;
-import com.todayfruit.src.user.model.PostUserReq;
-import com.todayfruit.src.user.model.User;
+import com.todayfruit.src.user.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -166,6 +164,61 @@ public class UserController {
             return new BasicResponse(exception.getStatus());
         }
     }
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * 1. 로그인 API
+     * [POST] /users
+     * @return BaseResponse<PostUserRes>
+     */
+    // Body
+    @PostMapping("/login")
+    public BasicResponse login(@Valid @RequestBody PostLoginReq postLoginReq, BindingResult bindingResult) {  //@RequestBody PostUserReq postUserReq
+
+        /* 유효성 검사 구현부 */
+        if(bindingResult.hasErrors()) {   //에러가 있다면
+            List<ObjectError> errorlist = bindingResult.getAllErrors();  //모든 에러를 뽑아온다.
+
+            System.out.println(bindingResult.getAllErrors());
+            if (errorlist.get(0).getDefaultMessage().equals("이메일 형식을 확인해 주세요.")) {
+                return new BasicResponse(POST_USERS_INVALID_EMAIL);
+            }
+            else if (errorlist.get(0).getDefaultMessage().equals("비밀번호를 입력해주세요.")) {
+                return new BasicResponse(POST_USERS_EMPTY_PASSWORD);
+            }
+        }
+        /* 유효성 검사 구현 끝*/
+
+
+        try{
+            //로그인
+            PostLoginRes postLoginRes = userService.login(postLoginReq);
+
+
+            return new BasicResponse(postLoginRes);
+        } catch(BasicException exception){
+            return new BasicResponse(exception.getStatus());
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

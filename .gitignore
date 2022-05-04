@@ -41,9 +41,9 @@
 src/main/resources
 build/resources
 
-
-
-
+#Secret Info
+build/classes/java/main/com/todayfruit/config/secret
+src/main/java/com/todayfruit/config/secret
 
 #out/production/resources
 
