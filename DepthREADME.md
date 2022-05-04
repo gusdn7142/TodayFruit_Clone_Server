@@ -167,12 +167,6 @@
             </div>
       </details>   
     
-    
-- DB에 User 정보 저장
-    - UserController : createUser() 함수 구현
-    - UserService : createUser() 함수 구현
-    - UserDao : 이메일 중복체크 함수 checkByemail() 구현     
-
 - 패스워드 암호화 적용
     - build.gradle에 의존성 추가 : org.springframework.boot:spring-boot-starter-security
     - UserService : 패스워드 암호화를 위해 BCryptPasswordEncoder클래스의 encode() 함수 활용
@@ -187,7 +181,35 @@
             </div>
       </details>   
 
+- DB에 User 정보 저장
+    - UserController : createUser() 함수 구현
+    - UserService : createUser() 함수 구현
+    - UserDao : 이메일 중복체크 함수 checkByemail() 구현     
 
+## 2022-05-04 진행상황
+#### 1. 로그인 API 개발
+- Dto에 형식적 Validation 적용 : 이메일과 비밀번호 형식 확인 
+    - PostLoginReq에 Validation 적용 : @NotBlank, @Pattern 어노테이션 추가
+    - UserController에 Validation 적용 : @Valid, BindingResult 어노테이션 활용
 
+- 로그인시 사용자 인증 : 이메일을 통해 패스워드 일치 여부 확인 (+패스워드 복호화? no) 
+    - UserService : checkByPassword() 함수와 BCryptPasswordEncoder 클래스의 matches() 함수 활용
+
+- Jwt 토큰 발급 (access token, refresh token)
+    - build.gradle에 의존성 추가 
+    - JwtService : acccess token(3시간 후 만료)과 refresh token(1개월 후 만료) 생성
+
+      <details>
+        <summary>Date() 함수 관련 이슈 해결</summary>
+            <div markdown="1">
+            <b> Issue </b> : refresh token의 발급시간을 지정하기 위해 new Date(now.getTime()+(1000 * 60 * 60 * 24 * 30)으로 셋팅한 후 API 테스트를 진행하면 “JWT expired at 2022-04-15T00:48:37Z”  라는 jwt 만료 메시지가 출력됩니다.  <br> 
+            <b> Problem </b> : 24일 이하로 셋팅 (now.getTime()+(1000 * 60 * 60 * 24 * 30)해야 정상적으로 동작이 됩니다.   <br>
+            <b> Solution </b> : 정확한 원인은 찾지 못하여 숫자 대신 Calendar 클래스로 한달을 지정하여 사용하였습니다.
+            </div>
+      </details>   
+
+    - UserService : acccess token과 refresh token 발급,  refresh token은 DB에 저장  //이전에 발급된 refresh token은 DB에서 비활성화 처리
+    - PostLoginRes : userId, accessToken, refreshToken 반환     
+    - gitignore에 Secret 패키지 추가 : JWT_ISSUER와 JWT_SECRET_KEY가 담겨 있음. 
 
 
