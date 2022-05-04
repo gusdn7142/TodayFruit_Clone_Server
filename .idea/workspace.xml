@@ -12,18 +12,13 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/config/BasicResponseStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/config/BasicResponseStatus.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/LogoutDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/LogoutDao.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/model/Logout.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/model/Logout.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/model/PostLoginRes$PostLoginResBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/model/PostLoginRes$PostLoginResBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/model/PostLoginRes.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/model/PostLoginRes.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponseStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponseStatus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/LogoutDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/LogoutDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/Logout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/Logout.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/PostLoginRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/PostLoginRes.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +125,7 @@
       <workItem from="1651456392011" duration="31709000" />
       <workItem from="1651499015750" duration="720000" />
       <workItem from="1651542437027" duration="40694000" />
-      <workItem from="1651633681724" duration="21981000" />
+      <workItem from="1651633681724" duration="26053000" />
     </task>
     <servers />
   </component>

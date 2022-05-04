@@ -117,7 +117,7 @@ public class UserService {
 
         // 해당 사용자가 발급한 refresh 토큰을 모두 INACTIVE 시킴
         try{
-            logoutDao.refreshTokenInactive(userLogin.getId());
+            logoutDao.refreshTokenInactive(userLogin);
         }catch (Exception exception) {
             throw new BasicException(DATABASE_ERROR_INACTIVE_RefreshToken);  //"refresh 토큰 비활성화에 실패하였습니다."
         }
@@ -127,7 +127,7 @@ public class UserService {
             //Refresh 토큰을 DB에 저장
             Logout logoutDBCreate = new Logout();  //logoutDBCreate 객체 생성
             logoutDBCreate.setRefreshToken(refreshToken);
-            logoutDBCreate.setUserId(userLogin.getId());
+            logoutDBCreate.setUser(userLogin);
 
             logoutDao.save(logoutDBCreate);  //"logout" DB에 정보 저장
         }catch (Exception exception) {

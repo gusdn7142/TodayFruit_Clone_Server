@@ -24,14 +24,15 @@ public class Logout {
     private Long id;  //인덱스
 
     @Column (nullable=false, columnDefinition="varchar(300)")  //NULL 허용여부와 타입 세부 지정
-    private String refreshToken;  //사용자 이름
+    private String refreshToken;  //리프레시 토큰
 
 
     /*사용자 인덱스는 일단 보류!! */
-    @Column
-    private Long userId;
-//    @Column(nullable=false, columnDefinition="varchar(30)")  //NULL 허용여부와 타입 세부 지정
-//    private User user;  //전화번호
+    //@Column
+    //private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;  //사용자 인덱스(외래키)
 
 
     @Column (columnDefinition = "varchar(10) default 'ACTIVE'")
