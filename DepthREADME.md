@@ -195,7 +195,7 @@
 - 로그인시 사용자 인증 : 이메일을 통해 패스워드 일치 여부 확인 (+패스워드 복호화? no) 
     - UserService : checkByPassword() 함수와 BCryptPasswordEncoder 클래스의 matches() 함수 활용
 
-- Jwt 토큰 발급 (access token, refresh token)
+- Jwt 토큰 발급 및 반환 (access token, refresh token)
     - build.gradle에 의존성 추가 
     - JwtService : acccess token(3시간 후 만료)과 refresh token(1개월 후 만료) 생성
 
@@ -208,8 +208,15 @@
             </div>
       </details>   
 
-    - UserService : acccess token과 refresh token 발급,  refresh token은 DB에 저장  //이전에 발급된 refresh token은 DB에서 비활성화 처리
     - PostLoginRes : userId, accessToken, refreshToken 반환     
-    - gitignore에 Secret 패키지 추가 : JWT_ISSUER와 JWT_SECRET_KEY가 담겨 있음. 
+    - UserService : acccess token과 refresh token 발급
+
+- Refresh Token DB에 저장 (+기존 Refresh Token DB에서 비활성화)
+    - Logout 엔티티 클래스 추가 : user_id(외래키) 칼럼은 user 엔티티 클래스로 매핑
+    - LogoutDao 추가 : user엔티티 클래스를 인자로 받는 refreshTokenInactive() 함수 정의
+    - UserService :  refresh token DB에 저장  //이전에 발급된 refresh token은 logout DB에서 비활성화 처리
+
+
+- gitignore에 Secret 패키지 추가 : JWT_ISSUER와 JWT_SECRET_KEY가 담겨 있음. 
 
 
