@@ -246,7 +246,7 @@
 #### 3. 로그아웃 API 개발
 - Access Token을 통한 사용자 인가 적용
     - UserController : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 
-- 로그아웃 로직 구현
+- 로그아웃 로직 구현  ~~(+로그아웃 여부 확인)~~
     - UserService : 해당 유저의 Logout 레코드 모두 비활성화
     - LogoutDao : DB에서 해당 유저의 Logout 레코드의 status 칼럼을 ‘INACTIVE’로 변경하는 logout() 함수 구현
 
