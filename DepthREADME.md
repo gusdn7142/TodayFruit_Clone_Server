@@ -220,3 +220,46 @@
 - gitignore에 Secret 패키지 추가 : JWT_ISSUER와 JWT_SECRET_KEY가 담겨 있음. 
 
 
+## 2022-05-05 진행상황
+#### 1. 프로필 편집 API 개발
+- Dto에 형식적 Validation 적용 : 이름, 닉네임 형식 확인 
+    - PatchUserReq에 Validation 적용 : @Pattern 어노테이션 추가  
+    - UserController에  Validation 적용 : @Valid, BindingResult 어노테이션 활용
+- 닉네임 중복 검사
+    - UserService : 입력받은 닉네임을 통해 DB에서 중복 닉네임 조회
+    - UserDao : checkNickName() 함수 구현
+- 프로필 정보 수정
+    - UserService : 이름, 닉네임, 소개글, 이미지 값이 한개라도 존재하면 프로필 수정 함수 실행  
+    - UserDao : modifyName(), modifyNickName(), modifyIntroduction(), modifyImage() 함수 구현
+- Access Token을 통한 사용자 인가 구현
+    - JwtService : validAccessToken() 메서드를 구현하여 Access Token의 유효성과 만료여부 확인   
+    - UserController : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여
+
+
+#### 2. 회원탈퇴 API 개발 
+- Access Token을 통한 사용자 인가 적용
+    - UserController : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 
+- 회원 탈퇴 로직 구현
+    - UserService : checkdeleteUser()를 통한 회원탈퇴 여부 확인 및 회원탈퇴 적용
+    - UserDao : DB에서 해당 유저 레코드의 status 칼럼을 ‘INACTIVE’로 변경하는 deleteUser() 함수 구현, 회원 탈퇴 여부 확인하는 checkdeleteUser 함수 구현
+    
+#### 3. 로그아웃 API 개발
+- Access Token을 통한 사용자 인가 적용
+    - UserController : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 
+- 로그아웃 로직 구현
+    - UserService : 해당 유저의 Logout 레코드 모두 비활성화
+    - LogoutDao : DB에서 해당 유저의 Logout 레코드의 status 칼럼을 ‘INACTIVE’로 변경하는 logout() 함수 구현
+
+      <details>
+        <summary>checkLogout()  함수 관련 이슈 발생</summary>
+            <div markdown="1">
+            <b> Issue </b> : postman으로 같은 user에 대한 로그아웃을 2번 진행시 로그아웃이 되지 않음.  <br> 
+            <b> Problem </b> : 기존에 Logout 테이블의 해당 유저 인덱스의 status 칼럼이 ‘INACTIVE’으로 되어 있다면 같은 유저에 대해 로그아웃이 되지 않는 문제 발생   <br>
+            <b> Solution </b> : 해결을 하려면  Select 쿼리문에 userId외에 refresh token까지 전달을 해야 로그아웃 여부 확인이 가능한데,  refresh token을 보안상 입력받을 필요는 없습니다. 그래서 로그아웃 여부 확인 구현은 일단 보류하였습니다.
+            </div>
+      </details>   
+
+
+
+
+      
