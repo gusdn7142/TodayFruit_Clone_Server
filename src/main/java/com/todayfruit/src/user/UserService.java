@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.awt.print.Book;
@@ -60,6 +61,11 @@ public class UserService {
             throw new BasicException(POST_USERS_EXISTS_EMAIL); //"이미 가입된 이메일 입니다."
         }
 //        User checkUser = userDao.findByEmail(postUserReq.getEmail());  //테이블에 같은 이메일이 여러개면 오류난다....List로 처리해야함 그럴땐!!
+
+        //닉네임 중복 검사 ("ACTIVE"가 1일떄 포함)
+        if (userDao.checkNickName(postUserReq.getNickName()) != null){   //테이블에 같은 이메일이 여러개면 오류난다....List로 처리해야함 그럴땐!!
+            throw new BasicException(POST_USERS_EXISTS_NICKNAME); //"이미 존재하는 닉네임 입니다."
+        }
 
 
         //DB에 유저 등록 (이메일, 비밀번호, 이름, 전화번호, 닉네임 저장)
@@ -170,6 +176,102 @@ public class UserService {
     }
 
 
+
+//// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* 4. 프로필 편집 - modifyInfo()  */
+    public void modifyInfo(PatchUserReq patchUserReq) throws BasicException {    //UserController.java에서 객체 값( id, nickName)을 받아와서...
+
+        //닉네임 중복 검사 ("ACTIVE"가 1일떄 포함)
+        if (userDao.checkNickName(patchUserReq.getNickName()) != null){   //테이블에 같은 이메일이 여러개면 오류난다....List로 처리해야함 그럴땐!!
+            throw new BasicException(POST_USERS_EXISTS_NICKNAME); //"이미 존재하는 닉네임 입니다."
+        }
+
+
+        try{
+            //이름 변경
+            if(patchUserReq.getName() != null){
+                userDao.modifyName(patchUserReq.getName(), patchUserReq.getUserId());
+            }
+        } catch(Exception exception){
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_NAME);   //"이름 변경시 오류가 발생하였습니다."
+        }
+
+
+        try{
+            //닉네임 값 변경
+            if(patchUserReq.getNickName() != null){
+                userDao.modifyNickName(patchUserReq.getNickName(), patchUserReq.getUserId());
+            }
+        } catch(Exception exception){
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_NICKNAME);   //"닉네임 변경시 오류가 발생하였습니다"
+        }
+
+
+        try{
+            //소개글 변경
+            if(patchUserReq.getIntroduction() != null){
+                userDao.modifyIntroduction(patchUserReq.getIntroduction(), patchUserReq.getUserId());
+            }
+        } catch(Exception exception){
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_INTRODUCTION);   //"소개글 변경시 오류가 발생하였습니다."
+        }
+
+        try{
+            //이미지 변경
+            if(patchUserReq.getImage() != null){
+                userDao.modifyImage(patchUserReq.getImage(), patchUserReq.getUserId());
+            }
+        } catch(Exception exception){
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_IMAGE);   //"이미지 변경시 오류가 발생하였습니다."
+        }
+
+
+
+    }
+
+
+
+ /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* 5. 회원 탈퇴 - deleteUser()  */
+    public void deleteUser(Long userId) throws BasicException {    //UserController.java에서 객체 값( id, nickName)을 받아와서...
+
+        //회원 탈퇴 여부 확인 (유저가 계속 클릭시..)
+        if(userDao.checkdeleteUser(userId) != null){
+            throw new BasicException(PATCH_USERS_DELETE_USER);  //"이미 탈퇴된 계정입니다."
+        }
+
+        try{
+            //회원 탈퇴
+            userDao.deleteUser(userId);
+        } catch(Exception exception){
+            throw new BasicException(DATABASE_ERROR_DELETE_USER);   //'회원 탈퇴(유저 비활성화)에 실패하였습니다.'
+        }
+
+    }
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /* 6. 로그아웃 - logout()  */
+    @Transactional
+    public void logout(Long userId) throws BasicException {    //UserController.java에서 객체 값( id, nickName)을 받아와서...
+
+
+        //로그아웃 여부 확인 (유저가 계속 클릭시..)
+        Optional<User> userLogout = userDao.findById(userId);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+//        if(!logoutDao.checkLogout(userLogout).isEmpty()){  //로그아웃된 상태이면
+//            throw new BasicException(PATCH_USERS_LOGOUT_USER);  //"이미 로그아웃된 유저입니다."
+//        }
+
+        try{
+            //해당 유저의 Refresh 토큰 레코드 모두 비활성화
+            logoutDao.logout(userLogout);
+
+        } catch(Exception exception){
+            throw new BasicException(DATABASE_ERROR_FAIL_LOGOUT);   //"로그아웃에 실패 하였습니다."
+        }
+    }
 
 
 

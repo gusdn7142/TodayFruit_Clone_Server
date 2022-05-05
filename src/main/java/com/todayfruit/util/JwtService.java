@@ -11,6 +11,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static com.todayfruit.config.BasicResponseStatus.*;
 
@@ -76,45 +77,66 @@ public class JwtService {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /*
-    Header에서 X-ACCESS-TOKEN 으로 JWT 추출
-    @return String
-     */
-//    public String getJwt(){
+//    /*
+//    Header에서 이름("AccessToken" 혹은 "RefreshToken")으로 토큰 값 추출
+//    @return String
+//     */
+//    public String[] getJwt(){
 //        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-//        return request.getHeader("X-ACCESS-TOKEN");    //X-ACCESS-TOKEN의 키에 대한 값을 가져옴 (헤더에 넣어주어야 한다)
+//
+//        String accessToken = request.getHeader("AccessToken");  //Access Token 값 가져오기
+////        String refreshToken = request.getHeader("RefreshToken");  //Refresh Token 값 가져오기
+//
+////        String[] jwt = {accessToken, refreshToken};
+//
+//        return jwt;
 //    }
 
 
     /*
-    jwt 토큰의 유효성과 만료여부 확인 (+JWT에서 userIdx 추출)
+    Access Token의 유효성과 만료여부 확인 (+JWT에서 userIdx 추출)
     @return int
     @throws BaseException
      */
-    public int validateToken(String jwt) throws BasicException{
+    public int validAccessToken() throws BasicException{
 
-//        //1. Headrr에서 JWT 추출
-//        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-//        String accessToken = request.getHeader("X-ACCESS-TOKEN");    //X-ACCESS-TOKEN의 키에 대한 값을 가져옴 (헤더에 넣어주어야 한다)
-//        if(accessToken == null || accessToken.length() == 0){
-//            throw new BasicException(EMPTY_JWT);
-//        }
+        //Header에서 이름("AccessToken" )으로 토큰 값 추출
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String accessToken = request.getHeader("AccessToken");  //Access Token 값 가져오기
 
-        // 2. JWT 파싱
+        //accessToken 값의 null 체크
+        if(accessToken == null || accessToken.length() == 0){
+            throw new BasicException(EMPTY_ACCESS_TOKEN);  //"Access Token을 입력해 주세요."
+        }
+
+        // JWT 파싱
         Jws<Claims> claims;
         try{
             claims = Jwts.parser()                //유효한 토큰인지 확인,  즉 로그인시 부여한 jwt 토큰인지 확인
                     .setSigningKey(Secret.JWT_SECRET_KEY)   //서명키 입력
-                    .parseClaimsJws(jwt);
+                    .parseClaimsJws(accessToken);
         } catch (Exception ignored) {             //오류발생시 리턴
-            throw new BasicException(INVALID_JWT);
+            throw new BasicException(INVALID_JWT);  //권한이 없는 유저의 접근입니다.
         }
 
-        // 3. userIdx 추출  (위의 과정에서 문제가 없다면 수행)
+        //  userIdx 추출  (위의 과정에서 문제가 없다면 수행)
         return claims.getBody().get("userIdx", Integer.class);
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

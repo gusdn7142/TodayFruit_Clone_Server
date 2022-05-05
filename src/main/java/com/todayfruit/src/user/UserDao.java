@@ -4,6 +4,7 @@ package com.todayfruit.src.user;
 import com.todayfruit.src.user.model.GetUserRes;
 import com.todayfruit.src.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,13 +32,14 @@ public interface UserDao extends JpaRepository<User, Long> {   //해당 엔티�
     User checkByemail(@Param("email") String email);
 
 
+    /* 1. 닉네임 중복 검사    (회원 가입 API) API */
+    @Query(value="select u from User u where u.nickName = :nickName and u.status = 'ACTIVE'")
+    User checkNickName(@Param("nickName") String nickName);
+
+
     /* 2. 패스워드와 idx 가져오기 ( 로그인 API) API */
     @Query(value="select u.password from User u where u.email = :email and u.status = 'ACTIVE'")
     String checkByPassword(@Param("email") String email);
-
-
-
-
 
 
 
@@ -50,15 +52,59 @@ public interface UserDao extends JpaRepository<User, Long> {   //해당 엔티�
 
 
 
+    /* 4. 프로필 편집 API */
+    //이름 변경
+    @Modifying
+    @Transactional
+    @Query(value="update User set name = :name where id = :userId and status = 'ACTIVE'\n")
+    void modifyName(@Param("name") String name, @Param("userId") Long userId );
+
+    //닉네임 변경
+    @Modifying
+    @Transactional
+    @Query(value="update User set nickName = :nickName where id = :userId and status = 'ACTIVE'\n")
+    void modifyNickName(@Param("nickName") String nickName, @Param("userId") Long userId );
+
+    //소개글 변경
+    @Modifying
+    @Transactional
+    @Query(value="update User set introduction = :introduction where id = :userId and status = 'ACTIVE'\n")
+    void modifyIntroduction(@Param("introduction") String introduction, @Param("userId") Long userId );
+
+    //이미지 변경
+    @Modifying
+    @Transactional
+    @Query(value="update User set image = :image where id = :userId and status = 'ACTIVE'\n")
+    void modifyImage(@Param("image") String image, @Param("userId") Long userId );
+
+
+
+
+
+    /* 5. 회원 탈퇴 API */
+    @Modifying
+    @Transactional
+    @Query(value="update User set status = 'INACTIVE' where id = :userId and status = 'ACTIVE'\n")
+    void deleteUser(@Param("userId") Long userId );
+
+
+    /* 5. user 계정 활성화 여부 확인   (회원 탈퇴 API) */
+    @Query(value="SELECT u FROM User u where u.id =:userId and u.status = 'INACTIVE'")
+    User checkdeleteUser(@Param("userId") Long userId );
+
+
+
+
+
+
+
+
 //    @PersistenceContext
 //    EntityManager em = null;
 //    List<User> email2 =  em.createQuery("select u from User u where u.email = :email and  u.status = 'ACTIVE'")
 //                .setParameter("email", email)
 //                .getResultList();
 //    }
-
-
-
 
 //Optional : 'null일 수도 있는 객체'를 감싸는 일종의 Wrapper 클래스
 
