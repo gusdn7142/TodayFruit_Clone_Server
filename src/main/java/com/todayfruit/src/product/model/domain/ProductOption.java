@@ -35,7 +35,7 @@ public class ProductOption {
     /*상품 인덱스 */
     @ManyToOne(fetch = FetchType.LAZY)  //실무에서는 n+1 쿼리조회 문제 때문에 LAZY(지연 로딩만 사용한다.)
     @JoinColumn(name = "user_id")
-    private Product product;  //상품 인덱스
+    private Product product;  //상품 인덱스.
 
 
 
