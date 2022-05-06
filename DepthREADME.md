@@ -269,7 +269,7 @@
 - productStatus 클래스 생성 : status 칼럼 표현을 위해 enum 형태로 지정  (INACTIVE가 0, ACTIVE가 1)
 - productOption 클래스 생성 : @Entity, @Table(name = "product"), @Column, @ManyToOne(fetch = FetchType.LAZY) 등 활용
 
-#### 2. Product 엔티티 설계
+#### 2. 상품 등록 로직 구현
 - Dto에 형식적 Validation 적용
     - PostProductReq (DTO 클래스) 구현  : @Pattern, @Max, @Min 어노테이션 추가
     - PostProductOptionReq (DTO 클래스) 구현 
