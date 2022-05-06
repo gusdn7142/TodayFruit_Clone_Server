@@ -261,5 +261,31 @@
 
 
 
+## 2022-05-06 진행상황
+#### 1. Product 엔티티 설계
+- product 테이블 
+    - ERD 수정사항 : seller_name (판매자 이름) 칼럼을 user_id (사용자 인덱스) 외래키 칼럼으로 변경
+- product 클래스 생성 : @Entity, @Table(name = "product"), @Column 등 활용
+- productStatus 클래스 생성 : status 칼럼 표현을 위해 enum 형태로 지정  (INACTIVE가 0, ACTIVE가 1)
+- productOption 클래스 생성 : @Entity, @Table(name = "product"), @Column, @ManyToOne(fetch = FetchType.LAZY) 등 활용
 
-      
+#### 2. Product 엔티티 설계
+- Dto에 형식적 Validation 적용
+    - PostProductReq (DTO 클래스) 구현  : @Pattern, @Max, @Min 어노테이션 추가
+    - PostProductOptionReq (DTO 클래스) 구현 
+    - ProductController 구현 : @Valid, BindingResult 어노테이션 활용
+- 상품 등록 로직 구현
+    - ProductService 구현 
+        - userDao.findById(userId) : 판매자 인덱스로 판매자 객체 불러오기 
+        - productDao.save(productCreate) : 상품 DB에 상품 정보 저장
+        - productDao.findById(productCreate.getId() : 상품 인덱스를 통해 상품 객체를 불러옴 
+        - productOptionDao.save(productOptionCreate) : 상품 옵션 DB에 상품 옵션 개수별로 등록  
+    - ProductDao 구현 
+    - ProductOptionDao 구현 
+    <details>
+        <summary>checkLogout()  save() 함수 관련 이슈 발생 </summary>
+        <div markdown="1">
+        <b> Issue </b> : List<String>타입의  optionName 변수를 postman으로 입력받아 for문을 통해 JPA의 save() 함수로 productOption 테이블에 입력시 Insert 쿼리가 2번이 들어가야 하는데 1번만 발생하고 Update 쿼리로 덮어씌워지는 문제가 발생  <br> 
+        <b> Problem </b> : JPA의 save() 함수에 대해 연구중입니다.   <br>       <b> Solution </b> : 
+        </div>
+    </details>         
