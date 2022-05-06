@@ -36,6 +36,18 @@ public class ProductController {
     @PostMapping("/{userId}") //
     public BasicResponse createProduct(@PathVariable("userId") Long userId  , @Valid @RequestBody PostProductReq postProductReq, BindingResult bindingResult ) {  //@RequestBody PostUserReq postUserReq
 
+        try{
+            /* Access Token을 통한 사용자 인가 적용 */
+            int userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
+
+            if(userId != userIdByAccessToken){  //AccessToken 안의 userId와 직접 입력받은 userId가 같지 않다면
+                return new BasicResponse(INVALID_USER_JWT);  //권한이 없는 유저의 접근입니다.
+            }
+            /* Access Token을 통한 사용자 인가 적용 끝 */
+        } catch(BasicException exception){
+            return new BasicResponse(exception.getStatus());
+        }
+
 
         /* 유효성 검사 구현부 */
         if(bindingResult.hasErrors()) {   //에러가 있다면
@@ -68,8 +80,6 @@ public class ProductController {
         /* 유효성 검사 구현 끝*/
 
 
-        //System.out.println(postProductReq.getDeliveryDay());
-
 
         try{
             //DB에 상품 등록
@@ -79,6 +89,8 @@ public class ProductController {
         } catch(BasicException exception){
             return new BasicResponse(exception.getStatus());
         }
+
+
     }
 
 
@@ -86,24 +98,6 @@ public class ProductController {
 
 
 
-
-
-
-
-
-//        try{
-    //DB에 상품 등록
-    //String responseMessage = productService.createProduct(postUserReq);
-
-    //String str = "에라 모르겠다" + " , " + postProductReq.getDeliveryType() + " , " + postProductReq.getTitle() + " , " + postProductReq.getPrice() + " , " + postProductReq.getDiscountRate() + " , " + postProductReq.getDiscountRate() +
-    //postProductReq.getSaleCount() + " , " + postProductReq.getDescription() ; //+ " , " + postProductReq.getDeliveryDay();
-
-//    String str2 = "성공";
-//
-//            return new BasicResponse(str2);
-//        } catch(BasicException exception){
-//            return new BasicResponse(exception.getStatus());
-//        }
 
 
 

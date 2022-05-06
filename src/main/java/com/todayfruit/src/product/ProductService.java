@@ -38,26 +38,15 @@ public class ProductService {
     /* 8. 상품 등록 -  createProduct() */
     public String createProduct(PostProductReq postProductReq, Long userId) throws BasicException {
 
-//        //이메일 중복 검사 ("ACTIVE"가 1일떄 포함)
-//        if (userDao.checkByemail(postUserReq.getEmail()) != null){   //테이블에 같은 이메일이 여러개면 오류난다....List로 처리해야함 그럴땐!!
-//            throw new BasicException(POST_USERS_EXISTS_EMAIL); //"이미 가입된 이메일 입니다."
-//        }
-////        User checkUser = userDao.findByEmail(postUserReq.getEmail());  //테이블에 같은 이메일이 여러개면 오류난다....List로 처리해야함 그럴땐!!
-//
-//        //닉네임 중복 검사 ("ACTIVE"가 1일떄 포함)
-//        if (userDao.checkNickName(postUserReq.getNickName()) != null){   //테이블에 같은 이메일이 여러개면 오류난다....List로 처리해야함 그럴땐!!
-//            throw new BasicException(POST_USERS_EXISTS_NICKNAME); //"이미 존재하는 닉네임 입니다."
-//        }
-
 
         //DB에 상품 등록 (배송타입 ,상품제목, 상품가격, 할인율 , 판매수량, 상품설명, 배송일  등)
         try{
-            //판매자 인덱스를 통해 판매자 정보를 불러옴
-            Optional<User> seller = userDao.findById(userId);   //판매자 불러옴.
+            //판매자 인덱스를 통해 판매자 객체를 불러옴
+            Optional<User> seller = userDao.findById(userId);   //user_id 로판매자 불러옴.
             postProductReq.setUser(seller.get());                       //DTO에 판매자 정보도 입력 완료
 
 
-            //상품 등록
+            //상품 DB에 등록
             Product productCreate = new Product();         //productCreate 객체 생성
             BeanUtils.copyProperties(postProductReq,productCreate);  //postProductReq(dto) 객체의 내용을 productCreate 옮긴다. (DB에 저장하기 위함.)
             //productCreate.setUser(seller);
@@ -67,19 +56,21 @@ public class ProductService {
 
 
 
-            //상품 인덱스를 통해 상품 정보를 불러옴
-            Optional<Product> product = productDao.findById(productCreate.getId());   //상품 정보를 불러옴.
-            ProductOption productOptionCreate = new ProductOption();            //productCreate 객체 생성
+            //상품 인덱스를 통해 상품 객체를 불러옴
+            Optional<Product> product = productDao.findById(productCreate.getId());   //product_id로 상품 객체를 불러옴.
 
+            List<ProductOption> productOptionListCreate = new ArrayList<ProductOption>();       //List 객체 ("productOptionListCreate") 생성 (상품 옵션이 여러개 이기 때문에 List로 만들어 주어야함)
 
-            //상품 옵션 개수별로 상품 등록
+            //상품 옵션 DB에 상품 옵션 개수별로 상품 등록
             for(int i=0; i < postProductReq.getOptionName().size(); i++){
-                productOptionCreate.setOptionName(postProductReq.getOptionName().get(i));  //상품 옵션 리스트 불러옴
-                productOptionCreate.setProduct(product.get());                              //상품 정보 입력
-                productOptionDao.save(productOptionCreate);   //"productOption" DB에 정보 저장
+
+                ProductOption productOptionCreate = new ProductOption();                    //상품 옵션 엔티티 객체를 1개 생성
+                productOptionCreate.setProduct(product.get());                              //상품 객체 (produc_td) 입력
+                productOptionCreate.setOptionName(postProductReq.getOptionName().get(i));  //상품 옵션 (option_name) 리스트를 하나씩 불러와 입력
+
+                productOptionListCreate.add(productOptionCreate);                       ///List 객체 ("productOptionListCreate")에 상품 옵션 객체를 1개씩 담는다.
             }
-
-
+            productOptionDao.saveAll(productOptionListCreate);
 
 
             return "상품 등록에 성공하였습니다.";

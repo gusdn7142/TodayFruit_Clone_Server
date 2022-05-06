@@ -31,7 +31,9 @@ public class PostProductReq {
     @Pattern(regexp = "^(쿠배송|무료배송)$", message="배송타입 형식을 확인해 주세요.")
     private String deliveryType;  //배송 타입 ("쿠배송" or "무료배송") : 한글 4글자
 
-    @Pattern(regexp = "^[0-9a-zA-Z가-힣\\s.]{4,30}$", message="상품제목 형식을 확인해 주세요.")
+
+
+    @Pattern(regexp = "^[0-9a-zA-Z가-힣\\s.,()]{4,30}$", message="상품제목 형식을 확인해 주세요.")
     private String title;  //상품 제목 : 한글, 숫자, 영어 등 최소 4자 ~ 최대 30자
 
     @Pattern(regexp = "^[0-9]{3,10}원$", message="상품가격 형식을 확인해 주세요.")
