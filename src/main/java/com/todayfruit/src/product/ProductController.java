@@ -77,10 +77,7 @@ public class ProductController {
 //            postProductReq.setUserId(userId);
             String responseMessage = productService.createProduct(postProductReq,userId);
 
-            String str = "에라 모르겠다";
-                    //+ " , " + postProductReq.getDeliveryType() + " , " + postProductReq.getTitle() + " , " + postProductReq.getPrice() + " , " + postProductReq.getDiscountRate() + " , " + postProductReq.getDiscountRate() +
-                    //postProductReq.getSaleCount() + " , " + postProductReq.getDescription() ; //+ " , " + postProductReq.getDeliveryDay();
-
+            String str = "상품 등록에 성공하였습니다.";
             return new BasicResponse(str);
         } catch(BasicException exception){
             return new BasicResponse(exception.getStatus());
