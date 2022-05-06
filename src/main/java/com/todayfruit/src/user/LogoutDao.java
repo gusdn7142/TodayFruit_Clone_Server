@@ -2,6 +2,8 @@ package com.todayfruit.src.user;
 
 
 import com.todayfruit.src.user.model.*;
+import com.todayfruit.src.user.model.domain.Logout;
+import com.todayfruit.src.user.model.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -29,7 +31,7 @@ public interface LogoutDao extends JpaRepository<Logout, Long> {
     @Modifying
     @Transactional
     @Query(value="update Logout set status = 'INACTIVE' where user = :userId  and status = 'ACTIVE' ")
-    void logout(@Param("userId") Optional<User> user );
+    void logout(@Param("userId") User user );
 
 
     /* 6. 로그아웃  여부 확인   (로그아웃 API) */

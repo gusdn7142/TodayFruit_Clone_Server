@@ -1,7 +1,7 @@
-package com.todayfruit.src.user.model;
+package com.todayfruit.src.user.model.domain;
 
 
-import com.todayfruit.src.user.model.UserStatus;
+import com.todayfruit.src.user.model.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;

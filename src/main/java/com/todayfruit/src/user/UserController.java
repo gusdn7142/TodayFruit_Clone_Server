@@ -6,6 +6,11 @@ import com.todayfruit.config.BasicException;
 import com.todayfruit.config.BasicResponse;
 
 import com.todayfruit.src.user.model.*;
+import com.todayfruit.src.user.model.request.PatchUserReq;
+import com.todayfruit.src.user.model.request.PostLoginReq;
+import com.todayfruit.src.user.model.request.PostLoginRes;
+import com.todayfruit.src.user.model.request.PostUserReq;
+import com.todayfruit.src.user.model.response.GetUserRes;
 import com.todayfruit.util.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,94 +37,6 @@ public class UserController {
 
     private final UserService userService;
     private final JwtService jwtService;
-
-
-
-    /* 프로필 조회 API*/
-////    @ResponseBody
-//    @GetMapping("")
-//    public ResponseEntity getUser() {     //@RequestParam(required = false) String isbn
-//
-//        BasicResponse basicResponse = null;
-//
-//        if(userService.getUser() != null){
-//            basicResponse = new BasicResponse(
-//                    "true",
-//                    "2000",
-//                    "프로필 조회 성공",
-//                    userService.getUser()
-//            );
-//
-//        }
-//
-//        return ResponseEntity.ok(basicResponse);  //readBooks() 함수에 인자를 넣지 않으므로 오류 발생시킴???
-//    }
-
-
-
-//    /* 프로필 조회 API*/
-////    @ResponseBody
-//    @GetMapping("")
-//    public ResponseEntity getUser() {     //@RequestParam(required = false) String isbn
-//
-//        return ResponseEntity.ok(userService.getUser());  //readBooks() 함수에 인자를 넣지 않으므로 오류 발생시킴???
-//
-////        return "API 테스트 성공 (웹 페이지)";
-//    }
-
-
-
-
-
-//    /* (id로) 프로필 조회 API*/
-////    @ResponseBody
-//    @GetMapping("/{userId}/profile")
-//    public ResponseEntity getUser( @PathVariable("userId" ) Long userId) {     //@RequestParam(required = false) String isbn
-//
-//        return ResponseEntity.ok(userService.getUser(userId));  //readBooks() 함수에 인자를 넣지 않으므로 오류 발생시킴???
-
-
-
-    //        } catch(BasicException exception){
-//            return new BasicResponse((exception.getStatus()));  //service에서 받아온 catch문을 여기서 던진다.
-//        }
-//    }
-
-
-
-
-
-
-
-
-//        String validErrorCode = null;
-//        String validErrorMessage = null;
-
-
-
-//            System.out.println(errorlist.get(2).getDefaultMessage());
-
-//            System.out.println(errorlist.get(0).getDefaultMessage());
-
-//            for(ObjectError e : list) {   //에러를 한줄 한줄 뽑아온다.
-////                System.out.println(e.getDefaultMessage());
-////                System.out.println(e.getCode());
-//                validErrorCode = e.getCode();
-//                validErrorMessage = e.getDefaultMessage();
-//
-//            }
-
-//            return new BasicResponse(POST_USERS_EMPTY_PHONE);
-//            return new BasicResponse(formalError, errorMessage );
-//            System.out.println(bindingResult.getAllErrors());
-//            return new BasicResponse(bindingResult.getAllErrors());
-//        }
-
-
-
-//        System.out.println("name:"+postUserReq.getName());
-//        System.out.println("pass:"+postUserReq.getPassword());
-//        System.out.println("error:"+bindingResult.hasErrors());
 
 
 
@@ -304,13 +221,13 @@ public class UserController {
 
         try {
 
-            /* Access Token을 통한 사용자 인가 구현 */
+            /* Access Token을 통한 사용자 인가 적용 */
             int userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
 
             if(userId != userIdByAccessToken){  //AccessToken 안의 userId와 직접 입력받은 userId가 같지 않다면
                 return new BasicResponse(INVALID_USER_JWT);  //권한이 없는 유저의 접근입니다.
             }
-            /* Access Token을 통한 사용자 인가 구현 끝 */
+            /* Access Token을 통한 사용자 인가 적용 끝 */
 
 
 
@@ -339,13 +256,13 @@ public class UserController {
 
         try {
 
-            /* Access Token을 통한 사용자 인가 구현 */
+            /* Access Token을 통한 사용자 적용 구현 */
             int userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
 
             if(userId != userIdByAccessToken){  //AccessToken 안의 userId와 직접 입력받은 userId가 같지 않다면
                 return new BasicResponse(INVALID_USER_JWT);  //권한이 없는 유저의 접근입니다.
             }
-            /* Access Token을 통한 사용자 인가 구현 끝 */
+            /* Access Token을 통한 사용자 인가 적용 끝 */
 
 
             //PatchUserReq patchUserReq = new PatchUserReq(userIdx,null,null);

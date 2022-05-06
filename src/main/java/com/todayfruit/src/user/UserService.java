@@ -6,6 +6,13 @@ import static com.todayfruit.config.BasicResponseStatus.*;
 
 import com.todayfruit.src.user.model.*;
 import com.todayfruit.src.user.UserDao;
+import com.todayfruit.src.user.model.domain.Logout;
+import com.todayfruit.src.user.model.domain.User;
+import com.todayfruit.src.user.model.request.PatchUserReq;
+import com.todayfruit.src.user.model.request.PostLoginReq;
+import com.todayfruit.src.user.model.request.PostLoginRes;
+import com.todayfruit.src.user.model.request.PostUserReq;
+import com.todayfruit.src.user.model.response.GetUserRes;
 import com.todayfruit.util.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
@@ -265,8 +272,8 @@ public class UserService {
 //        }
 
         try{
-            //해당 유저의 Refresh 토큰 레코드 모두 비활성화
-            logoutDao.logout(userLogout);
+            //해당 유저의 Logout 레코드 모두 비활성화
+            logoutDao.logout(userLogout.get());
 
         } catch(Exception exception){
             throw new BasicException(DATABASE_ERROR_FAIL_LOGOUT);   //"로그아웃에 실패 하였습니다."

@@ -1,6 +1,7 @@
-package com.todayfruit.src.user.model;
+package com.todayfruit.src.user.model.domain;
 
 
+import com.todayfruit.src.user.model.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
@@ -30,7 +31,7 @@ public class Logout {
     /*사용자 인덱스는 일단 보류!! */
     //@Column
     //private Long userId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)     //실무에서는 n+1 쿼리조회 문제 때문에 LAZY(지연 로딩만 사용한다.)
     @JoinColumn(name = "user_id")
     private User user;  //사용자 인덱스(외래키)
 

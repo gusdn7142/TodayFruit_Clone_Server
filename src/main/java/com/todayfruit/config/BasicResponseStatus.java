@@ -16,6 +16,8 @@ public enum BasicResponseStatus {  //enum 타입
     /**
      * 2000 : Request 오류 (형식적 validation 처리)
      */
+
+    //user 도메인
     POST_USERS_INVALID_EMAIL("FAIL",2000,"이메일 형식을 확인해 주세요."),
     POST_USERS_EMPTY_PASSWORD("FAIL",2000,"비밀번호를 입력해주세요."),
     POST_USERS_INVALID_PASSWORD("FAIL",2000,"비밀번호에 형식을 다시 확인해 주세요. (숫자, 영문, 특수문자 각 1자리 이상 및 8~16자)."),
@@ -26,6 +28,16 @@ public enum BasicResponseStatus {  //enum 타입
 
     EMPTY_ACCESS_TOKEN("FAIL", 2001, "Access Token을 입력해 주세요."),
     INVALID_USER_JWT("FAIL",2012,"권한이 없는 유저의 접근입니다."),
+
+
+    //prdouct 도메인
+    POST_PRODUCTS_INVALID_DeliveryType("FAIL", 2001, "배송타입 형식을 확인해 주세요."),
+    POST_PRODUCTS_INVALID_Title("FAIL", 2001, "상품제목 형식을 확인해 주세요."),
+    POST_PRODUCTS_INVALID_Price("FAIL", 2001, "상품가격 형식을 확인해 주세요."),
+    POST_PRODUCTS_INVALID_DiscountRate("FAIL", 2001, "할인율 형식을 확인해 주세요."),
+    POST_PRODUCTS_INVALID_saleCount("FAIL", 2001, "판매수량 형식을 확인해 주세요. (최소 10개, 최대 3000개)"),
+    POST_PRODUCTS_EMPTY_DeliveryDay("FAIL", 2001, "배송일을 입력해 주세요."),
+    POST_PRODUCT_OPTIONS_INVALID_optionName("FAIL", 2001, "상품옵션 형식을 확인해 주세요."),
 
 
     /**
@@ -61,10 +73,11 @@ public enum BasicResponseStatus {  //enum 타입
     DATABASE_ERROR_MODIFY_FAIL_USER_INTRODUCTION("FAIL", 4010, "소개글 변경시 오류가 발생하였습니다."),
     DATABASE_ERROR_MODIFY_FAIL_USER_IMAGE("FAIL", 4010, "이미지 변경시 오류가 발생하였습니다."),
     DATABASE_ERROR_DELETE_USER("FAIL", 4010, "회원탈퇴에 실패하였습니다."),
-    DATABASE_ERROR_FAIL_LOGOUT("FAIL", 4010, "로그아웃에 실패 하였습니다.");
+    DATABASE_ERROR_FAIL_LOGOUT("FAIL", 4010, "로그아웃에 실패 하였습니다."),
 
 
-
+    //user 도메인
+    DATABASE_ERROR_CREATE_PRODUCT("FAIL", 4000, "DB에 상품 등록이 실패하였습니다.");
 
 
 

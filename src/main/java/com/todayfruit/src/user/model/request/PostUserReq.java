@@ -1,4 +1,4 @@
-package com.todayfruit.src.user.model;
+package com.todayfruit.src.user.model.request;
 
 
 import lombok.AllArgsConstructor;
@@ -32,7 +32,7 @@ public class PostUserReq {
     @Pattern(regexp = "^(010|011)\\d{4}\\d{4}$", message="핸드폰 번호를 형식에 맞게 입력해주세요.")
     private String phone;
 
-    @Pattern(regexp = "^[0-9a-zA-Z가-힣]{2,20}$", message="닉네임 형식을 확인해 주세요.")  //글자수만 제한 2~20
+    @Pattern(regexp = "^[0-9a-zA-Z가-힣\\s]{2,15}$", message="닉네임 형식을 확인해 주세요.")  //글자수만 제한 2~20
     private String nickName;   //닉네임은 무조건 입력 해야함.
 
 }

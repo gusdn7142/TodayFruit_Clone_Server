@@ -1,4 +1,4 @@
-package com.todayfruit.src.user.model;
+package com.todayfruit.src.user.model.response;
 
 
 import lombok.AllArgsConstructor;
