@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PostProductOptionReq {
 
-    String optionName;
+    String optionName;  //상품 옵션
 
 }

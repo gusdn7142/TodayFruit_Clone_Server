@@ -33,7 +33,6 @@ public class ProductController {
      * @return BaseResponse
      */
     // Body
-//    @ResponseBody
     @PostMapping("/{userId}") //
     public BasicResponse createProduct(@PathVariable("userId") Long userId  , @Valid @RequestBody PostProductReq postProductReq, BindingResult bindingResult ) {  //@RequestBody PostUserReq postUserReq
 
@@ -74,11 +73,9 @@ public class ProductController {
 
         try{
             //DB에 상품 등록
-//            postProductReq.setUserId(userId);
             String responseMessage = productService.createProduct(postProductReq,userId);
 
-            String str = "상품 등록에 성공하였습니다.";
-            return new BasicResponse(str);
+            return new BasicResponse(responseMessage);
         } catch(BasicException exception){
             return new BasicResponse(exception.getStatus());
         }
