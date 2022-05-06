@@ -283,9 +283,10 @@
     - ProductDao 구현 
     - ProductOptionDao 구현 
     <details>
-        <summary>checkLogout()  save() 함수 관련 이슈 발생 </summary>
+        <summary>save() 함수 관련 이슈 발생 </summary>
         <div markdown="1">
-        <b> Issue </b> : List<String>타입의  optionName 변수를 postman으로 입력받아 for문을 통해 JPA의 save() 함수로 productOption 테이블에 입력시 Insert 쿼리가 2번이 들어가야 하는데 1번만 발생하고 Update 쿼리로 덮어씌워지는 문제가 발생  <br> 
-        <b> Problem </b> : JPA의 save() 함수에 대해 연구중입니다.   <br>       <b> Solution </b> : 
+        <b> Issue </b> : List<String>타입의 optionName 변수를 postman으로 입력받아 for문을 통해 JPA의 save() 함수로 productOption 테이블에 입력시 Insert 쿼리가 2번이 들어가야 하는데 1번만 발생하고 Update 쿼리로 덮어씌워지는 문제가 발생  <br> 
+        <b> Problem </b> : productOption 테이블에 같은 idx로 2번 save() 함수가 동작하여 Insert 문 다음에 Update문이 수행되는것이 원인이였습니다.   <br>       
+        <b> Solution </b> :  List<ProductOption> 객체를 하나 더 만들어 for문을 통해 List에 객체를 담아준 후 saveAll() 함수로 처리하여 해결하였습니다. 
         </div>
     </details>         
