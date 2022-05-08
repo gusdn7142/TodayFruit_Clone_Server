@@ -290,3 +290,43 @@
         <b> Solution </b> :  List<ProductOption> 객체를 하나 더 만들어 for문을 통해 List에 객체를 담아준 후 saveAll() 함수로 처리하여 해결하였습니다. 
         </div>
     </details>         
+
+## 2022-05-07 진행상황
+#### 1. EC2에 API 첫 배포
+- Prod서버 root 디렉터리 경로 설정 & 프록시 패스 설정
+- TodayFruit_Clone_Server 프로젝트 Clone 후 .jar 파일 실행                    
+            
+            
+## 2022-05-08 진행상황
+#### 1. Access 토큰 재발급 API 구현    
+- Access Token을 통한 사용자 인가 적용  
+    - UserController 구현 : AccessToken의 경우 만료되지 않았을 경우 에러메시지 반환, 입력받은 RefreshToken에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여, 로그아웃 상태 확인
+    - JwtService 구현 :  Refresh Token의 유효성과 만료여부를 확인하는 checkAccessToken() 함수와 Access Token의 만료상태를 확인하는 validRefreshToken() 함수 활용  
+
+    <details>
+        <summary> Access token 변조 및 만료여부 확인 관련 이슈 </summary>
+        <div markdown="1">
+        <b> Issue </b> : 비즈니스 로직상 AccessToken이 만료되지 않았을때 에러메시지가 발생하는데, AccessToken에 아무 값이나 넣게되면 만료된것과 같이 처리가 되어서 정상 로직으로 코드가 돌아갑니다.  <br> 
+        <b> Problem </b> : checkAccessToken() 함수안의 Claims 클래스에서 예외가 발생하는 경우가 토큰이 만료되거나 토큰이 변조되는 경우가 모두 포함되기 떄문에 토큰 만료시 정상 로직으로 동작합니다.     <br>       
+        <b> Solution </b> : AccessToken을 입력받지 않는것을 생각해 볼수 있는데, 그렇게 되면 AccessToken의 만료여부를 확인할 수 있는 방법이 없기 때문에 다른 방법을 찾아봐야 할것 같습니다.
+        </div>
+    </details>         
+
+- Access token 재발급 (+로그아웃 상태 확인)  
+    - UserService 구현 : RefreshToken을 통해 로그아웃 상태 확인 + AccessToken 재발급            
+    - LogoutDao 구현 :  Logout Table에서 해당 RefreshToken 칼럼과 status 칼럼이 ‘INACTIVE’인 레코드 조회  
+            
+    <details>
+        <summary> RefreshToken 보안 이슈 </summary>
+        <div markdown="1">
+        <b> Issue </b> : 프로필 편집 API에서 Accesstoken 값에 Refreshtoken 값을 넣어도 정상적으로 APi가 동작하는데,  만료시간이 긴 Refreshtoken이 탈취되어 Accesstoken으로도 활용된다면 인가 절차가 필요한 기능들에 무단으로 접근 가능합니다.   <br> 
+        <b> Problem </b> : Accesstoken과 Refreshtoken을 생성시 같은 암호화 키를 사용하고 있었습니다.  <br>       
+        <b> Solution </b> : Accesstoken과 Refreshtoken 토큰의 암호화 키를 다르게 줌으로써 해결완료 했습니다.   
+        </div>
+    </details> 
+                        
+#### 2. 사용자 인가 절차에 로그아웃 상태 확인 코드 추가                  
+- 프로필 편집 API, 회원 탈퇴 API 등 사용자 인가가 구현된 코드에 로그아웃 상태를 확인하는 코드 추가
+- 기존 사용자 인가 절차에서는 로그아웃을 한 상태에서도 AccessToken이 만료되지 않았다면 주요 기능에 접근할 수 있었기 때문에 userId를 통해 Logout 테이블에서 해당 레코드의 status 칼럼 상태를 확인하여 로그아웃 여부를 알수있도록 코드를 구현하였습니다.  
+            
+    
