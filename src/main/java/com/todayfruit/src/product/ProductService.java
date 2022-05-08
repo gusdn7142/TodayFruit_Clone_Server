@@ -35,7 +35,7 @@ public class ProductService {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-    /* 8. 상품 등록 -  createProduct() */
+    /* 9. 상품 등록 -  createProduct() */
     public String createProduct(PostProductReq postProductReq, Long userId) throws BasicException {
 
 

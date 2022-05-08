@@ -13,6 +13,7 @@ import com.todayfruit.src.user.model.request.PostLoginReq;
 import com.todayfruit.src.user.model.request.PostLoginRes;
 import com.todayfruit.src.user.model.request.PostUserReq;
 import com.todayfruit.src.user.model.response.GetUserRes;
+import com.todayfruit.src.user.model.response.PostAccessTokenRes;
 import com.todayfruit.util.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
@@ -260,12 +261,11 @@ public class UserService {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /* 6. 로그아웃 - logout()  */
+    /* 7. 로그아웃 - logout()  */
     @Transactional
     public void logout(Long userId) throws BasicException {    //UserController.java에서 객체 값( id, nickName)을 받아와서...
 
 
-        //로그아웃 여부 확인 (유저가 계속 클릭시..)
         Optional<User> userLogout = userDao.findById(userId);  //외래키 활용을 위해 해당 User 객체를 불러옴.
 //        if(!logoutDao.checkLogout(userLogout).isEmpty()){  //로그아웃된 상태이면
 //            throw new BasicException(PATCH_USERS_LOGOUT_USER);  //"이미 로그아웃된 유저입니다."
@@ -282,7 +282,34 @@ public class UserService {
 
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /* 8. Access token 재발급 - createAccessToken()  */
+    @Transactional
+    public PostAccessTokenRes createAccessToken(Long userId, String refreshToken) throws BasicException {    //UserController.java에서 객체 값( id, nickName)을 받아와서...
+
+
+        //RefreshToken 활성화 여부 확인 (로그아웃 상태 확인)
+        if (logoutDao.checkByRefreshToken(refreshToken) != null){   //로그아웃된 상태이면!!
+            throw new BasicException(PATCH_USERS_LOGOUT_USER); //"이미 로그아웃된 유저입니다."
+        }
+
+
+
+        try{
+            //AccessToken 재발급
+            Optional<User> userLogin = userDao.findById(userId);
+            String accessToken = jwtservice.createAccessToken(userLogin.get().getId());    //accessToken 발급
+
+            PostAccessTokenRes postAccessTokenRes = new PostAccessTokenRes(userId,accessToken);  //userId와 발급된 accessToken 리턴
+
+
+            return postAccessTokenRes;
+
+        } catch(Exception exception){
+            throw new BasicException(DATABASE_ERROR_FAIL_LOGOUT);   //"로그아웃에 실패 하였습니다."
+        }
+    }
 
 
 

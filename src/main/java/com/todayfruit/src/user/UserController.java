@@ -6,11 +6,14 @@ import com.todayfruit.config.BasicException;
 import com.todayfruit.config.BasicResponse;
 
 import com.todayfruit.src.user.model.*;
+import com.todayfruit.src.user.model.domain.Logout;
+import com.todayfruit.src.user.model.domain.User;
 import com.todayfruit.src.user.model.request.PatchUserReq;
 import com.todayfruit.src.user.model.request.PostLoginReq;
 import com.todayfruit.src.user.model.request.PostLoginRes;
 import com.todayfruit.src.user.model.request.PostUserReq;
 import com.todayfruit.src.user.model.response.GetUserRes;
+import com.todayfruit.src.user.model.response.PostAccessTokenRes;
 import com.todayfruit.util.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,7 +40,8 @@ public class UserController {
 
     private final UserService userService;
     private final JwtService jwtService;
-
+    private final UserDao userDao;
+    private final LogoutDao logoutDao;
 
 
 
@@ -184,12 +188,20 @@ public class UserController {
         try {
 
             /* Access Token을 통한 사용자 인가 구현 */
-            int userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
+            Long userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
 
             if(userId != userIdByAccessToken){  //AccessToken 안의 userId와 직접 입력받은 userId가 같지 않다면
                 return new BasicResponse(INVALID_USER_JWT);  //권한이 없는 유저의 접근입니다.
             }
             /* Access Token을 통한 사용자 인가 구현 끝 */
+
+            /* 로그아웃 상태 확인 구현 */
+            Optional<User> user = userDao.findById(userId);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+            Optional<Logout> userLogout = logoutDao.checkLogout(user);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+            if(!userLogout.isPresent()){  //로그아웃된 상태이면
+                return new BasicResponse(PATCH_USERS_LOGOUT_USER); //"이미 로그아웃된 유저입니다."
+            }
+            /* 로그아웃 상태 확인 끝 */
 
 
 
@@ -222,12 +234,20 @@ public class UserController {
         try {
 
             /* Access Token을 통한 사용자 인가 적용 */
-            int userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
+            Long userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
 
             if(userId != userIdByAccessToken){  //AccessToken 안의 userId와 직접 입력받은 userId가 같지 않다면
                 return new BasicResponse(INVALID_USER_JWT);  //권한이 없는 유저의 접근입니다.
             }
             /* Access Token을 통한 사용자 인가 적용 끝 */
+
+            /* 로그아웃 상태 확인 구현 */
+            Optional<User> user = userDao.findById(userId);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+            Optional<Logout> userLogout = logoutDao.checkLogout(user);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+            if(!userLogout.isPresent()){  //로그아웃된 상태이면
+                return new BasicResponse(PATCH_USERS_LOGOUT_USER); //"이미 로그아웃된 유저입니다."
+            }
+            /* 로그아웃 상태 확인 끝 */
 
 
 
@@ -246,23 +266,32 @@ public class UserController {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * 6. 로그아웃 API
+     * 7. 로그아웃 API
      * [PATCH] /users/:userId/logout
      * @return BaseResponse<String>
      */
 
     @PatchMapping("/{userId}/logout")
-    public BasicResponse logout (@PathVariable("userId") Long userId){   //BaseResponse<String>      //@PathVariable("id") int userIdx
+    public BasicResponse logout (@PathVariable("userId") Long userId){
 
         try {
 
             /* Access Token을 통한 사용자 적용 구현 */
-            int userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
+            Long userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
 
             if(userId != userIdByAccessToken){  //AccessToken 안의 userId와 직접 입력받은 userId가 같지 않다면
                 return new BasicResponse(INVALID_USER_JWT);  //권한이 없는 유저의 접근입니다.
             }
             /* Access Token을 통한 사용자 인가 적용 끝 */
+
+            /* 로그아웃 상태 확인 구현 */
+            Optional<User> user = userDao.findById(userId);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+            Optional<Logout> userLogout = logoutDao.checkLogout(user);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+            if(!userLogout.isPresent()){  //로그아웃된 상태이면
+                return new BasicResponse(PATCH_USERS_LOGOUT_USER); //"이미 로그아웃된 유저입니다."
+            }
+            /* 로그아웃 상태 확인 끝 */
+
 
 
             //PatchUserReq patchUserReq = new PatchUserReq(userIdx,null,null);
@@ -278,6 +307,60 @@ public class UserController {
 
 
     }
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * 8. Access token 재발급 API
+     * [POST] /users
+     * @return BaseResponse
+     */
+    // Body
+    @PostMapping("/{userId}/access-token")
+    public BasicResponse createAccessToken(@PathVariable ("userId") Long userId) {
+
+
+        try{
+
+            /* Access Token 만료 확인 로직 */
+            int accessTokenStatus = jwtService.checkAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
+
+            if(accessTokenStatus == 1){  //AccessToken이 만려되지 않았다면
+                return new BasicResponse(NOT_INVALID_ACCESS_TOKEN);  //"Access Token이 아직 만료되지 않았습니다."
+            }
+            System.out.println(accessTokenStatus);
+            /* Access Token 만료 확인 로직 끝 */
+
+
+
+            /* Refresh Token을 통한 사용자 인가 적용 구현 */
+            Object[] result = jwtService.validRefreshToken();  //클라이언트에서 받아온 토큰에서 Id 추출
+            Long userIdByRefreshToken = (Long)result[0];
+            String refreshToken = result[1].toString();
+
+            if(userId != userIdByRefreshToken){  //AccessToken 안의 userId와 직접 입력받은 userId가 같지 않다면
+                return new BasicResponse(INVALID_USER_JWT);  //권한이 없는 유저의 접근입니다.
+            }
+            /* Refresh Token을 통한 사용자 인가 적용 끝 */
+
+
+
+            //로그인
+            PostAccessTokenRes postAccessTokenRes = userService.createAccessToken(userId, refreshToken);
+
+
+            return new BasicResponse(postAccessTokenRes);
+        } catch(BasicException exception){
+            return new BasicResponse(exception.getStatus());
+        }
+
+
+    }
+
 
 
 

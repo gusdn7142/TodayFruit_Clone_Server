@@ -20,6 +20,9 @@ public interface LogoutDao extends JpaRepository<Logout, Long> {
 //    String refreshTokenSave(@Param("refreshToken") String refreshToken);
 
 
+    Optional<Logout> findByRefreshToken(String refreshToken);
+
+
     /* 2. 해당 사용자가 발급한 refresh 토큰을 모두 INACTIVE 시킴  ( 로그인 API) API */
     @Modifying
     @Transactional
@@ -34,11 +37,14 @@ public interface LogoutDao extends JpaRepository<Logout, Long> {
     void logout(@Param("userId") User user );
 
 
-    /* 6. 로그아웃  여부 확인   (로그아웃 API) */
-//    @Query(value="SELECT l FROM Logout l where l.user = :userId and l.status = 'INACTIVE'")
-//    List<Logout> checkLogout(@Param("userId") Optional<User> user );   //행이 여러개 일수 있음!
+    /* 6. 로그아웃  여부 확인   (전체 API) */
+    @Query(value="SELECT l FROM Logout l where l.user = :userId and l.status = 'ACTIVE'")
+    Optional<Logout> checkLogout(@Param("userId") Optional<User> user );
 
 
+    /*8. Refresh 토큰을 통한 Logout 객체 조회 */
+    @Query(value="SELECT l FROM Logout l where l.refreshToken = :refreshToken and l.status = 'INACTIVE'")
+    Logout checkByRefreshToken(@Param("refreshToken") String refreshToken );
 
 
 }

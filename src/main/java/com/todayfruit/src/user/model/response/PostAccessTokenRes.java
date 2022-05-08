@@ -1,4 +1,4 @@
-package com.todayfruit.src.product.model.request;
+package com.todayfruit.src.user.model.response;
 
 
 import lombok.AllArgsConstructor;
@@ -8,8 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PostProductOptionReq {
 
-    //String optionName;  //상품 옵션
+public class PostAccessTokenRes {
+
+    Long userId;
+    String accessToken;
 
 }

@@ -2,6 +2,7 @@ package com.todayfruit.util;
 
 
 import com.todayfruit.config.BasicException;
+import com.todayfruit.config.BasicResponse;
 import com.todayfruit.config.secret.Secret;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class JwtService {
                 .setIssuedAt(now)    //토큰 발급 시간 (페이로드)
                 .setExpiration(new Date(now.getTime()+(1000 * 60 * 60 * 3)))  //마감 기한 (하루 : 3시간 * 60분 * 60초 * 1000밀리세컨드)
                 .claim("userIdx", userIdx)      //페이로드 (유저의 idx (primary 키)값)
-                .signWith(SignatureAlgorithm.HS256, Secret.JWT_SECRET_KEY)                 //서명 (헤더의 alg인 HS256 알고리즘 사용, 비밀키로 JWT_SECRET_KEY 사용)
+                .signWith(SignatureAlgorithm.HS256, Secret.ACCESS_TOKEN_KEY)                 //서명 (헤더의 alg인 HS256 알고리즘 사용, 비밀키로 JWT_SECRET_KEY 사용)
                 .compact();
     }
 
@@ -63,7 +64,7 @@ public class JwtService {
                 .setIssuedAt(now)    //토큰 발급 시간 (페이로드)
                 .setExpiration(new Date(cal.getTimeInMillis()))  //마감 기한 (1개월)
                 .claim("userIdx", userIdx)      //페이로드 (유저의 idx (primary 키)값)
-                .signWith(SignatureAlgorithm.HS256, Secret.JWT_SECRET_KEY)                 //서명 (헤더의 alg인 HS256 알고리즘 사용, 비밀키로 JWT_SECRET_KEY 사용)
+                .signWith(SignatureAlgorithm.HS256, Secret.REFRESH_TOKEN_KEY)                 //서명 (헤더의 alg인 HS256 알고리즘 사용, 비밀키로 JWT_SECRET_KEY 사용)
                 .compact();
     }
 
@@ -93,12 +94,13 @@ public class JwtService {
 //    }
 
 
+
     /*
     Access Token의 유효성과 만료여부 확인 (+JWT에서 userIdx 추출)
     @return int
     @throws BaseException
      */
-    public int validAccessToken() throws BasicException{
+    public Long validAccessToken() throws BasicException{
 
         //Header에서 이름("AccessToken" )으로 토큰 값 추출
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -113,17 +115,96 @@ public class JwtService {
         Jws<Claims> claims;
         try{
             claims = Jwts.parser()                //유효한 토큰인지 확인,  즉 로그인시 부여한 jwt 토큰인지 확인
-                    .setSigningKey(Secret.JWT_SECRET_KEY)   //서명키 입력
+                    .setSigningKey(Secret.ACCESS_TOKEN_KEY)   //서명키 입력
                     .parseClaimsJws(accessToken);
         } catch (Exception ignored) {             //오류발생시 리턴
-            throw new BasicException(INVALID_JWT);  //권한이 없는 유저의 접근입니다.
+            throw new BasicException(INVALID_ACCESS_TOKEN);  //"Access Token이 변조되었거나 만료되었습니다""
         }
 
         //  userIdx 추출  (위의 과정에서 문제가 없다면 수행)
-        return claims.getBody().get("userIdx", Integer.class);
+        return claims.getBody().get("userIdx", Long.class);
+    }
+
+
+
+
+
+
+
+
+    /*
+    Refresh Token의 유효성과 만료여부 확인 (+JWT에서 userIdx 추출)
+    @return int
+    @throws BaseException
+     */
+    public Object[] validRefreshToken() throws BasicException{
+
+        //Header에서 이름("AccessToken" )으로 토큰 값 추출
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String RefreshToken = request.getHeader("RefreshToken");  //Access Token 값 가져오기
+
+        //accessToken 값의 null 체크
+        if(RefreshToken == null || RefreshToken.length() == 0){
+            throw new BasicException(EMPTY_REFRESH_TOKEN);  //"Refresh Token을 입력해 주세요."
+        }
+
+        // JWT 파싱
+        Jws<Claims> claims;
+        try{
+            claims = Jwts.parser()                //유효한 토큰인지 확인,  즉 로그인시 부여한 jwt 토큰인지 확인
+                    .setSigningKey(Secret.REFRESH_TOKEN_KEY)   //서명키 입력
+                    .parseClaimsJws(RefreshToken);
+        } catch (Exception ignored) {             //오류발생시 리턴
+            throw new BasicException(INVALID_REFRESH_TOKEN);  //"Refresh Token이 변조되었거나 만료되었습니다""
+        }
+
+        //  userIdx 추출  (위의 과정에서 문제가 없다면 수행)
+        return new Object[]{claims.getBody().get("userIdx", Long.class),RefreshToken};
+    }
+
+
+
+
+
+
+
+
+
+    /*
+    Access Token의 유효성과 만료여부 확인 (+JWT에서 userIdx 추출)
+    @return int
+    @throws BaseException
+     */
+    public int checkAccessToken() throws BasicException{
+
+        //Header에서 이름("AccessToken" )으로 토큰 값 추출
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String accessToken = request.getHeader("AccessToken");  //Access Token 값 가져오기
+
+        //accessToken 값의 null 체크
+        if(accessToken == null || accessToken.length() == 0){
+            throw new BasicException(EMPTY_ACCESS_TOKEN);  //"Access Token을 입력해 주세요."
+        }
+
+        // JWT 파싱
+        Jws<Claims> claims;
+        try{
+            claims = Jwts.parser()                //유효한 토큰인지 확인,  즉 로그인시 부여한 jwt 토큰인지 확인
+                    .setSigningKey(Secret.ACCESS_TOKEN_KEY)   //서명키 입력
+                    .parseClaimsJws(accessToken);
+
+            System.out.println(claims);
+
+            return 1; //토큰이 만료되지 않았다면 1 반환
+            //throw new BasicException(INVALID_ACCESS_TOKEN);  //"Access Token이 변조되었거나 만료되었습니다""
+        }
+        catch (Exception ignored){
+            return 0;  //토큰이 만료 되었다면 0 반환
+        }
 
 
     }
+
 
 
 
@@ -146,7 +227,7 @@ public class JwtService {
 //////////////////////////////////////////////////////////////////
     // Jwt Token에서 데이터를 전달
     public Claims getJwtInformation(String jwt) {
-        Claims claims =Jwts.parser().setSigningKey(Secret.JWT_SECRET_KEY).parseClaimsJws(jwt).getBody();
+        Claims claims =Jwts.parser().setSigningKey(Secret.ACCESS_TOKEN_KEY).parseClaimsJws(jwt).getBody();
         return claims;
     }
 
@@ -159,7 +240,7 @@ public class JwtService {
     public void getJwtContents(String jwt) {  //Claims
         Jws<Claims> claims;
         claims = Jwts.parser()  //유효한 토큰인지 확인,  즉 로그인시 부여한 jwt 토큰인지 확인
-                .setSigningKey(Secret.JWT_SECRET_KEY)
+                .setSigningKey(Secret.ACCESS_TOKEN_KEY)
                 .parseClaimsJws(jwt);
         //try문 추가해야 만료되도 오류 안난다!!
 
