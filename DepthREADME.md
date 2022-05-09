@@ -373,7 +373,7 @@
     - ProductService 구현 
     - ProductDao 구현 : 상품 정보를 조회하는 엔티티 기반의 쿼리문(JPQL) 작성 후 DTO로 반환        
     <details>
-        <summary> ddiscountPrice (할인 가격) 조회 관련 이슈 발생 </summary>
+        <summary> discountPrice (할인 가격) 조회 관련 이슈 발생 </summary>
         <div markdown="1">
         <b> Issue </b> : 기존에는 price(상품가격)과 discountRate (할인율)을 입력받고 DB에 저장하여 discountPrice (상품 할인가격)를 쿼리문에서 계산을 통해 출력을 하려고 했으나. CASE THEN 절이 Entity 기반의 쿼리문(JPQL)에서 문법적 오류가 발생하였습니다  <br> 
         <b> Problem </b> : 구글링을 계속 해보았지만, 해답을 찾지못했습니다. 그래서 차선책을 생각해 보았습니다.  <br>       
