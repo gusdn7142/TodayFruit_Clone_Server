@@ -269,7 +269,7 @@
 - productStatus 클래스 생성 : status 칼럼 표현을 위해 enum 형태로 지정  (INACTIVE가 0, ACTIVE가 1)
 - productOption 클래스 생성 : @Entity, @Table(name = "product"), @Column, @ManyToOne(fetch = FetchType.LAZY) 등 활용
 
-#### 2. 상품 등록 로직 구현
+#### 2. 상품 등록 API 개발
 - Dto에 형식적 Validation 적용
     - PostProductReq (DTO 클래스) 구현  : @Pattern, @Max, @Min 어노테이션 추가
     - PostProductOptionReq (DTO 클래스) 구현 
@@ -329,4 +329,66 @@
 - 프로필 편집 API, 회원 탈퇴 API 등 사용자 인가가 구현된 모든 코드에 로그아웃 상태를 확인하는 코드 추가
 - 기존 사용자 인가 절차에서는 로그아웃을 한 상태에서도 AccessToken이 만료되지 않았다면 주요 기능에 접근할 수 있었기 때문에 userId를 통해 Logout 테이블에서 해당 레코드의 status 칼럼 상태를 확인하여 로그아웃 여부를 알수있도록 코드를 구현하였습니다.  
             
-    
+            
+## 2022-05-09 진행상황
+#### 1. 상품 정보 수정 API 개발
+- Dto에 형식적 Validation 적용  
+    - 배송타입, 상품제목, 상품가격, 할인율,  판매수량, 배송일, 상품 옵션 인덱스, 상품 옵션 이름을 입력 받아 정규표현식 적용.배송타입, 상품제목, 상품가격, 할인율,  판매수량, 배송일, 상품 옵션 인덱스, 상품 옵션 이름을 입력 받아 정규표현식 적용.  
+    - DTO의 멤버변수엔 enum 타입을 사용하면 안됩니다. (클라이언트를 고려하여 String 사용을 권장합니다.)  
+    - @Size 어노테이션은 String 자료형만 가능하고 int형은 @Max @Min만 사용 가능  
+    - PatchProductReq (DTO 클래스) 구현  : @Pattern, @Max, @Min 어노테이션 추가
+    <details>
+        <summary> @Min 어노테이션 관련 이슈 발생 </summary>
+        <div markdown="1">
+        <b> Issue </b> : 상품 정보 수정 API 로직이 한개의 변수씩 입력받아도 DB에 Update가 되도록 설계하였는데,  saleCount (판매수량) 변수를 필수로 입력하지 않으면 Validation 처리 메시지가 출력됨 (”판매수량 형식을 확인해 주세요. (최소 10개, 최대 3000개)”)   <br> 
+        <b> Problem </b> : saleCount 변수 자체를 @Min(value = 10)으로 선언해 주었기 때문에  값이 없을떄 0으로 인식되어 자동으로 Validation 메시지가 출력됨.  <br>       
+        <b> Solution </b> : @Min 어노테이션 대신 @Pattern 을 사용해야 할지 고심중에 있습니다.
+        </div>
+    </details> 
+              
+    - ProductController 구현 : @Valid, BindingResult 어노테이션 활용
+    <details>
+        <summary> deliveryType (배송타입) 형식 관련 이슈 발생 </summary>
+        <div markdown="1">
+        <b> Issue </b> : 배송타입 (”쿠배송” or “무료배송”) 변수 deliveryType를 DTO에서 enum 타입으로 입력받을수 없습니다.  <br> 
+        <b> Problem </b> : 클라이언트는 enum type으로 변수를 보내지 않기 때문에 deliveryType을 String Type으로 변경이 필요하다고 생각되었습니다.   <br>       
+        <b> Solution </b> :클라이언트와의 협업을 대비하여 기존 deliveryType의 enum 타입을 String 형식으로 변경하였습니다
+        </div>
+    </details> 
+- 상품 정보 수정 로직 구현
+    - ProductService 구현 : price와 discountRate의 경우는 같이 입력받아야 deiscountPrice가 계산되어 DB에 저장이 됩니다
+    - ProductDao 구현 : 배송 타입 변경 / 상품 제목 변경 / 상품 가격 변경 / 상품 할인율 변경 / 상품 할인가격 변경 / 상품 판매수량 변경 / 상품 설명 변경 / 상품 배송일 변경 함수 구현    
+    - ProductOptionDao 구현 : 상품 옵션 변경 함수 구현
+            
+            
+- Access Token을 통한 사용자 인가 구현 (+로그아웃 상태 확인)
+    - ProductController 구현 : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 + 로그아웃 상태 확인            
+            
+            
+#### 2. 전체 상품 조회 API 개발
+- Dto 설계
+    - GetProductsRes (DTO 클래스) 구현 : 1. 상품 인덱스, 배송타입, 상품제목, 상품가격, 할인율,  할인된 가격, 판매수량 변수 선언   (주문자 수는 추후 추가 예정)
+- 전체상품 조회 로직 구현
+    - ProductController 구현 
+    - ProductService 구현 
+    - ProductDao 구현 : 상품 정보를 조회하는 엔티티 기반의 쿼리문(JPQL) 작성 후 DTO로 반환        
+    <details>
+        <summary> ddiscountPrice (할인 가격) 조회 관련 이슈 발생 </summary>
+        <div markdown="1">
+        <b> Issue </b> : 기존에는 price(상품가격)과 discountRate (할인율)을 입력받고 DB에 저장하여 discountPrice (상품 할인가격)를 쿼리문에서 계산을 통해 출력을 하려고 했으나. CASE THEN 절이 Entity 기반의 쿼리문(JPQL)에서 문법적 오류가 발생하였습니다  <br> 
+        <b> Problem </b> : 구글링을 계속 해보았지만, 해답을 찾지못했습니다. 그래서 차선책을 생각해 보았습니다.  <br>       
+        <b> Solution </b> : discountPrice (상품 할인가격)을 기존처럼 입력 받지는 않지만 Service 로직에서 수식을 통해 DB에 저장하는 방식으로 변경하였습니다. 
+        </div>
+    </details>             
+
+            
+#### 3. 특정 상품 조회 API 개발
+- Dto 설계
+    - GetProductsRes (DTO 클래스) 구현 : 상품 인덱스, 배송타입, 상품제목, 상품가격, 할인율,  할인된 가격, 판매수량,  상품 설명, 판매자 이름 변수 선언 (주문자 수는 추후 추가 예정)
+    - GetProductRes (DTO 클래스) 구현
+    - GetProductAndUserRes (DTO 클래스) 구현 : getProductRes 객체와 판매자 이름 변수 선언 
+- 특정 상품 조회 구현
+    - ProductController 구현  
+    - ProductService 구현 
+    - ProductDao 구현 : 상품 정보를 조회하는 엔티티 기반의 쿼리문(JPQL) 작성 후 DTO로 반환
+           
