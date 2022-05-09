@@ -42,6 +42,8 @@ public interface UserDao extends JpaRepository<User, Long> {   //해당 엔티�
     User checkByemail(@Param("email") String email);
 
 
+
+
     /* 1. 닉네임 중복 검사    (회원 가입 API) API */
     @Query(value="select u from User u where u.nickName = :nickName and u.status = 'ACTIVE'")
     User checkNickName(@Param("nickName") String nickName);

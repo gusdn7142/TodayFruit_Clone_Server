@@ -35,4 +35,5 @@ public class PostUserReq {
     @Pattern(regexp = "^[0-9a-zA-Z가-힣\\s]{2,15}$", message="닉네임 형식을 확인해 주세요.")  //글자수만 제한 2~20
     private String nickName;   //닉네임은 무조건 입력 해야함.
 
+
 }

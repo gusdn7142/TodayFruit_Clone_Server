@@ -1,10 +1,7 @@
 package com.todayfruit.src.product.model.domain;
 
 
-import com.todayfruit.src.product.ProductDao;
-import com.todayfruit.src.product.model.DeliveryType;
 import com.todayfruit.src.product.model.ProductStatus;
-import com.todayfruit.src.user.model.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;

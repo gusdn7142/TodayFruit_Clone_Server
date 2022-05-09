@@ -82,9 +82,16 @@ public enum BasicResponseStatus {  //enum 타입
 
 
     //product 도메인
-    DATABASE_ERROR_CREATE_PRODUCT("FAIL", 4020, "DB에 상품 등록이 실패하였습니다.");
-
-
+    DATABASE_ERROR_CREATE_PRODUCT("FAIL", 4020, "DB에 상품 등록이 실패하였습니다."),
+    DATABASE_ERROR_MODIFY_DeliveryType("FAIL", 4021, "이름 변경시 오류가 발생하였습니다."),
+    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Title("FAIL", 4022, "이름 변경시 오류가 발생하였습니다."),
+    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Price("FAIL", 4023, "이름 변경시 오류가 발생하였습니다."),
+    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_DiscountRate("FAIL", 4024, "이름 변경시 오류가 발생하였습니다."),
+    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_SaleCount("FAIL", 4025, "이름 변경시 오류가 발생하였습니다."),
+    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Description("FAIL", 4026, "이름 변경시 오류가 발생하였습니다."),
+    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_DeliveryDay("FAIL", 4027, "이름 변경시 오류가 발생하였습니다."),
+    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName("FAIL", 4028, "이름 변경시 오류가 발생하였습니다."),
+    DATABASE_ERROR_GET_FAIL_PRODUCTS("FAIL", 4029, "상품 조회에 실패하였습니다.");
 
 
 

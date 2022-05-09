@@ -319,7 +319,6 @@ public class UserController {
      * [POST] /users
      * @return BaseResponse
      */
-    // Body
     @PostMapping("/{userId}/access-token")
     public BasicResponse createAccessToken(@PathVariable ("userId") Long userId) {
 
