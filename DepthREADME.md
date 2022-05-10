@@ -392,3 +392,49 @@
     - ProductService 구현 
     - ProductDao 구현 : 상품 정보를 조회하는 엔티티 기반의 쿼리문(JPQL) 작성 후 DTO로 반환
            
+
+## 2022-05-10 진행상황
+#### 1. 상품 삭제 API 개발
+- 상품 삭제 로직 구현
+    - ProductService 구현 
+    - ProductDao 구현 : 상품 정보를 삭제하는 deleteProductOption() 함수, 상품 옵션 정보를 삭제하는 deleteProduct() 함수 구현
+    - ProductOptionDao 구현 : 상품 삭제 여부를 조회하는 checkStatusPrdouct() 함수 구현        
+    - ProductDao 구현 : 상품 정보를 조회하는 엔티티 기반의 쿼리문(JPQL) 작성 후 DTO로 반환      
+- Access Token을 통한 사용자 인가 구현 (+로그아웃 상태 확인)
+    - ProductController 구현 : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 + 로그아웃 상태 확인            
+
+#### 2. 상품 옵션 조회 API 개발
+- 상품 옵션 조회 로직 구현
+    - ProductService 구현 
+    - ProductOptionDao 구현 : 상품 옵션을 조회하는 getProductOptions() 함수 구현
+             
+            
+#### 3. Purchase 엔티티 설계
+- product 테이블 
+    - ERD 수정사항 : 테이블명을 order에서 purchase로 변경
+    - 테이블명 변경 이유 : order의 경우 SQL구문에서 사용되어 엔티티 기반의 DDL이 실행될시 오류가 발생하기 때문에 purchase로 테이블명 변경 
+- Purchase 클래스 생성 : @Entity, @Table(name = "purchase"), @Column 등 활용
+- PurchaseStatus 클래스 생성 : status 칼럼 표현을 위해 enum 형태로 지정  (INACTIVE가 0, ACTIVE가 1)
+
+            
+#### 4. 상품 구매 API 개발
+- Dto 설계
+    - PostPurchaseReq (DTO 클래스) 구현 : 구매개수와 배송지 변수를 선언하고+ 구매자, 상품, 상품 옵션은 인덱스를 입력받아 객체로 변환하기 위해 객체로 선언
+    - PurchaseController 구현 : @Valid, BindingResult 어노테이션 활용
+- 상품 구매 로직 구현
+    - PurchaseService 구현  
+        - checkStatusUser() 함수 : userId를 통해 사용자 객체 조회 후 DTO에 Input
+        - checkStatusPrdouct() 함수 : productId를 통해 상품 객체 조회 후 DTO에 Input 
+        - checkStatusPrdocutOption() 함수 : productOptionId를 통해 상품 옵션 객체 조회 후 DTO에 Input 
+        - save()함수 활용 : DTO 객체에서 복사된 Purchase 객체를 DB에 저장  
+- Access Token을 통한 사용자 인가 구현
+    - PurchaseController : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 + 로그아웃 상태 확인
+ <details>
+    <summary> 포트 중복 실행 관련 이슈  </summary>
+    <div markdown="1">
+    <b> Issue </b> : .jar 파일을 실행하는 과정에서 9090번에 대해 포트 충돌이 발생하였습니다. <br> 
+    <b> Problem </b> : 이미 9090포트로 프로세스가 실행중인 상태였습니다. <br>       
+    <b> Solution </b> : 로컬에서 진행하였기 때문에 netstat -ano | findstr 9090 명령어러 프로세스 번호를 조회하고 taskkill /f /pid “프로세스 ID”를 입력하여 해당 프로세스를 종료 시켜줌으로써 해결되었습니다.
+    </div>
+ </details>             
+            
