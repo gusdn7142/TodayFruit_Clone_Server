@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="385f6052-4820-48ca-8e62-a451e30bd8a6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/request/PatchProductReq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/response/GetProductAndUserRes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/response/GetProductRes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/response/GetProductsRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/checksums/sha1-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/response/GetProductOptionRes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/PurchaseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/PurchaseDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/PurchaseService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/model/request/PostPurchaseReq.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -20,31 +18,22 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/config/BasicResponseStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/config/BasicResponseStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/order/Order.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductDao.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductOptionDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductOptionDao.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/DeliveryType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/domain/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/domain/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/domain/ProductOption.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/domain/ProductOption.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/request/PostProductReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/request/PostProductReq.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponseStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponseStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/order/Order.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductOptionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductOptionDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/DeliveryType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/domain/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/domain/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/domain/ProductOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/domain/ProductOption.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/request/PostProductReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/request/PostProductReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/request/PostUserReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/request/PostUserReq.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +148,10 @@
       <workItem from="1651857876858" duration="990000" />
       <workItem from="1651886104338" duration="10694000" />
       <workItem from="1652002024371" duration="22839000" />
-      <workItem from="1652058818188" duration="38997000" />
+      <workItem from="1652058818188" duration="40781000" />
+      <workItem from="1652141386996" duration="12004000" />
+      <workItem from="1652160430716" duration="1067000" />
+      <workItem from="1652161538785" duration="13215000" />
     </task>
     <servers />
   </component>

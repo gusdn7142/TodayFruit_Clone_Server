@@ -11,6 +11,7 @@ import com.todayfruit.src.product.model.domain.ProductOption;
 import com.todayfruit.src.product.model.request.PatchProductReq;
 import com.todayfruit.src.product.model.request.PostProductReq;
 import com.todayfruit.src.product.model.response.GetProductAndUserRes;
+import com.todayfruit.src.product.model.response.GetProductOptionRes;
 import com.todayfruit.src.product.model.response.GetProductRes;
 import com.todayfruit.src.product.model.response.GetProductsRes;
 import com.todayfruit.src.user.UserDao;
@@ -279,6 +280,68 @@ public class ProductService {
 
 
     }
+
+
+
+ //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* 13. 상품 삭제 API - deleteUser()   */
+    public void deleteProduct(Long productId) throws BasicException {
+
+        //상품 삭제 여부 조회 (유저가 계속 클릭시..)
+        if(productDao.checkStatusPrdouct(productId) == null){   //상품이 삭제되었다면..
+            throw new BasicException(PATCH_PRODUCTS_DELETE_PRDOCUT);  //"삭제된 상품 입니다."
+        }
+
+
+        try{
+            //상품 정보 삭제
+            productDao.deleteProduct(productId);
+
+            //상품 옵션 정보 삭제
+            Optional<Product> productDelete = productDao.findById(productId);
+            productOptionDao.deleteProductOption(productDelete.get());
+
+
+        } catch(Exception exception){
+            throw new BasicException(DATABASE_ERROR_DELETE_PRODUCTS);   //'상품 삭제에 실패하였습니다.'
+        }
+
+    }
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* 14. 상품 옵션 조회 API   */
+    public List<GetProductOptionRes>  getProductOptions(Long productId) throws BasicException {
+
+        //상품 객체 불러오기
+        Product productGet = productDao.checkStatusPrdouct(productId);
+
+        //상품 삭제 여부 조회
+        if(productGet == null){   //상품이 삭제되었다면..
+            throw new BasicException(PATCH_PRODUCTS_DELETE_PRDOCUT);  //"삭제된 상품 입니다."
+        }
+
+
+        try{
+
+            //상품 옵션 조회
+            List<GetProductOptionRes> getProductOptionRes = productOptionDao.getProductOptions(productGet);
+            return getProductOptionRes;
+
+        } catch(Exception exception){
+            System.out.println(exception);
+            throw new BasicException(DATABASE_ERROR_GET_FAIL_PRODUCT_OPTIONS);   //'상품 옵션 조회에 실패하였습니다.'
+        }
+
+    }
+
+
+
+
 
 
 

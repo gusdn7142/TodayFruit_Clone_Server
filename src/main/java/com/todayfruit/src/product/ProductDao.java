@@ -23,6 +23,8 @@ public interface ProductDao extends JpaRepository<Product, Long> {
 
 
 
+
+
     /* 10. 상품 정보 수정 API */
     //배송타입 수정
     @Modifying
@@ -119,17 +121,26 @@ public interface ProductDao extends JpaRepository<Product, Long> {
 
 
 
-//    #특정 상품 조회
-//    select id,
-//            delivery_type,
-//            title,
-//            price,
-//            discount_rate,
-//            discount_price,
-//            sale_count,
-//            description,
-//            user_id
-//    from product where id = 1 and status = 'ACTIVE';
+    /* 13. 상품 삭제 API */
+    @Modifying
+    @Transactional
+    @Query(value="update Product set status = 'INACTIVE' where id = :productId and status = 'ACTIVE' ")
+    void deleteProduct(@Param("productId") Long productId);
+
+
+
+
+    /* 14. 상품 객체 불러오기   (상품 옵션 불러오기 API )  */
+    @Query(value="SELECT p FROM Product p where p.id =:productId and p.status = 'ACTIVE'")
+    Product checkStatusPrdouct(@Param("productId") Long productId );
+
+
+
+
+
+
+
+
 
 
 

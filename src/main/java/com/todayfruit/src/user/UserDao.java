@@ -91,8 +91,6 @@ public interface UserDao extends JpaRepository<User, Long> {   //해당 엔티�
 
 
 
-
-
     /* 5. 회원 탈퇴 API */
     @Modifying
     @Transactional
@@ -100,35 +98,9 @@ public interface UserDao extends JpaRepository<User, Long> {   //해당 엔티�
     void deleteUser(@Param("userId") Long userId );
 
 
-    /* 5. user 계정 활성화 여부 확인   (회원 탈퇴 API) */
-    @Query(value="SELECT u FROM User u where u.id =:userId and u.status = 'INACTIVE'")
-    User checkdeleteUser(@Param("userId") Long userId );
-
-
-
-
-
-
-
-
-//    @PersistenceContext
-//    EntityManager em = null;
-//    List<User> email2 =  em.createQuery("select u from User u where u.email = :email and  u.status = 'ACTIVE'")
-//                .setParameter("email", email)
-//                .getResultList();
-//    }
-
-//Optional : 'null일 수도 있는 객체'를 감싸는 일종의 Wrapper 클래스
-
-
-
-
-
-
-
-
-
-
+    /* 5.사용자 객체 불러오기   (회원 탈퇴 API) */
+    @Query(value="SELECT u FROM User u where u.id =:userId and u.status = 'ACTIVE'")
+    User checkStatusUser(@Param("userId") Long userId );
 
 
 

@@ -48,6 +48,11 @@ public enum BasicResponseStatus {  //enum 타입
     POST_PRODUCT_OPTIONS_INVALID_optionName("FAIL", 2016, "상품옵션 형식을 확인해 주세요."),
 
 
+    //purchase 도메인
+    POST_PURCHASE_INVALID_PurchaseCount("FAIL", 2017, "구매 수량은 1~100개 까지만 입력 가능합니다."),
+
+
+
     /**
      * 3000 : Response 오류 (의미적 Vdalidation 처리)
      */
@@ -56,10 +61,13 @@ public enum BasicResponseStatus {  //enum 타입
     FAILED_TO_JOIN_CHECK("FAIL",3002,"가입되지 않은 사용자입니다."),
     PASSWORD_MATCH_FAIL("FAIL",3003,"잘못된 패스워드입니다."),
 
-    PATCH_USERS_DELETE_USER("FAIL",3004,"이미 탈퇴된 계정입니다."),
+    PATCH_USERS_DELETE_USER("FAIL",3004,"탈퇴된 계정입니다."),
     PATCH_USERS_LOGOUT_USER("FAIL",3005,"로그아웃된 유저입니다."),
 
 
+    //product 도메인
+    PATCH_PRODUCTS_DELETE_PRDOCUT("FAIL",3010,"삭제된 상품입니다."),
+    GET_PRODUCTS_NOT_EXISTS_PRDOCUT_OPTION("FAIL",3011,"상품 옵션을 찾을 수 없습니다."),
 
 
 
@@ -91,9 +99,13 @@ public enum BasicResponseStatus {  //enum 타입
     DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Description("FAIL", 4026, "이름 변경시 오류가 발생하였습니다."),
     DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_DeliveryDay("FAIL", 4027, "이름 변경시 오류가 발생하였습니다."),
     DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName("FAIL", 4028, "이름 변경시 오류가 발생하였습니다."),
-    DATABASE_ERROR_GET_FAIL_PRODUCTS("FAIL", 4029, "상품 조회에 실패하였습니다.");
+    DATABASE_ERROR_GET_FAIL_PRODUCTS("FAIL", 4029, "상품 조회에 실패하였습니다."),
+    DATABASE_ERROR_DELETE_PRODUCTS("FAIL", 4030, "상품 삭제에 실패하였습니다."),
+    DATABASE_ERROR_GET_FAIL_PRODUCT_OPTIONS("FAIL", 4031, "상품 옵션 조회에 실패하였습니다."),
 
 
+    //purchase 도메인
+    DATABASE_ERROR_CREATE_PURCHASE("FAIL", 4020, "상품 구매에 실패하였습니다.");
 
 
 

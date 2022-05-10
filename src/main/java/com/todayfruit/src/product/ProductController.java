@@ -3,6 +3,7 @@ package com.todayfruit.src.product;
 
 import com.todayfruit.config.BasicException;
 import com.todayfruit.config.BasicResponse;
+import com.todayfruit.src.product.model.domain.Product;
 import com.todayfruit.src.product.model.request.PatchProductReq;
 import com.todayfruit.src.product.model.request.PostProductReq;
 import com.todayfruit.src.product.model.response.*;
@@ -245,10 +246,83 @@ public class ProductController {
             return new BasicResponse((exception.getStatus()));
         }
 
-
-
-
     }
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * 13. 상품 삭제 API
+     * [PATCH] /products/:userId/:productId/status
+     * @return BaseResponse<String>
+     */
+
+    @PatchMapping("/{userId}/{productId}/status")
+    public BasicResponse deleteProduct(@PathVariable("userId") Long userId, @PathVariable("productId") Long productId ) {
+
+
+        try {
+
+            /* Access Token을 통한 사용자 인가 적용 */
+            Long userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
+
+            if(userId != userIdByAccessToken){  //AccessToken 안의 userId와 직접 입력받은 userId가 같지 않다면
+                return new BasicResponse(INVALID_USER_JWT);  //권한이 없는 유저의 접근입니다.
+            }
+            /* Access Token을 통한 사용자 인가 적용 끝 */
+
+            /* 로그아웃 상태 확인 구현 */
+            Optional<User> user = userDao.findById(userId);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+            Optional<Logout> userLogout = logoutDao.checkLogout(user);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+            if(!userLogout.isPresent()){  //로그아웃된 상태이면
+                return new BasicResponse(PATCH_USERS_LOGOUT_USER); //"이미 로그아웃된 유저입니다."
+            }
+            /* 로그아웃 상태 확인 끝 */
+
+
+
+            //유저 상태 비활성화
+            productService.deleteProduct(productId);
+
+            String result = "상품 정보가 삭제되었습니다.";
+            return new BasicResponse(result);
+        } catch (BasicException exception) {
+            return new BasicResponse((exception.getStatus()));
+        }
+    }
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * 14. 상품 옵션 조회 API
+     * [GET] /products/:productId/option
+     * @return BaseResponse<String>
+     */
+
+    @GetMapping("/{productId}/option")
+    public BasicResponse getProductOptions(@PathVariable("productId") Long productId ) {
+
+
+        try {
+
+            //상품 옵션 불러오기
+            List<GetProductOptionRes> getProductOptionRes = productService.getProductOptions(productId);
+
+            return new BasicResponse(getProductOptionRes);
+        } catch (BasicException exception) {
+            return new BasicResponse((exception.getStatus()));
+        }
+    }
+
+
+
 
 
 

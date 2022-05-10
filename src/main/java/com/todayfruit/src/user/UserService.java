@@ -41,24 +41,6 @@ public class UserService {
     private final JwtService jwtservice;
     private final LogoutDao logoutDao;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//    /* 프로필 조회 API*/
-//    public List<User> getUser(){
-//        List<User> user = userDao.findAll();  //BookRepository에서 도서의 id를 통해 raw를 받아옴?
-//
-//        if(!user.isEmpty()){  //사용자 프로필 목록이 비어있지 않다면.
-//            return user;
-//        }
-//
-//        throw new EntityNotFoundException("전체 유저의 프로필 조회 실패"); //id 찾기 실패
-//
-//    }
-
-
-
-
-
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////
     /* 1. 회원 가입 -  createUser() */
@@ -76,10 +58,10 @@ public class UserService {
         }
 
 
-        //DB에 유저 등록 (이메일, 비밀번호, 이름, 전화번호, 닉네임 저장)
-        try{
-            User userCreate = new User();  //userCreate 객체 생성
-            BeanUtils.copyProperties(postUserReq,userCreate);  //postUserReq(dto) 객체의 내용을 userCreate로 옮긴다. (DB에 저장하기 위함.)
+            //DB에 유저 등록 (이메일, 비밀번호, 이름, 전화번호, 닉네임 저장)
+            try{
+                User userCreate = new User();  //userCreate 객체 생성
+                BeanUtils.copyProperties(postUserReq,userCreate);  //postUserReq(dto) 객체의 내용을 userCreate로 옮긴다. (DB에 저장하기 위함.)
 
 
             //패스워드 암호화
@@ -244,7 +226,7 @@ public class UserService {
     public void deleteUser(Long userId) throws BasicException {    //UserController.java에서 객체 값( id, nickName)을 받아와서...
 
         //회원 탈퇴 여부 확인 (유저가 계속 클릭시..)
-        if(userDao.checkdeleteUser(userId) != null){
+        if(userDao.checkStatusUser(userId) == null){
             throw new BasicException(PATCH_USERS_DELETE_USER);  //"이미 탈퇴된 계정입니다."
         }
 
