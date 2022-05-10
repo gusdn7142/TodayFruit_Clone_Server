@@ -81,3 +81,9 @@
 
 ### JPA 공부
     - JPA 대해 공부하였다.  
+
+## 2022월 05월 09일
+
+### JPA 공부
+    - 오전에 JPA 공부, Product 테이블 파악
+    - 오후에 JPA 공부, Post 테이블 만들기 - Postmapping 
