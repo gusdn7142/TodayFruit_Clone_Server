@@ -452,4 +452,37 @@
     - EC2 서버의 TodayFruit_Clone_Server 디렉터리 경로에서 .jar 파일 실행하여 이상 여부 확인
 - API 명세서에 반영      
             
+
+## 2022-05-11 진행상황
+#### 1. 주문한 상품 목록 조회 API 개발
+- Dto 설계
+    - GetPurchaseRes (DTO 클래스) 구현 : 구매 인덱스, 상품 제목, 상품 이미지, 상품 옵션명, 구매 수량, 상품 금액, 배송지, 배송비 변수를 선언
+         
+- 주문한 상품 조회 로직 구현
+    - PurchaseController 구현 
+    - PurchaseService 구현 : checkStatusUser() 함수를 통해 사용자 객체를 불러오고 getPurchase() 함수로 주문한 상품 정보를 불러옵니다.
+    - PurchaseDao 구현 :  Purchase⋅Product⋅PrductOption 엔티티를 조인으로 연결하여 주문한 상품 정보를 DTO로 출력하는 getPurchase() 함수 구현        
+    
+- Access Token을 통한 사용자 인가 구현 (+로그아웃 상태 확인)
+    - PurchaseController 구현 : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 + 로그아웃 상태 확인         
+
+ <details>
+    <summary> JPQL 문법 관련 이슈   </summary>
+    <div markdown="1">
+    <b> Issue </b> : join문이나 concat을 JPQL에서 활용시 IDE에서 빨간줄이 자주뜹니다.  <br> 
+    <b> Problem </b> : 카카오톡 Spring 오픈채팅방에 질의한 결과 IDE가 인식을 잘 못하여 오류로 출력해 주는것이라 합니다.   <br>       
+    <b> Solution </b> : JPQL 로직은 서버에서 정상적으로 실행되기 때문에 조치할 사항이 없습니다. 다만,  현재는 join문 활용시 on절을 추가해야 하는 이슈가 있습니다.
+    </div>
+ </details>              
+            
+#### 2. 상품 주문 취소 API 개발
+- 상품 주문 취소 로직 구현
+    - PurchaseService 구현 
+    - PurchaseDao 구현 : 주문 정보 삭제여부를 조회하는 checkStatusPurchase() 함수와 상품 주문을 취소하는 deletePurchaseInfo() 함수 
+- Access Token을 통한 사용자 인가 구현 (+로그아웃 상태 확인)
+    - PurchaseController  구현 : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 + 로그아웃 상태 확인                
+            
+            
+            
+            
             
