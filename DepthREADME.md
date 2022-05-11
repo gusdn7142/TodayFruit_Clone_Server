@@ -300,7 +300,7 @@
 - 배포 순서
     - 로컬에서 깃허브로 .jar 파일 업로드        
     - Prod서버 root 디렉터리 경로 설정 & 프록시 패스 설정
-    - EC2 서버에 TodayFruit_Clone_Server 프로젝트 Clone 후 .jar 파일 실행하여 API 이상 여부 확인
+    - EC2 서버에 TodayFruit_Clone_Server 프로젝트 Clone 후 .jar 파일 실행하여 API 오작동 여부 확인
 - API 명세서에 반영
             
             
@@ -449,7 +449,7 @@
 - AccessToken 재발급 API, 상품 정보 수정 API, 전체 상품 조회 API, 특정 상품 조회 API, 상품 삭제 API, 상품 옵션 조회 API, 상품 구매 API 배포
 - 배포 순서
     - 로컬에서 깃허브로 .jar 파일 업로드     
-    - EC2 서버의 TodayFruit_Clone_Server 디렉터리 경로에서 .jar 파일 실행하여 이상 여부 확인
+    - EC2 서버의 TodayFruit_Clone_Server 디렉터리 경로에서 .jar 파일 실행하여 API 오작동 여부 확인
 - API 명세서에 반영      
             
 
@@ -482,7 +482,14 @@
 - Access Token을 통한 사용자 인가 구현 (+로그아웃 상태 확인)
     - PurchaseController  구현 : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 + 로그아웃 상태 확인                
             
-            
+
+#### 5. EC2서버에 API 배포
+- 주문한 상품 목록 조회 API, 상품 주문 취소 API  배포
+- 배포 순서
+    - 로컬에서 깃허브로 .jar 파일 업로드     
+    - EC2 서버의 TodayFruit_Clone_Server 디렉터리 경로에서 .jar 파일 실행하여 API 오작동 여부 확인
+- API 명세서에 반영      
+                        
             
             
             
