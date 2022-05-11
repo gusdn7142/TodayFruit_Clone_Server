@@ -1,3 +1,6 @@
+
+# 뎁스의 개발일지
+
 ## 2022-04-27 진행상황
 #### 1. '오늘과일' 서비스 도메인 분석 (100% 완료)
     - 도메인 파악 : 게시물(SNS), Product 과일, 장바구니. 주문 , 알림, 검색, 사용자, 상품 후기, 팔로우, 좋아요
@@ -292,9 +295,13 @@
     </details>         
 
 ## 2022-05-07 진행상황
-#### 1. EC2에 API 첫 배포
-- Prod서버 root 디렉터리 경로 설정 & 프록시 패스 설정
-- TodayFruit_Clone_Server 프로젝트 Clone 후 .jar 파일 실행                    
+#### 1. EC2서버에 API 첫 배포
+- 회원가입 API, 로그인 API, 프로필 조회 API, 프로필 편집 API, 회원탈퇴 API, 자동 로그인 API, 로그아웃 API, 상품 등록 API 배포
+- 배포 순서
+    - 로컬에서 깃허브로 .jar 파일 업로드        
+    - Prod서버 root 디렉터리 경로 설정 & 프록시 패스 설정
+    - EC2 서버에 TodayFruit_Clone_Server 프로젝트 Clone 후 .jar 파일 실행하여 API 이상 여부 확인
+- API 명세서에 반영
             
             
 ## 2022-05-08 진행상황
@@ -437,4 +444,12 @@
     <b> Solution </b> : 로컬에서 진행하였기 때문에 netstat -ano | findstr 9090 명령어러 프로세스 번호를 조회하고 taskkill /f /pid “프로세스 ID”를 입력하여 해당 프로세스를 종료 시켜줌으로써 해결되었습니다.
     </div>
  </details>             
+
+#### 5. EC2서버에 API 배포
+- AccessToken 재발급 API, 상품 정보 수정 API, 전체 상품 조회 API, 특정 상품 조회 API, 상품 삭제 API, 상품 옵션 조회 API, 상품 구매 API 배포
+- 배포 순서
+    - 로컬에서 깃허브로 .jar 파일 업로드     
+    - EC2 서버의 TodayFruit_Clone_Server 디렉터리 경로에서 .jar 파일 실행하여 이상 여부 확인
+- API 명세서에 반영      
+            
             
