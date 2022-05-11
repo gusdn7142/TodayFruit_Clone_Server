@@ -38,6 +38,11 @@ public interface ProductDao extends JpaRepository<Product, Long> {
     @Query(value="update Product set title = :title where id = :productId and status = 'ACTIVE'\n")
     void modifyTitle(@Param("title") String title, @Param("productId") Long productId );
 
+    //상품 이미지 수정
+    @Modifying
+    @Transactional
+    @Query(value="update Product set image = :image where id = :productId and status = 'ACTIVE'\n")
+    void modifyImage(@Param("image") String image, @Param("productId") Long productId );
 
     //상품 가격 수정
     @Modifying
@@ -91,6 +96,7 @@ public interface ProductDao extends JpaRepository<Product, Long> {
             "p.id,\n" +
             "p.deliveryType,\n" +
             "p.title,\n" +
+            "p.image, \n" +
             "p.price,\n" +
             "p.discountRate," +
             "p.discountPrice," +
@@ -111,6 +117,7 @@ public interface ProductDao extends JpaRepository<Product, Long> {
             "p.id,\n" +
             "p.deliveryType,\n" +
             "p.title,\n" +
+            "p.image,\n" +
             "p.price,\n" +
             "p.discountRate," +
             "p.discountPrice," +

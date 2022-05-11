@@ -58,7 +58,7 @@ public class ProductService {
 
 
 
-        //DB에 상품 등록 (배송타입 ,상품제목, 상품가격, 할인율 , 판매수량, 상품설명, 배송일  등)
+        //DB에 상품 등록 (배송타입 ,상품제목, 상품 이미지, 상품가격, 할인율 , 판매수량, 상품설명, 배송일  등)
         try{
             //판매자 인덱스를 통해 판매자 객체를 불러옴
             Optional<User> seller = userDao.findById(userId);   //user_id 로판매자 불러옴.
@@ -120,7 +120,7 @@ public class ProductService {
                 productDao.modifyDeliveryType(patchProductReq.getDeliveryType(), productId);
             }
         } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_NAME);   //"이름 변경시 오류가 발생하였습니다."
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_DeliveryType);
         }
 
         try{
@@ -129,8 +129,21 @@ public class ProductService {
                 productDao.modifyTitle(patchProductReq.getTitle(), productId);
             }
         } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_NAME);   //"이름 변경시 오류가 발생하였습니다."
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Title);
         }
+
+
+        try{
+            //상품 이미지 변경
+            if(patchProductReq.getImage() != null){
+                productDao.modifyImage(patchProductReq.getImage(), productId);
+            }
+        } catch(Exception exception){
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Image);
+        }
+
+
+
 
         try{
             //상품 가격 변경 & 상품 할인율 변경 & 상품 할인가격 생성
@@ -157,20 +170,8 @@ public class ProductService {
                 productDao.modifyDiscountPrice(patchProductReq.getDiscountPrice(), productId);
             }
         } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_NAME);   //"이름 변경시 오류가 발생하였습니다."
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Price);
         }
-
-
-//        try{
-//            //상품 할인율 변경
-//            if(patchProductReq.getDiscountRate() >= 0){
-//                System.out.println(patchProductReq.getDiscountRate());
-//                productDao.modifyDiscountRate(patchProductReq.getDiscountRate(), productId);
-//            }
-//        } catch(Exception exception){
-//            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_NAME);   //"이름 변경시 오류가 발생하였습니다."
-//        }
-
 
 
         try{
@@ -180,7 +181,7 @@ public class ProductService {
                 productDao.modifySaleCount(patchProductReq.getSaleCount(), productId);
             }
         } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_NAME);   //"이름 변경시 오류가 발생하였습니다."
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_SaleCount);
         }
 
 
@@ -191,7 +192,7 @@ public class ProductService {
                 productDao.modifyDescription(patchProductReq.getDescription(), productId);
             }
         } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_NAME);   //"이름 변경시 오류가 발생하였습니다."
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Description);
         }
 
 
@@ -202,7 +203,7 @@ public class ProductService {
                 productDao.modifyDeliveryDay(patchProductReq.getDeliveryDay(), productId);
             }
         } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_NAME);   //"이름 변경시 오류가 발생하였습니다."
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_DeliveryDay);
         }
 
 
@@ -216,10 +217,8 @@ public class ProductService {
                 }
 
             }
-
-
         } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_USER_NAME);   //"이름 변경시 오류가 발생하였습니다."
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName);
         }
 
             return "상품 정보 변경에 성공하였습니다.";

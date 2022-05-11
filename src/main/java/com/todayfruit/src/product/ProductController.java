@@ -82,6 +82,8 @@ public class ProductController {
                 return new BasicResponse(POST_PRODUCTS_INVALID_Title);
             } else if (errorlist.get(0).getDefaultMessage().equals("상품가격 형식을 확인해 주세요.")) {
                 return new BasicResponse(POST_PRODUCTS_INVALID_Price);
+            } else if (errorlist.get(0).getDefaultMessage().equals("상품 이미지를 입력해 주세요.")) {
+                return new BasicResponse(POST_PRODUCTS_EMPTY_IMAGE);
             } else if (errorlist.get(0).getDefaultMessage().equals("할인율 형식을 확인해 주세요.")) {
                 return new BasicResponse(POST_PRODUCTS_INVALID_DiscountRate);
             }

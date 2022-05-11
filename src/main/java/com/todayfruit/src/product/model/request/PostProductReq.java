@@ -26,6 +26,9 @@ public class PostProductReq {
     @Pattern(regexp = "^[0-9a-zA-Z가-힣\\s.,()]{4,30}$", message="상품제목 형식을 확인해 주세요.")
     private String title;  //상품 제목 : 한글, 숫자, 영어 등 최소 4자 ~ 최대 30자
 
+    @NotBlank(message="상품 이미지를 입력해 주세요.")
+    private String image;  //형식이 정해져 있음.
+
     @Pattern(regexp = "^[0-9]{3,10}원$", message="상품가격 형식을 확인해 주세요.")
     private String price;  //상품 가격 : 100만원 이하?
 

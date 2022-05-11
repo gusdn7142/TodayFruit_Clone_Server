@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="385f6052-4820-48ca-8e62-a451e30bd8a6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/model/response/GetPurchaseRes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -13,8 +14,35 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/user/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/config/BasicResponseStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/config/BasicResponseStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/domain/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/domain/Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/request/PatchProductReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/request/PatchProductReq.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/request/PostProductReq.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/request/PostProductReq.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/response/GetProductRes.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/response/GetProductRes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/response/GetProductsRes.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/model/response/GetProductsRes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/purchase/PurchaseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/purchase/PurchaseController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/purchase/PurchaseDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/purchase/PurchaseDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/purchase/PurchaseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/purchase/PurchaseService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/purchase/model/domain/Purchase.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/purchase/model/domain/Purchase.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponseStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponseStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/domain/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/domain/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/request/PatchProductReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/request/PatchProductReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/request/PostProductOptionReq.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/request/PostProductReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/request/PostProductReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/response/GetProductRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/response/GetProductRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/response/GetProductsRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/response/GetProductsRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/PurchaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/PurchaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/PurchaseDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/PurchaseDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/PurchaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/PurchaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/model/domain/Purchase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/purchase/model/domain/Purchase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserDao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,10 +110,10 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.20344828" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RunManager" selected="Spring Boot.TodayFruitApplication">
     <configuration name="TodayFruitApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
@@ -132,7 +160,8 @@
       <workItem from="1652058818188" duration="40781000" />
       <workItem from="1652141386996" duration="12004000" />
       <workItem from="1652160430716" duration="1067000" />
-      <workItem from="1652161538785" duration="15395000" />
+      <workItem from="1652161538785" duration="17105000" />
+      <workItem from="1652232120899" duration="25356000" />
     </task>
     <servers />
   </component>

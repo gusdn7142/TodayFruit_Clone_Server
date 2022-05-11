@@ -1,6 +1,8 @@
 package com.todayfruit.src.purchase.model.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.todayfruit.src.product.model.domain.ProductOption;
 import com.todayfruit.src.purchase.model.PurchaseStatus;
 import com.todayfruit.src.product.model.domain.Product;
@@ -36,6 +38,9 @@ public class Purchase {
     @ManyToOne(fetch = FetchType.LAZY)  //실무에서는 n+1 쿼리조회 문제 때문에 LAZY(지연 로딩만 사용한다.)
     @JoinColumn(name = "product_id")
     private Product product;  //상품 인덱스.
+    //@JsonManagedReference
+//    @JsonIgnore
+
 
 
     /*상품 인덱스 */

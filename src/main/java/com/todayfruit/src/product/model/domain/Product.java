@@ -1,16 +1,21 @@
 package com.todayfruit.src.product.model.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.todayfruit.src.product.model.ProductStatus;
+import com.todayfruit.src.purchase.model.domain.Purchase;
 import com.todayfruit.src.user.model.domain.User;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Getter
@@ -33,6 +38,10 @@ public class Product {
 
     @Column(nullable=false, columnDefinition="varchar(100)")  //NULL 허용여부와 타입 세부 지정
     private String title;  //상품 제목
+
+    @Column (nullable=false, columnDefinition ="TEXT")
+    private String image;   //상품 이미지
+
 
     @Column(nullable=false, columnDefinition="varchar(20)")  //NULL 허용여부와 타입 세부 지정
     private String price;  //상품 가격
@@ -77,20 +86,14 @@ public class Product {
 
 
 
+    //1:n 관계인 Purchase
+//    @OneToMany(mappedBy = "product")  //, cascade = CascadeType.ALL, orphanRemoval = true
+//    private List<Purchase> purchase = new ArrayList<>();
+    //@ToString.Exclude
+    //@JsonBackReference
 
-//    private String discountPrice(String price, int discountRate) {
-//
-//        String str_price = price.substring(0, price.length()-1);
-//        int num_price = Integer.parseInt(str_price);
-//
-//            switch (discountRate) {
-//                case 0:
-//                    return price;
-//                default:
-//                    return num_price - num_price * (discountRate / 100) + "원";
-//            }
-//
-//        }
+
+
 
 
 

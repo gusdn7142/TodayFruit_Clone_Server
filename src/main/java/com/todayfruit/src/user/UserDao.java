@@ -98,7 +98,7 @@ public interface UserDao extends JpaRepository<User, Long> {   //해당 엔티�
     void deleteUser(@Param("userId") Long userId );
 
 
-    /* 5.사용자 객체 불러오기   (회원 탈퇴 API) */
+    /* 5.사용자 객체 조회   (회원 탈퇴 API) */
     @Query(value="SELECT u FROM User u where u.id =:userId and u.status = 'ACTIVE'")
     User checkStatusUser(@Param("userId") Long userId );
 

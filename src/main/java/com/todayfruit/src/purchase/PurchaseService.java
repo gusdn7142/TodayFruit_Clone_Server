@@ -6,9 +6,9 @@ import com.todayfruit.src.product.ProductDao;
 import com.todayfruit.src.product.ProductOptionDao;
 import com.todayfruit.src.product.model.domain.Product;
 import com.todayfruit.src.product.model.domain.ProductOption;
-import com.todayfruit.src.product.model.request.PostProductReq;
 import com.todayfruit.src.purchase.model.domain.Purchase;
 import com.todayfruit.src.purchase.model.request.PostPurchaseReq;
+import com.todayfruit.src.purchase.model.response.GetPurchaseRes;
 import com.todayfruit.src.user.UserDao;
 import com.todayfruit.src.user.model.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +49,7 @@ public class PurchaseService {
             Product purchaseProduct = productDao.checkStatusPrdouct(productId);
 
             //상품 삭제여부 확인
-            if(productDao.checkStatusPrdouct(productId) == null){   //상품이 삭제되었다면..
+            if(purchaseProduct == null){   //상품이 삭제되었다면..
                 throw new BasicException(PATCH_PRODUCTS_DELETE_PRDOCUT);  //"삭제된 상품 입니다."
             }
 
@@ -82,7 +82,6 @@ public class PurchaseService {
             return "상품 구매 등록을 완료했습니다..";
 
         } catch (Exception exception) {
-            System.out.println(exception);
             throw new BasicException(DATABASE_ERROR_CREATE_PURCHASE);  //"상품 구매에 실패하였습니다."
         }
     }
@@ -93,6 +92,55 @@ public class PurchaseService {
 
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+    /* 18. 상품 주문 조회 API-  createPurchase() */
+    public List<GetPurchaseRes> getPurchaseInfo(Long userId) throws BasicException {
+
+
+        //사용자 id를 통해 사용자 객체 불러오기
+        User purchaseUser = userDao.checkStatusUser(userId);
+
+        //회원 삭제 여부 확인
+        if(purchaseUser == null){
+            throw new BasicException(PATCH_USERS_DELETE_USER);  //"이미 탈퇴된 계정입니다."
+        }
+
+
+        try{
+            //사용자 id를 통해 상품 주문 정보 조회
+            List<GetPurchaseRes> productPurchase = purchaseDao.getPurchaseInfo(purchaseUser);
+
+
+            return productPurchase;
+
+        } catch (Exception exception) {
+            System.out.println(exception);
+            throw new BasicException(DATABASE_ERROR_GET_FAIL_PURCHASE);  //"상품 주문 정보 조회에 실패하였습니다."
+        }
+
+    }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* 19. 상품 주문 취소 API - deletePurchaseInfo()   */
+    public void deletePurchaseInfo(Long purchaseId) throws BasicException {
+
+
+        //주문정보 삭제 여부 조회 (유저가 계속 클릭시..)
+        if(purchaseDao.checkStatusPurchase(purchaseId) == null){   //주문정보가 삭제되었다면..
+            throw new BasicException(PATCH_PRODUCTS_DELETE_PURCHASE);  //"삭제된 주문 정보입니다."
+        }
+
+
+        try{
+            //상품 주문 취소
+            purchaseDao.deletePurchaseInfo(purchaseId);
+
+        } catch(Exception exception){
+            throw new BasicException(DATABASE_ERROR_DELETE_PURCHASE);   //'해당 주문 상품정보 취소에 실패하였습니다.'
+        }
+
+    }
 
 
 

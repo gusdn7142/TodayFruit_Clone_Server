@@ -4,8 +4,11 @@ package com.todayfruit.src.purchase;
 import com.todayfruit.config.BasicException;
 import com.todayfruit.config.BasicResponse;
 import com.todayfruit.src.product.ProductService;
+import com.todayfruit.src.product.model.domain.Product;
+import com.todayfruit.src.product.model.domain.ProductOption;
 import com.todayfruit.src.product.model.request.PostProductReq;
 import com.todayfruit.src.purchase.model.request.PostPurchaseReq;
+import com.todayfruit.src.purchase.model.response.*;
 import com.todayfruit.src.user.LogoutDao;
 import com.todayfruit.src.user.UserDao;
 import com.todayfruit.src.user.model.domain.Logout;
@@ -88,6 +91,105 @@ public class PurchaseController {
         }
 
     }
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * 18. 주문한 상품 조회 API
+     * [GET] /purchases/:userId
+     * @return BaseResponse
+     */
+    // Body
+    @GetMapping("/{userId}") //
+    public BasicResponse getPurchaseInfo(@PathVariable("userId") Long userId ) {
+
+        try {
+            /* Access Token을 통한 사용자 인가 적용 */
+            Long userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
+
+            if (userId != userIdByAccessToken) {  //AccessToken 안의 userId와 직접 입력받은 userId가 같지 않다면
+                return new BasicResponse(INVALID_USER_JWT);  //권한이 없는 유저의 접근입니다.
+            }
+            /* Access Token을 통한 사용자 인가 적용 끝 */
+        } catch (BasicException exception) {
+            return new BasicResponse(exception.getStatus());
+        }
+
+
+        /* 로그아웃 상태 확인 구현 */
+        Optional<User> user = userDao.findById(userId);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+        Optional<Logout> userLogout = logoutDao.checkLogout(user);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+        if (!userLogout.isPresent()) {  //로그아웃된 상태이면
+            return new BasicResponse(PATCH_USERS_LOGOUT_USER); //"이미 로그아웃된 유저입니다."
+        }
+        /* 로그아웃 상태 확인 끝 */
+
+
+
+
+        try {
+            //주문한 상품 조회
+            List<GetPurchaseRes> result = purchaseService.getPurchaseInfo(userId);
+
+            return new BasicResponse(result);
+        } catch (BasicException exception) {
+            return new BasicResponse(exception.getStatus());
+        }
+
+    }
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * 19. 상품 주문 취소 API
+     * [PATCH] /purchases/:userId/:purchaseId/status
+     * @return BaseResponse
+     */
+
+    @PatchMapping("/{userId}/{purchaseId}/status")
+    public BasicResponse deletePurchaseInfo(@PathVariable("userId") Long userId, @PathVariable("purchaseId") Long purchaseId ) {
+
+
+        try {
+
+            /* Access Token을 통한 사용자 인가 적용 */
+            Long userIdByAccessToken = jwtService.validAccessToken();  //클라이언트에서 받아온 토큰에서 Id 추출
+
+            if(userId != userIdByAccessToken){  //AccessToken 안의 userId와 직접 입력받은 userId가 같지 않다면
+                return new BasicResponse(INVALID_USER_JWT);  //권한이 없는 유저의 접근입니다.
+            }
+            /* Access Token을 통한 사용자 인가 적용 끝 */
+
+            /* 로그아웃 상태 확인 구현 */
+            Optional<User> user = userDao.findById(userId);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+            Optional<Logout> userLogout = logoutDao.checkLogout(user);  //외래키 활용을 위해 해당 User 객체를 불러옴.
+            if(!userLogout.isPresent()){  //로그아웃된 상태이면
+                return new BasicResponse(PATCH_USERS_LOGOUT_USER); //"이미 로그아웃된 유저입니다."
+            }
+            /* 로그아웃 상태 확인 끝 */
+
+
+
+            //상품 주문 취소
+            purchaseService.deletePurchaseInfo(purchaseId);
+
+            String result = "해당 상품 주문이 취소되었습니다.";
+            return new BasicResponse(result);
+        } catch (BasicException exception) {
+            return new BasicResponse((exception.getStatus()));
+        }
+    }
+
+
 
 
 
