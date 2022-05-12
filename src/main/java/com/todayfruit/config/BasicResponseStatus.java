@@ -53,6 +53,12 @@ public enum BasicResponseStatus {  //enum 타입
     POST_PURCHASE_INVALID_PurchaseCount("FAIL", 2017, "구매 수량은 1~100개 까지만 입력 가능합니다."),
 
 
+    //Review 도메인
+    POST_REVIEWS_INVALID_CONTENT("FAIL", 2020, "한글은 최대 100자 까지만 입력 가능합니다."),
+    POST_REVIEWS_INVALID_SCORE("FAIL", 2021, "1~5점 사이로 입력해 주세요."),
+
+
+
 
     /**
      * 3000 : Response 오류 (의미적 Vdalidation 처리)
@@ -62,7 +68,7 @@ public enum BasicResponseStatus {  //enum 타입
     FAILED_TO_JOIN_CHECK("FAIL",3002,"가입되지 않은 사용자입니다."),
     PASSWORD_MATCH_FAIL("FAIL",3003,"잘못된 패스워드입니다."),
 
-    PATCH_USERS_DELETE_USER("FAIL",3004,"탈퇴된 계정입니다."),
+    PATCH_USERS_DELETE_USER("FAIL",3004,"회원 탈퇴된 계정입니다."),
     PATCH_USERS_LOGOUT_USER("FAIL",3005,"로그아웃된 유저입니다."),
 
 
@@ -74,6 +80,13 @@ public enum BasicResponseStatus {  //enum 타입
     //purchase 도메인
     PATCH_PRODUCTS_DELETE_PURCHASE("FAIL",3020,"삭제된 주문 정보입니다."),
 
+
+    //review 도메인
+
+    POST_REVIEWS_EXISTS_REVIEW("FAIL",3031,"이미 해당 상품의 리뷰를 작성하셨습니다."),
+    POST_REVIEWS_NOT_EXISTS_STAR("FAIL",3032,"리뷰 점수를 Star 이미지로 변환하는데 실패하였습니다."),
+    PATCH_REIVEWS_NOT_SAME_REVIEWER("FAIL",3033,"리뷰 작성자와 수정자가 일치하지 않습니다."),
+    PATCH_PRODUCTS_DELETE_REVIEW("FAIL",3034,"삭제된 리뷰입니다."),
 
     /**
      * 4000 : 서버(DB) 오류
@@ -112,9 +125,13 @@ public enum BasicResponseStatus {  //enum 타입
     //purchase 도메인
     DATABASE_ERROR_CREATE_PURCHASE("FAIL", 4032, "상품 구매에 실패하였습니다."),
     DATABASE_ERROR_GET_FAIL_PURCHASE("FAIL", 4033, "상품 주문 정보 조회에 실패하였습니다."),
-    DATABASE_ERROR_DELETE_PURCHASE("FAIL", 4033, "해당 주문 취소에 실패하였습니다.");
+    DATABASE_ERROR_DELETE_PURCHASE("FAIL", 4033, "해당 주문 취소에 실패하였습니다."),
 
 
+    //review 도메인
+    DATABASE_ERROR_CREATE_REVIEW("FAIL", 4040, "DB에 리뷰 등록이 실패하였습니다."),
+    DATABASE_ERROR_MODIFY_FAIL_REVIEW("FAIL", 4041, "상품 리뷰 수정시 오류가 발생하였습니다."),
+    DATABASE_ERROR_DELETE_REVIEWS("FAIL", 4042, "리뷰 삭제에 실패하였습니다.");
 
 
     private String responseStatus;
