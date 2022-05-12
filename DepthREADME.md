@@ -492,4 +492,68 @@
                         
             
             
+## 2022-05-12 진행상황
+#### 1. Review 엔티티 설계
+- review 테이블 설계 : 별점 (star) 칼럼 추가
+- Review 클래스 설계 : @Entity, @Table(name = "product"), @Column 등 활용
+- ReviewStatus 클래스 생성 : status 칼럼 표현을 위해 enum 형태로 지정  (INACTIVE가 0, ACTIVE가 1)
+- reviewScore 테이블 설계 : 리뷰 점수(1~5점)에 대한 별점을 저장한 테이블
+- ReviewScore 클래스 생성 :            
             
+
+#### 2. 상품 리뷰 작성 API 개발
+- Dto에 형식적 Validation 적용
+    - PostReviewReq(DTO 클래스) 구현 
+        - 리뷰 이미지, 리뷰 내용, 리뷰 점수 변수를 입력 받아 정규표현식 적용
+        - userId와 productId를 변환시킬 user, product 객체 생성
+        - 리뷰 점수를 별(star)로 변환시킬 star 변수 선언
+    - ReviewtController 구현 : @Valid, BindingResult 어노테이션 활용
+- 상품 등록 로직 구현
+    - ReviewService 구현
+        - userDao.checkStatusUser(userId) : 사용자 인덱스로 사용자 객체 불러오기
+        - productDao.checkStatusPrdouct(productId) : 상품 인덱스로 상품 객체 불러오기
+        - reviewDao.checkStatusReview(reviewer, reviewProduct) : 리뷰 중복 작성 검사
+        - reviewScoreDao.convertScore(postReviewReq.getScore() : 리뷰 점수에 맞는 별점을 불러와 DTO에 입력
+        - reviewDao.save(reviewCreate) : review DB에 리뷰 정보 저장
+    - ReviewDao 구현 : 리뷰 중복 작성 검사 함수인 checkStatusReview() 구현
+    - ReviewScoreDao 구현 : 리뷰 점수를 별점으로 변환하는 convertScore() 함수 구현 
+- Access Token을 통한 사용자 인가 구현 (+로그아웃 상태 확인)
+    - PurchaseController  구현 : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 + 로그아웃 상태 확인      
+            
+            
+#### 3. 상품 리뷰 조회 API 개발
+- Dto 설계
+    - GetReviewRes(DTO 클래스) 구현 : 리뷰 인덱스, 리뷰 별점, 사용자 이름, 리뷰 작성일, 리뷰 이미지, 리뷰 내용 변수 선언
+- 상품 리뷰 조회 로직 구현
+    - ReviewController 구현 
+    - ReviewService 구현 : 상품 삭제 여부 확인 + 상품 리뷰 정보 조회
+    - ReviewDao 구현 : 해당 상품의 리뷰를 모두 조회하는 getReviews() 함수 구현
+                       
+            
+#### 4. 상품 리뷰 수정 API 개발
+- Dto에 형식적 Validation 적용  
+    - 리뷰 내용, 리뷰 점수, 리뷰 이미지를 입력 받아 정규표현식 적용.
+    - 리뷰 별점은 리뷰 점수를 통해 이미지로 변환 예정
+    - PatchReviewReq (DTO 클래스) 구현  : @Size, @Max, @Min 어노테이션 추가
+    - ReviewController 구현 : @Valid, BindingResult 어노테이션 활용
+- 상품 리뷰 수정 로직 구현
+    - ReviewService 구현 
+        - reviewDao.checkReviewer(reviewId, reviewer) : 리뷰 작성자와 수정자 일치여부를 확인
+        - reviewDao.checkStatusReview(reviewId)  : 리뷰 삭제여부 조회 
+        - reviewScoreDao.convertScore(patchReviewReq.getScore() : 리뷰 점수에 맞는 별점 조회
+        - reviewDao.modifyReview(patchReviewReq.getScore(), ············, reviewId) : 리뷰 정보 수정         
+    - ReviewDao 구현 
+        - 리뷰 작성자와 수정자가 일치하는지를 확인하는 checkReviewer() 함수 구현 
+        - 리뷰 정보를 수정하는 modifyReview() 함수 구현        
+- Access Token을 통한 사용자 인가 구현 (+로그아웃 상태 확인)
+    - ReviewController 구현 : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 + 로그아웃 상태 확인 + 리뷰 주인 확인              
+
+ 
+#### 5. 상품 리뷰 삭제 API 개발
+- 상품 삭제 로직 구현
+    - ReviewService 구현 
+     - checkReviewer() 함수 적용 : 리뷰 작성자와 수정자가 일치하는지 확인 
+     - deleteReview() 함수 적용 : 상품 리뷰 삭제
+    - ReviewDao 구현 : deleteReview() 함수 구현
+- Access Token을 통한 사용자 인가 구현 (+로그아웃 상태 확인)
+    - ReviewController 구현  : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 + 로그아웃 상태 확인 + 리뷰 주인 확인                  
