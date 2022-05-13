@@ -97,3 +97,8 @@
 
 ### JPA 공부
     - Post 테이블 만들기 - Postmapping 
+
+## 2022월 05월 12일
+
+### JPA 공부
+    - Post 테이블 만들기 - Postmapping 
