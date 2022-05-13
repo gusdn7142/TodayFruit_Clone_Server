@@ -26,64 +26,29 @@ public interface ProductDao extends JpaRepository<Product, Long> {
 
 
     /* 10. 상품 정보 수정 API */
-    //배송타입 수정
     @Modifying
     @Transactional
-    @Query(value="update Product set deliveryType = :deliveryType where id = :productId and status = 'ACTIVE'\n")
-    void modifyDeliveryType(@Param("deliveryType") String deliveryType, @Param("productId") Long productId );
-
-    //상품 제목 수정
-    @Modifying
-    @Transactional
-    @Query(value="update Product set title = :title where id = :productId and status = 'ACTIVE'\n")
-    void modifyTitle(@Param("title") String title, @Param("productId") Long productId );
-
-    //상품 이미지 수정
-    @Modifying
-    @Transactional
-    @Query(value="update Product set image = :image where id = :productId and status = 'ACTIVE'\n")
-    void modifyImage(@Param("image") String image, @Param("productId") Long productId );
-
-    //상품 가격 수정
-    @Modifying
-    @Transactional
-    @Query(value="update Product set price = :price where id = :productId and status = 'ACTIVE'\n")
-    void modifyPrice(@Param("price") String price, @Param("productId") Long productId );
-
-
-    //상품 할인율 수정
-    @Modifying
-    @Transactional
-    @Query(value="update Product set discountRate = :discountRate where id = :productId and status = 'ACTIVE'\n")
-    void modifyDiscountRate(@Param("discountRate") int discountRate, @Param("productId") Long productId );
-
-
-    //상품 판매수량 수정
-    @Modifying
-    @Transactional
-    @Query(value="update Product set saleCount = :saleCount where id = :productId and status = 'ACTIVE'\n")
-    void modifySaleCount(@Param("saleCount") int saleCount, @Param("productId") Long productId );
-
-
-    //상품 설명 수정
-    @Modifying
-    @Transactional
-    @Query(value="update Product set description = :description where id = :productId and status = 'ACTIVE'\n")
-    void modifyDescription(@Param("description") String description, @Param("productId") Long productId );
-
-
-    //상품 배송일 수정
-    @Modifying
-    @Transactional
-    @Query(value="update Product set deliveryDay = :deliveryDay where id = :productId and status = 'ACTIVE'\n")
-    void modifyDeliveryDay(@Param("deliveryDay") Date deliveryType, @Param("productId") Long productId );
-
-    //상품 할인가격 변경
-    @Modifying
-    @Transactional
-    @Query(value="update Product set discountPrice = :discountPrice where id = :productId and status = 'ACTIVE'\n")
-    void modifyDiscountPrice(@Param("discountPrice") String discountPrice, @Param("productId") Long productId );
-
+    @Query(value="update Product set deliveryType = :deliveryType," +
+            "title = :title, " +
+            "image = :image, " +
+            "price = :price, " +
+            "discountRate = :discountRate, " +
+            "saleCount = :saleCount, " +
+            "description = :description, " +
+            "deliveryDay = :deliveryDay, " +
+            "discountPrice = :discountPrice " +
+            " where id = :productId and status = 'ACTIVE'\n")
+    void modifyProduct(@Param("deliveryType") String deliveryType,
+                       @Param("title") String title,
+                       @Param("image") String image,
+                       @Param("price") String price,
+                       @Param("discountRate") int discountRate,
+                       @Param("saleCount") int saleCount,
+                       @Param("description") String description,
+                       @Param("deliveryDay") Date deliveryDay,
+                       @Param("discountPrice") String discountPrice,
+                       @Param("productId") Long productId
+                       );
 
     /* 10. 상품 정보 수정 API 끝 */
 

@@ -109,7 +109,7 @@ public class ReviewController {
         try {
 
             //전체 상품 조회
-            List<GetReviewRes> getReviewRes = reviewService.getReviews(productId);  //userService.java로 patchUserReq객체 값 전송
+            List<GetReviewRes> getReviewRes = reviewService.getReviews(productId);
 
             return new BasicResponse(getReviewRes);
         } catch (BasicException exception) {

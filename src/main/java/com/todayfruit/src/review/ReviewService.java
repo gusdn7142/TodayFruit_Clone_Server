@@ -113,7 +113,7 @@ public class ReviewService {
 
         } catch (Exception exception) {
             System.out.println(exception);
-            throw new BasicException(DATABASE_ERROR_GET_FAIL_PRODUCTS);  //전체상품 조회 실패 에러
+            throw new BasicException(DATABASE_ERROR_GET_FAIL_REVIEW);  //"상품 리뷰 조회에 실패하였습니다."
         }
 
 

@@ -244,7 +244,6 @@ public class UserService {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /* 7. 로그아웃 - logout()  */
-    @Transactional
     public void logout(Long userId) throws BasicException {    //UserController.java에서 객체 값( id, nickName)을 받아와서...
 
 
@@ -267,7 +266,6 @@ public class UserService {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /* 8. Access token 재발급 - createAccessToken()  */
-    @Transactional
     public PostAccessTokenRes createAccessToken(Long userId, String refreshToken) throws BasicException {    //UserController.java에서 객체 값( id, nickName)을 받아와서...
 
 
@@ -289,7 +287,7 @@ public class UserService {
             return postAccessTokenRes;
 
         } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_FAIL_LOGOUT);   //"로그아웃에 실패 하였습니다."
+            throw new BasicException(DATABASE_ERROR_FAI_Reissuance_AccessToken);   //"Access 토큰 재발급에 실패하였습니다."
         }
     }
 

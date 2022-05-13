@@ -70,7 +70,6 @@ public class ProductService {
             BeanUtils.copyProperties(postProductReq,productCreate);  //postProductReq(dto) 객체의 내용을 productCreate 옮긴다. (DB에 저장하기 위함.)
             //productCreate.setUser(seller);
 
-            //System.out.println(productCreate.getDeliveryType());
 
 
             productDao.save(productCreate);   //"product" DB에 정보 저장
@@ -112,111 +111,50 @@ public class ProductService {
     public String modifyProduct(PatchProductReq patchProductReq, Long productId) throws BasicException {
 
 
-        //DB에 상품 정보 수정 (배송타입 ,상품제목, 상품가격, 할인율 , 판매수량, 상품설명, 배송일  등)
+        //(할인율과 상품 가격 활용해서) 할인된 상품 가격 넣기
+        String str_price = patchProductReq.getPrice().substring(0, patchProductReq.getPrice().length()-1);  //상품가격에서 "원" 제거
+        int num_price = Integer.parseInt(str_price);  //int형으로 전환
+        String discountPrice = null;
+
+        switch (patchProductReq.getDiscountRate()) {  //할인율로 할인가격 계산
+            case 0:
+                discountPrice = patchProductReq.getDiscountPrice();
+                break;
+            default:
+                discountPrice = (int)(num_price - num_price * (patchProductReq.getDiscountRate() / 100.0)) + "원";   //1000 - 1000*0.1
+                break;
+        }
+        patchProductReq.setDiscountPrice(discountPrice);
+
 
         try{
-            //배송 타입 변경
+            //DB에서 상품 정보 수정 (배송타입 ,상품제목, 상품 이미지, 상품가격, 할인율 , 판매수량, 상품설명, 배송일  등)
             if(patchProductReq.getDeliveryType() != null){
-                productDao.modifyDeliveryType(patchProductReq.getDeliveryType(), productId);
+                productDao.modifyProduct(patchProductReq.getDeliveryType()
+                                        ,patchProductReq.getTitle()
+                                        ,patchProductReq.getImage()
+                                        ,patchProductReq.getPrice()
+                                        ,patchProductReq.getDiscountRate()
+                                        ,patchProductReq.getSaleCount()
+                                        ,patchProductReq.getDescription()
+                                        ,patchProductReq.getDeliveryDay()
+                                        ,patchProductReq.getDiscountPrice()
+                                        ,productId);
             }
         } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_DeliveryType);
-        }
-
-        try{
-            //상품 제목 변경
-            if(patchProductReq.getTitle() != null){
-                productDao.modifyTitle(patchProductReq.getTitle(), productId);
-            }
-        } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Title);
-        }
-
-
-        try{
-            //상품 이미지 변경
-            if(patchProductReq.getImage() != null){
-                productDao.modifyImage(patchProductReq.getImage(), productId);
-            }
-        } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Image);
+            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCT);
         }
 
 
-
-
-        try{
-            //상품 가격 변경 & 상품 할인율 변경 & 상품 할인가격 생성
-            if(patchProductReq.getPrice() != null & patchProductReq.getDiscountRate() >= 0){
-
-                //(할인율과 상품 가격 활용해서) 할인된 상품 가격 넣기
-                String str_price = patchProductReq.getPrice().substring(0, patchProductReq.getPrice().length()-1);  //상품가격에서 "원" 제거
-                int num_price = Integer.parseInt(str_price);  //int형으로 전환
-                String discountPrice = null;
-
-                switch (patchProductReq.getDiscountRate()) {  //할인율로 할인가격 계산
-                    case 0:
-                        discountPrice = patchProductReq.getDiscountPrice();
-                        break;
-                    default:
-                        discountPrice = (int)(num_price - num_price * (patchProductReq.getDiscountRate() / 100.0)) + "원";   //1000 - 1000*0.1
-                        break;
-                }
-                patchProductReq.setDiscountPrice(discountPrice);
-
-                //DB에 변경사항 반영
-                productDao.modifyPrice(patchProductReq.getPrice(), productId);
-                productDao.modifyDiscountRate(patchProductReq.getDiscountRate(), productId);
-                productDao.modifyDiscountPrice(patchProductReq.getDiscountPrice(), productId);
-            }
-        } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Price);
-        }
-
-
-        try{
-            //상품 판매수량 변경
-            if(patchProductReq.getSaleCount() >= 10){
-                System.out.println(patchProductReq.getSaleCount());
-                productDao.modifySaleCount(patchProductReq.getSaleCount(), productId);
-            }
-        } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_SaleCount);
-        }
-
-
-
-        try{
-            //상품 설명 변경
-            if(patchProductReq.getDescription() != null){
-                productDao.modifyDescription(patchProductReq.getDescription(), productId);
-            }
-        } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Description);
-        }
-
-
-
-        try{
-            //상품 배송일 변경
-            if(patchProductReq.getDeliveryDay() != null){
-                productDao.modifyDeliveryDay(patchProductReq.getDeliveryDay(), productId);
-            }
-        } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_DeliveryDay);
-        }
 
 
         try{
             //상품 옵션 변경
             Optional<Product> product = productDao.findById(productId);   //상품 인덱스를 통해 상품 객체를 불러옴
 
-            if(patchProductReq.getOptionName().size() > 0){
                 for(int i=0; i < patchProductReq.getOptionName().size(); i++) {
                     productOptionDao.modifyOptionName(patchProductReq.getOptionName().get(i), patchProductReq.getProductOptionId().get(i) ,product.get());
                 }
-
-            }
         } catch(Exception exception){
             throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName);
         }

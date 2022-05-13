@@ -42,11 +42,11 @@ public enum BasicResponseStatus {  //enum 타입
     POST_PRODUCTS_INVALID_DeliveryType("FAIL", 2010, "배송타입 형식을 확인해 주세요."),
     POST_PRODUCTS_INVALID_Title("FAIL", 2011, "상품제목 형식을 확인해 주세요."),
     POST_PRODUCTS_INVALID_Price("FAIL", 2012, "상품가격 형식을 확인해 주세요."),
-    POST_PRODUCTS_EMPTY_IMAGE("FAIL", 2012, "상품 이미지를 입력해 주세요."),
-    POST_PRODUCTS_INVALID_DiscountRate("FAIL", 2013, "할인율 형식을 확인해 주세요."),
-    POST_PRODUCTS_INVALID_saleCount("FAIL", 2014, "판매수량 형식을 확인해 주세요. (최소 10개, 최대 3000개)"),
-    POST_PRODUCTS_EMPTY_DeliveryDay("FAIL", 2015, "배송일을 입력해 주세요."),
-    POST_PRODUCT_OPTIONS_INVALID_optionName("FAIL", 2016, "상품옵션 형식을 확인해 주세요."),
+    POST_PRODUCTS_EMPTY_IMAGE("FAIL", 2013, "상품 이미지를 입력해 주세요."),
+    POST_PRODUCTS_INVALID_DiscountRate("FAIL", 2014, "할인율 형식을 확인해 주세요."),
+    POST_PRODUCTS_INVALID_saleCount("FAIL", 2015, "판매수량 형식을 확인해 주세요. (최소 10개, 최대 3000개)"),
+    POST_PRODUCTS_EMPTY_DeliveryDay("FAIL", 2016, "배송일을 입력해 주세요."),
+    POST_PRODUCT_OPTIONS_INVALID_optionName("FAIL", 2017, "상품옵션 형식을 확인해 주세요."),
 
 
     //purchase 도메인
@@ -54,8 +54,8 @@ public enum BasicResponseStatus {  //enum 타입
 
 
     //Review 도메인
-    POST_REVIEWS_INVALID_CONTENT("FAIL", 2020, "한글은 최대 100자 까지만 입력 가능합니다."),
-    POST_REVIEWS_INVALID_SCORE("FAIL", 2021, "1~5점 사이로 입력해 주세요."),
+    POST_REVIEWS_INVALID_CONTENT("FAIL", 2020, "리뷰 내용은 최대 한글 100자 까지만 입력 가능합니다."),
+    POST_REVIEWS_INVALID_SCORE("FAIL", 2021, "리뷰 점수는 1~5점 사이로 입력해 주세요."),
 
 
 
@@ -84,7 +84,7 @@ public enum BasicResponseStatus {  //enum 타입
     //review 도메인
 
     POST_REVIEWS_EXISTS_REVIEW("FAIL",3031,"이미 해당 상품의 리뷰를 작성하셨습니다."),
-    POST_REVIEWS_NOT_EXISTS_STAR("FAIL",3032,"리뷰 점수를 Star 이미지로 변환하는데 실패하였습니다."),
+    POST_REVIEWS_NOT_EXISTS_STAR("FAIL",3032,"리뷰 점수를 별점으로 변환하는데 실패하였습니다."),
     PATCH_REIVEWS_NOT_SAME_REVIEWER("FAIL",3033,"리뷰 작성자와 수정자가 일치하지 않습니다."),
     PATCH_PRODUCTS_DELETE_REVIEW("FAIL",3034,"삭제된 리뷰입니다."),
 
@@ -104,19 +104,13 @@ public enum BasicResponseStatus {  //enum 타입
     DATABASE_ERROR_MODIFY_FAIL_USER_IMAGE("FAIL", 4008, "이미지 변경시 오류가 발생하였습니다."),
     DATABASE_ERROR_DELETE_USER("FAIL", 4009, "회원탈퇴에 실패하였습니다."),
     DATABASE_ERROR_FAIL_LOGOUT("FAIL", 4010, "로그아웃에 실패 하였습니다."),
+    DATABASE_ERROR_FAI_Reissuance_AccessToken("FAIL", 4011, "Access 토큰 재발급에 실패하였습니다."),
 
 
     //product 도메인
-    DATABASE_ERROR_CREATE_PRODUCT("FAIL", 4020, "DB에 상품 등록이 실패하였습니다."),
-    DATABASE_ERROR_MODIFY_FAIL_DeliveryType("FAIL", 4021, "상품 배송 타입 변경시 오류가 발생하였습니다."),
-    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Title("FAIL", 4022, "상품 제목 변경시 오류가 발생하였습니다."),
-    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Image("FAIL", 4022, "상품 이미지 변경시 오류가 발생하였습니다."),
-    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Price("FAIL", 4023, "상품 가격 변경시 오류가 발생하였습니다."),
-    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_DiscountRate("FAIL", 4024, "상품 할인율 변경시 오류가 발생하였습니다."),
-    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_SaleCount("FAIL", 4025, "상품 판매수량 변경시 오류가 발생하였습니다."),
-    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_Description("FAIL", 4026, "상품 설명 변경시 오류가 발생하였습니다."),
-    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_DeliveryDay("FAIL", 4027, "상품 배송일 변경시 오류가 발생하였습니다."),
-    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName("FAIL", 4028, "상품 옵션명 변경시 오류가 발생하였습니다."),
+    DATABASE_ERROR_CREATE_PRODUCT("FAIL", 4020, "DB에 상품 등록에 실패하였습니다."),
+    DATABASE_ERROR_MODIFY_FAIL_PRODUCT("FAIL", 4021, "상품 정보 변경시 오류가 발생하였습니다."),
+    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName("FAIL", 4028, "상품 옵션 변경시 오류가 발생하였습니다."),
     DATABASE_ERROR_GET_FAIL_PRODUCTS("FAIL", 4029, "상품 조회에 실패하였습니다."),
     DATABASE_ERROR_DELETE_PRODUCTS("FAIL", 4030, "상품 삭제에 실패하였습니다."),
     DATABASE_ERROR_GET_FAIL_PRODUCT_OPTIONS("FAIL", 4031, "상품 옵션 조회에 실패하였습니다."),
@@ -131,7 +125,9 @@ public enum BasicResponseStatus {  //enum 타입
     //review 도메인
     DATABASE_ERROR_CREATE_REVIEW("FAIL", 4040, "DB에 리뷰 등록이 실패하였습니다."),
     DATABASE_ERROR_MODIFY_FAIL_REVIEW("FAIL", 4041, "상품 리뷰 수정시 오류가 발생하였습니다."),
-    DATABASE_ERROR_DELETE_REVIEWS("FAIL", 4042, "리뷰 삭제에 실패하였습니다.");
+    DATABASE_ERROR_DELETE_REVIEWS("FAIL", 4042, "리뷰 삭제에 실패하였습니다."),
+    DATABASE_ERROR_GET_FAIL_REVIEW("FAIL", 4043, "상품 리뷰 조회에 실패하였습니다.");
+
 
 
     private String responseStatus;
