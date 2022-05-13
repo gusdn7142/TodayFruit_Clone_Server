@@ -557,3 +557,16 @@
     - ReviewDao 구현 : deleteReview() 함수 구현
 - Access Token을 통한 사용자 인가 구현 (+로그아웃 상태 확인)
     - ReviewController 구현  : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 + 로그아웃 상태 확인 + 리뷰 주인 확인                  
+            
+## 2022-05-13 진행상황
+#### 1.  EC2서버에 API 배포
+- 상품 리뷰 작성 API, 상품 리뷰 조회 API, 상품 리뷰 수정 API, 상품 리뷰 삭제 API 배포
+- 배포 순서
+    - 로컬에서 깃허브로 .jar 파일 업로드     
+    - EC2 서버의 TodayFruit_Clone_Server 디렉터리 경로에서 .jar 파일 실행하여 API 오작동 여부 확인
+- API 명세서에 반영   
+#### 2. API 유지보수
+- 상품 정보 수정 API의 로직 변경 : 기존의 각 칼럼마다 Update문을 수행하는 방식에서 통합하여 1번의 Update 문만 실행하는 방식으로 변경
+- 로직 변경 이유 : 클라이언트는 어떤 상품 정보가 변경되었는지 모르기 때문에 모든 칼럼을 전송해 줄것으로 생각하여 로직을 변경했습니다.   
+- 상품 관련 API의 Validation 처리 점검    
+            
