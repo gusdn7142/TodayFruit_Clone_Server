@@ -573,6 +573,6 @@
 ## 2022-05-14 진행상황
 #### 1. 프로젝트 재정비
 - 백엔드 개발 프로세스 조사 : 개발자 커뮤니티에 문의한 결과... 개발서버(ex, 로컬)에서 개발 → 테스트 서버에서 기능 검사 및 보안취약점 테스트 → 배포 서버에 배포 방식을 사용하는것을 확인했습니다.
-- Test DB와 Prod DB 분리 : 기존 TodayFruit DB외에 TodayFruit_depth와 TodayFruit_steve DB를 추가하여 applicaiton.yml로 연결하여 앞으로는 Prod DB에서는 작업하지 않고 depth DB에서만 작업을 하고 테스트할 계획이고 배포시에 빌드는 한번만 진행해도 되고 jar을 실행시에는 실행 명령어에 -Dspring.profiles.active=prod 설정 값만 적용해 주면 될것 같습니다.
+- Test DB와 Prod DB 분리 : 기존 TodayFruit DB외에 TodayFruit_depth DB와 TodayFruit_steve DB를 추가하여 applicaiton.yml로 연결하여 앞으로는 TodayFruit DB에서는 작업하지 않고 TodayFruit_depth DB에서만 작업을 하고 테스트할 계획이고 배포시에 빌드는 한번만 진행해도 되고 jar을 실행시에는 실행 명령어에 -Dspring.profiles.active=prod 설정 값만 적용해 주면 될것 같습니다.
 
     
