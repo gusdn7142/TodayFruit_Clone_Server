@@ -557,3 +557,22 @@
     - ReviewDao 구현 : deleteReview() 함수 구현
 - Access Token을 통한 사용자 인가 구현 (+로그아웃 상태 확인)
     - ReviewController 구현  : 입력받은 Access Token에서 userId 추출 후 입력받은 userId와 비교하여 사용자 접근 권한 부여 + 로그아웃 상태 확인 + 리뷰 주인 확인                  
+            
+## 2022-05-13 진행상황
+#### 1.  EC2서버에 API 배포
+- 상품 리뷰 작성 API, 상품 리뷰 조회 API, 상품 리뷰 수정 API, 상품 리뷰 삭제 API 배포
+- 배포 순서
+    - 로컬에서 깃허브로 .jar 파일 업로드     
+    - EC2 서버의 TodayFruit_Clone_Server 디렉터리 경로에서 .jar 파일 실행하여 API 오작동 여부 확인
+- API 명세서에 반영   
+#### 2. API 유지보수
+- 상품 정보 수정 API의 로직 변경 : 기존의 각 칼럼마다 Update문을 수행하는 방식에서 통합하여 1번의 Update 문만 실행하는 방식으로 변경
+- 로직 변경 이유 : 클라이언트는 어떤 상품 정보가 변경되었는지 모르기 때문에 모든 칼럼을 전송해 줄것으로 생각하여 로직을 변경했습니다.   
+- 상품 관련 API의 Validation 처리 점검    
+            
+## 2022-05-14 ~ 05-15 진행상황
+#### 1. 프로젝트 재정비
+- 백엔드 개발 프로세스 조사 : 개발자 커뮤니티에 문의한 결과... 개발서버(ex, 로컬)에서 개발 → 테스트 서버에서 기능 검사 및 보안취약점 테스트 → 배포 서버에 배포 방식을 사용하는것을 확인했습니다.
+- Test DB와 Prod DB 분리 : 기존 TodayFruit DB외에 TodayFruit_depth DB와 TodayFruit_steve DB를 추가하여 applicaiton.yml로 연결하여 앞으로는 TodayFruit DB에서는 작업하지 않고 TodayFruit_depth DB에서만 작업을 하고 테스트할 계획이고 배포시에 빌드는 한번만 진행해도 되고 jar을 실행시에는 실행 명령어에 -Dspring.profiles.active=prod 설정 값만 적용해 주면 될것 같습니다.
+- Spring Data JPA만 사용해서 20개의 API를 개발해 보았는데, save()와 findBy~() 함수등이 실제 어떻게 구현되어 있는지, 연관관계 매핑 방식을 어떻게 적용하는게 최적일지, 구현한 코드가 너무 복잡한건 아닌가 라는 궁금증이 생겼습니다. 그리고 Spring의 동작원리에 대해 조금더 공부해 보아야 겠다고 생각했습니다. 그래서 2~3주간 추가적인 API를 구현하지 않고 유지보수 위주로 일정을 진행하겠습니다. 남은 시간은 Java와 Spring 기초, 알고리즘 공부로 채우도록 하겠습니다. 
+    
