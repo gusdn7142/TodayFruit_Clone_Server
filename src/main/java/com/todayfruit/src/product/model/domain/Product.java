@@ -72,7 +72,6 @@ public class Product {
 
 
 
-
     @Column (columnDefinition = "varchar(10) default 'ACTIVE'")
     @Enumerated(EnumType.STRING)
     private ProductStatus status;    //데이터 상태 (INACTIVE가 0, ACTIVE가 1)

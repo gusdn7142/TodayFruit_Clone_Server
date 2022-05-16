@@ -91,6 +91,8 @@ public class ReviewService {
 
 
 
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
     /* 21. 상품 리뷰 조회 -  getReviews() */
     public List<GetReviewRes> getReviews(Long productId) throws BasicException {
@@ -158,7 +160,7 @@ public class ReviewService {
 
         //리뷰 삭제 여부 조회 (유저가 계속 클릭시..)
         if(reviewDao.checkStatusReview(reviewId) == null){   //리뷰가 삭제되었다면..
-            throw new BasicException(PATCH_PRODUCTS_DELETE_REVIEW);  //"삭제된 리뷰 입니다."
+            throw new BasicException(PATCH_REVIEWS_DELETE_REVIEW);  //"삭제된 리뷰 입니다."
         }
 
 
@@ -191,7 +193,7 @@ public class ReviewService {
 
         //리뷰 삭제 여부 조회 (유저가 계속 클릭시..)
         if(reviewDao.checkStatusReview(reviewId) == null){   //리뷰가 삭제되었다면..
-            throw new BasicException(PATCH_PRODUCTS_DELETE_REVIEW);  //"삭제된 리뷰 입니다."
+            throw new BasicException(PATCH_REVIEWS_DELETE_REVIEW);  //"삭제된 리뷰 입니다."
         }
 
 

@@ -147,5 +147,40 @@ public class PurchaseService {
 
 
 
+////////////////////////////////////////////////////////////////////////////////////////
+    /* 상품을 구매한 유저인지 검증 -  checkPurchaser()  (20. 상품 리뷰 작성 API) */
+    public void checkPurchaser(Long userId, Long productId) throws BasicException {
+
+
+        //사용자 인덱스를 통해 사용자 객체를 불러옴
+        User purchaseuser = userDao.checkStatusUser(userId);
+
+        //회원 탈퇴 여부 확인 (유저가 계속 클릭시..)
+        if(purchaseuser == null){
+            throw new BasicException(PATCH_USERS_DELETE_USER);  //"회원 탈퇴된 계정입니다."
+        }
+
+
+        //상품 id를 통해 상품 객체 불러오기
+        Product purchaseProduct = productDao.checkStatusPrdouct(productId);
+
+        //상품 삭제여부 확인
+        if(purchaseProduct == null){   //상품이 삭제되었다면..
+            throw new BasicException(PATCH_PRODUCTS_DELETE_PRDOCUT);  //"삭제된 상품 입니다."
+        }
+
+
+
+        //상품을 구매한 유저인지 확인
+        if(purchaseDao.checkPurchaser(purchaseProduct, purchaseuser) == null){
+            throw new BasicException(POST_REIVEWS_NOT_PURCHASER);  //"상품을 구매한 유저가 아닙니다."
+        }
+
+
+    }
+
+
+
+
 
 }

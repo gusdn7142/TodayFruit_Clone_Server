@@ -82,11 +82,13 @@ public enum BasicResponseStatus {  //enum 타입
 
 
     //review 도메인
-
     POST_REVIEWS_EXISTS_REVIEW("FAIL",3031,"이미 해당 상품의 리뷰를 작성하셨습니다."),
     POST_REVIEWS_NOT_EXISTS_STAR("FAIL",3032,"리뷰 점수를 별점으로 변환하는데 실패하였습니다."),
     PATCH_REIVEWS_NOT_SAME_REVIEWER("FAIL",3033,"리뷰 작성자와 수정자가 일치하지 않습니다."),
-    PATCH_PRODUCTS_DELETE_REVIEW("FAIL",3034,"삭제된 리뷰입니다."),
+    PATCH_REVIEWS_DELETE_REVIEW("FAIL",3034,"삭제된 리뷰입니다."),
+    POST_REIVEWS_NOT_PURCHASER("FAIL",3035,"상품을 구매한 유저가 아닙니다."),
+
+
 
     /**
      * 4000 : 서버(DB) 오류

@@ -48,4 +48,22 @@ public interface PurchaseDao extends JpaRepository<Purchase, Long> {
     void deletePurchaseInfo(@Param("purchaseId") Long purchaseId);
 
 
+
+
+    /* 상품을 구매한 유저인지 검증 -  checkPurchaser()  (20. 상품 리뷰 작성 API) */
+    @Query(value="SELECT p FROM Purchase p where p.product =:productId and p.user = :userId and p.status = 'ACTIVE'")
+    Purchase checkPurchaser(@Param("productId") Product product, @Param("userId") User user );
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

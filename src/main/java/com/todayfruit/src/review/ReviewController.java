@@ -3,8 +3,10 @@ package com.todayfruit.src.review;
 
 import com.todayfruit.config.BasicException;
 import com.todayfruit.config.BasicResponse;
+import com.todayfruit.src.product.ProductService;
 import com.todayfruit.src.product.model.domain.Product;
 import com.todayfruit.src.product.model.request.PatchProductReq;
+import com.todayfruit.src.purchase.PurchaseService;
 import com.todayfruit.src.review.model.request.PatchReviewReq;
 import com.todayfruit.src.review.model.request.PostReviewReq;
 import com.todayfruit.src.review.model.response.GetReviewRes;
@@ -33,7 +35,7 @@ public class ReviewController {
     private final JwtService jwtService;
     private final UserDao userDao;
     private final LogoutDao logoutDao;
-
+    private final PurchaseService purchaseService;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
@@ -43,7 +45,7 @@ public class ReviewController {
      */
     // Body
     @PostMapping("/{userId}/{productId}") //
-    public BasicResponse createReview(@PathVariable("userId") Long userId, @PathVariable("productId") Long productId  , @Valid @RequestBody PostReviewReq postReviewReq, BindingResult bindingResult ) {  //@RequestBody PostUserReq postUserReq
+    public BasicResponse createReview(@PathVariable("userId") Long userId, @PathVariable("productId") Long productId , @Valid @RequestBody PostReviewReq postReviewReq, BindingResult bindingResult ) {  //@RequestBody PostUserReq postUserReq
 
         try {
             /* Access Token을 통한 사용자 인가 적용 */
@@ -66,6 +68,17 @@ public class ReviewController {
             return new BasicResponse(PATCH_USERS_LOGOUT_USER); //"이미 로그아웃된 유저입니다."
         }
         /* 로그아웃 상태 확인 끝 */
+
+
+
+        try {
+            /* 상품을 구매한 유저인지 검증 */
+            purchaseService.checkPurchaser(userId, productId);
+            /* 상품을 구매한 유저인지 검증 끝 */
+        } catch(BasicException exception){
+            return new BasicResponse(exception.getStatus());
+        }
+
 
 
 
