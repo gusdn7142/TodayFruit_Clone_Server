@@ -575,4 +575,26 @@
 - 백엔드 개발 프로세스 조사 : 개발자 커뮤니티에 문의한 결과... 개발서버(ex, 로컬)에서 개발 → 테스트 서버에서 기능 검사 및 보안취약점 테스트 → 배포 서버에 배포 방식을 사용하는것을 확인했습니다.
 - Test DB와 Prod DB 분리 : 기존 TodayFruit DB외에 TodayFruit_depth DB와 TodayFruit_steve DB를 추가하여 applicaiton.yml로 연결하여 앞으로는 TodayFruit DB에서는 작업하지 않고 TodayFruit_depth DB에서만 작업을 하고 테스트할 계획이고 배포시에 빌드는 한번만 진행해도 되고 jar을 실행시에는 실행 명령어에 -Dspring.profiles.active=prod 설정 값만 적용해 주면 될것 같습니다.
 - Spring Data JPA만 사용해서 20개의 API를 개발해 보았는데, save()와 findBy~() 함수등이 실제 어떻게 구현되어 있는지, 연관관계 매핑 방식을 어떻게 적용하는게 최적일지, 구현한 코드가 너무 복잡한건 아닌가 라는 궁금증이 생겼습니다. 그리고 Spring의 동작원리에 대해 조금더 공부해 보아야 겠다고 생각했습니다. 그래서 2~3주간 추가적인 API를 구현하지 않고 유지보수 위주로 일정을 진행하겠습니다. 남은 시간은 Java와 Spring 기초, 알고리즘 공부로 채우도록 하겠습니다. 
-    
+
+            
+## 2022-05-16 진행상황
+#### 1. Update 상품 리뷰 작성 API
+- 상품 구매자만 리뷰 작성이 가능하도록 Validation 처리 코드 추가
+- 상품 구매유저 검증 로직 구현
+    - ReviewController 구현 : productService의 checkPurchaser() 함수 호출 
+    - PurchaseService 구현: PurchaseDao의 checkPurchaser() 함수 호출 후 purchase 객체가 null 일경우 “상품을 구매한 유저가 아닙니다” 에러 메시지로 응답
+    - PurchaseDao 구현 : Purchase 엔티티에 해당 user객체와 product 객체가 매핑되는 레코드가 있는지 확인 후 Purchase 객체 리턴 
+- 로컬에서 API 테스트
+- EC2에 API 배포
+- API 명세서에 반영 
+            
+            
+            
+   
+      
+            
+            
+            
+            
+            
+            
