@@ -583,7 +583,7 @@
 - 상품 구매유저 검증 로직 구현
     - ReviewController 구현 : productService의 checkPurchaser() 함수 호출 
     - PurchaseService 구현: PurchaseDao의 checkPurchaser() 함수 호출 후 purchase 객체가 null 일경우 “상품을 구매한 유저가 아닙니다” 에러 메시지로 응답
-    - PurchaseDao 구현 : Purchase 엔티티에 해당 user객체와 product 객체가 매핑되는 레코드가 있는지 확인 후 Purchase 객체 리턴 
+    - PurchaseDao 구현 : Purchase 엔티티에 해당 user객체와 product 객체가 매핑되는 레코드가 있는지 확인 후 Purchase 객체를 리턴하는 checkPurchaser() 함수 구현 
 - 로컬에서 API 테스트
 - EC2에 API 배포
 - API 명세서에 반영 
