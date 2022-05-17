@@ -74,8 +74,7 @@ public class ProductController {
         /* 유효성 검사 구현부 */
         if (bindingResult.hasErrors()) {   //에러가 있다면
             List<ObjectError> errorlist = bindingResult.getAllErrors();  //모든 에러를 뽑아온다.
-//
-            System.out.println(bindingResult.getAllErrors());
+
             if (errorlist.get(0).getDefaultMessage().equals("배송타입 형식을 확인해 주세요.")) {
                 return new BasicResponse(POST_PRODUCTS_INVALID_DeliveryType);
             } else if (errorlist.get(0).getDefaultMessage().equals("상품제목 형식을 확인해 주세요.")) {

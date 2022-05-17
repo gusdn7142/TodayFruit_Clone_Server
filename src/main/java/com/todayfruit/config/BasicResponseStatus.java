@@ -74,6 +74,7 @@ public enum BasicResponseStatus {  //enum 타입
 
     //product 도메인
     PATCH_PRODUCTS_DELETE_PRDOCUT("FAIL",3010,"삭제된 상품입니다."),
+    PATCH_PRODUCTS_NOT_EXISTS_PRDOCUT_OPTION("FAIL", 3012, "해당 상품 옵션 인덱스에 해당하는 상품을 찾을 수 없습니다."),
     GET_PRODUCTS_NOT_EXISTS_PRDOCUT_OPTION("FAIL",3011,"상품 옵션을 찾을 수 없습니다."),
 
 
@@ -112,7 +113,7 @@ public enum BasicResponseStatus {  //enum 타입
     //product 도메인
     DATABASE_ERROR_CREATE_PRODUCT("FAIL", 4020, "DB에 상품 등록에 실패하였습니다."),
     DATABASE_ERROR_MODIFY_FAIL_PRODUCT("FAIL", 4021, "상품 정보 변경시 오류가 발생하였습니다."),
-    DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName("FAIL", 4028, "상품 옵션 변경시 오류가 발생하였습니다."),
+    //DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName("FAIL", 4028, "상품 옵션 변경시 오류가 발생하였습니다."),
     DATABASE_ERROR_GET_FAIL_PRODUCTS("FAIL", 4029, "상품 조회에 실패하였습니다."),
     DATABASE_ERROR_DELETE_PRODUCTS("FAIL", 4030, "상품 삭제에 실패하였습니다."),
     DATABASE_ERROR_GET_FAIL_PRODUCT_OPTIONS("FAIL", 4031, "상품 옵션 조회에 실패하였습니다."),

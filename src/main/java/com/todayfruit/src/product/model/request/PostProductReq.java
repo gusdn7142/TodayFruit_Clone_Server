@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.List;
@@ -57,13 +58,9 @@ public class PostProductReq {
     //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     //@Pattern(regexp = "^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$", message="배송일 형식을 확인해 주세요. (ex, '2019-10-31')")
     //@NotBlank(message="배송일을 입력해 주세요.")
+
     private Date deliveryDay;  //배송일 : "2019-10-31" 형식   (아마도 날짜 선택을 통해 폼을 전송해 줄것이다!!!)
     //Date, Datetime을 고려하였지만, Validation 처리를 위해 String으로 결정!! (클라이언트 입장에서도 생각해보니 String으로 보내야 편한다!)
-
-
-
-
-
 
 
 
@@ -76,8 +73,9 @@ public class PostProductReq {
 
 
     //상품 옵션에 해당 (productOption 테이블)
-//    @Pattern(regexp = "^[0-9a-zA-Z가-힣\\s.]{4,20}$", message="상품옵션 형식을 확인해 주세요.")
-    private List<String> optionName;
+    private List<@Pattern(regexp = "^[0-9a-zA-Z가-힣\\s.,()]{2,20}$", message="상품옵션 형식을 확인해 주세요.") String> optionName;
 
-    //String optionName;
+
+
+
 }

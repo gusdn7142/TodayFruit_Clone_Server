@@ -61,7 +61,9 @@ public class PatchProductReq {
     //상품 옵션에 해당 (productOption 테이블)
 //    @Pattern(regexp = "^[0-9a-zA-Z가-힣\\s.]{4,20}$", message="상품옵션 형식을 확인해 주세요.")
     private List<Long> productOptionId;
-    private List<String> optionName;
+    private List<@Pattern(regexp = "^[0-9a-zA-Z가-힣\\s.,()]{2,20}$", message="상품옵션 형식을 확인해 주세요.") String> optionName;
+
+
 
 
 //    JSONObject productOption = new JSONObject();

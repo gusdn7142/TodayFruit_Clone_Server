@@ -21,7 +21,7 @@ public interface ProductOptionDao extends JpaRepository<ProductOption, Long> {
     @Modifying
     @Transactional
     @Query(value="update ProductOption set optionName = :optionName where id = :productOptionId and product = :productId and status = 'ACTIVE'\n")
-    void modifyOptionName(@Param("optionName") String optionName, @Param("productOptionId") Long productOptionId , @Param("productId") Product product );
+    int modifyOptionName(@Param("optionName") String optionName, @Param("productOptionId") Long productOptionId , @Param("productId") Product product );
     /* 10. 상품 정보 수정 API */
 
 

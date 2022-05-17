@@ -148,16 +148,27 @@ public class ProductService {
 
 
 
-        try{
-            //상품 옵션 변경
-            Optional<Product> product = productDao.findById(productId);   //상품 인덱스를 통해 상품 객체를 불러옴
+//        try{
+        /* 상품 옵션 변경 */
 
-                for(int i=0; i < patchProductReq.getOptionName().size(); i++) {
-                    productOptionDao.modifyOptionName(patchProductReq.getOptionName().get(i), patchProductReq.getProductOptionId().get(i) ,product.get());
-                }
-        } catch(Exception exception){
-            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName);
+        //상품 id를 통해 상품 객체 불러오기
+        Product purchaseProduct = productDao.checkStatusPrdouct(productId);
+
+        //상품 삭제여부 확인
+        if(purchaseProduct == null){   //상품이 삭제되었다면..
+            throw new BasicException(PATCH_PRODUCTS_DELETE_PRDOCUT);  //"삭제된 상품 입니다."
         }
+
+
+        for(int i=0; i < patchProductReq.getOptionName().size(); i++) {
+                    int result = productOptionDao.modifyOptionName(patchProductReq.getOptionName().get(i), patchProductReq.getProductOptionId().get(i) , purchaseProduct);
+                    if(result == 0){  //상품 옵션 변경에 실패하면 (0이면)
+                        throw new BasicException(PATCH_PRODUCTS_NOT_EXISTS_PRDOCUT_OPTION);
+                    }
+                }
+//        } catch(Exception exception){
+//            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName);
+//        }
 
             return "상품 정보 변경에 성공하였습니다.";
     }
