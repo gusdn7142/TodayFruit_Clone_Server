@@ -594,13 +594,13 @@
 #### 1. Update 상품 등록 API
 - 변경사항 요약 : 상품 옵션 명 입력에 대한 형식적 형식적 Validation 처리 추가            
 - Dto에 형식적 Validation 적용 (상품 등록/수정 API 모두 해당)            
-    - PostProductReq 구현 : optionName 변수에 @Pattern 어노테이션 적용             
+    - PostProductReq 구현 : List<String> 타입의 optionName 변수에 @Pattern 어노테이션 적용             
     - ProductController 구현 :  @Valid, BindingResult 어노테이션 적용        
                         
 #### 2. Update 상품 정보 수정 API
 - 변경사항 요약 : 상품 옵션 명 입력에 대한 형식적 형식적 Validation 처리 추가, 상품 옵션 번호에 대한 의미적 Validation 처리 추가  
 - Dto에 형식적 Validation 적용      
-    - PostProductReq 구현 : optionName 변수에 @Pattern 어노테이션 적용             
+    - PostProductReq 구현 : List<String> 타입의 optionName 변수에 @Pattern 어노테이션 적용             
     - ProductController 구현 :  @Valid, BindingResult 어노테이션 적용    
 - 상품 옵션 번호에 대한 의미적 Validation 처리 추가
     - ProductService구현: modifyOptionName() 함수의 반환값이 0이면 “해당 상품 옵션 인덱스에 해당하는 상품을 찾을 수 없습니다." 메시지 출력             
