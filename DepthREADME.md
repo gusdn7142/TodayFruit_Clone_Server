@@ -580,7 +580,7 @@
             
 ## 2022-05-16 진행상황
 #### 1. Update 상품 리뷰 작성 API
-- 상품 구매자만 리뷰 작성이 가능하도록 Validation 처리 코드 추가
+- 변경사항 요약 : 상품 구매자만 리뷰 작성이 가능하도록 Validation 처리 코드 추가
 - 상품 구매유저 검증 로직 구현
     - ReviewController 구현 : productService의 checkPurchaser() 함수 호출 
     - PurchaseService 구현: PurchaseDao의 checkPurchaser() 함수 호출 후 purchase 객체가 null 일경우 “상품을 구매한 유저가 아닙니다” 에러 메시지로 응답
@@ -592,15 +592,14 @@
             
 ## 2022-05-17 진행상황
 #### 1. Update 상품 등록 API
-- 상품 옵션 명 입력에 대한 형식적 형식적 Validation 처리 추가            
+- 변경사항 요약 : 상품 옵션 명 입력에 대한 형식적 형식적 Validation 처리 추가            
 - Dto에 형식적 Validation 적용 (상품 등록/수정 API 모두 해당)            
     - PostProductReq 구현 : optionName 변수에 @Pattern 어노테이션 적용             
     - ProductController 구현 :  @Valid, BindingResult 어노테이션 적용        
                         
 #### 2. Update 상품 정보 수정 API
-- 상품 옵션 명 입력에 대한 형식적 형식적 Validation 처리 추가   
-- 상품 옵션 번호에 대한 의미적 Validation 처리 추가            
-- Dto에 형식적 Validation 적용 (상품 등록/수정 API 모두 해당)            
+- 변경사항 요약 : 상품 옵션 명 입력에 대한 형식적 형식적 Validation 처리 추가, 상품 옵션 번호에 대한 의미적 Validation 처리 추가  
+- Dto에 형식적 Validation 적용      
     - PostProductReq 구현 : optionName 변수에 @Pattern 어노테이션 적용             
     - ProductController 구현 :  @Valid, BindingResult 어노테이션 적용    
 - 상품 옵션 번호에 대한 의미적 Validation 처리 추가
