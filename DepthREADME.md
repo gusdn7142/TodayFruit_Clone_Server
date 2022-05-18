@@ -562,8 +562,9 @@
 #### 1.  EC2서버에 API 배포
 - 상품 리뷰 작성 API, 상품 리뷰 조회 API, 상품 리뷰 수정 API, 상품 리뷰 삭제 API 배포
 - 배포 순서
+    - 로컬에서 API 테스트              
     - 로컬에서 깃허브로 .jar 파일 업로드     
-    - EC2 서버의 TodayFruit_Clone_Server 디렉터리 경로에서 .jar 파일 실행하여 API 오작동 여부 확인
+    - 깃허브에서 jar 파일 받아와 EC2 서버에 API 배포
 - API 명세서에 반영   
 #### 2. API 유지보수
 - 상품 정보 수정 API의 로직 변경 : 기존의 각 칼럼마다 Update문을 수행하는 방식에서 통합하여 1번의 Update 문만 실행하는 방식으로 변경
@@ -579,7 +580,7 @@
             
 ## 2022-05-16 진행상황
 #### 1. Update 상품 리뷰 작성 API
-- 상품 구매자만 리뷰 작성이 가능하도록 Validation 처리 코드 추가
+- 변경사항 요약 : 상품 구매자만 리뷰 작성이 가능하도록 Validation 처리 코드 추가
 - 상품 구매유저 검증 로직 구현
     - ReviewController 구현 : productService의 checkPurchaser() 함수 호출 
     - PurchaseService 구현: PurchaseDao의 checkPurchaser() 함수 호출 후 purchase 객체가 null 일경우 “상품을 구매한 유저가 아닙니다” 에러 메시지로 응답
@@ -589,7 +590,34 @@
 - API 명세서에 반영 
             
             
+## 2022-05-17 진행상황
+#### 1. Update 상품 등록 API
+- 변경사항 요약 : 상품 옵션 명 입력에 대한 형식적 형식적 Validation 처리 추가            
+- Dto에 형식적 Validation 적용 (상품 등록/수정 API 모두 해당)            
+    - PostProductReq 구현 : List\<String> 타입의 optionName 변수에 @Pattern 어노테이션 적용             
+    - ProductController 구현 :  @Valid, BindingResult 어노테이션 적용        
+                        
+#### 2. Update 상품 정보 수정 API
+- 변경사항 요약 : 상품 옵션 명 입력에 대한 형식적 형식적 Validation 처리 추가, 상품 옵션 번호에 대한 의미적 Validation 처리 추가  
+- Dto에 형식적 Validation 적용      
+    - PostProductReq 구현 : List\<String> 타입의 optionName 변수에 @Pattern 어노테이션 적용             
+    - ProductController 구현 :  @Valid, BindingResult 어노테이션 적용    
+- 상품 옵션 번호에 대한 의미적 Validation 처리 추가
+    - ProductService구현: modifyOptionName() 함수의 반환값이 0이면 “해당 상품 옵션 인덱스에 해당하는 상품을 찾을 수 없습니다." 메시지 출력             
+    - ProductOptionDao구현 : 기존 void 타입이였던 modifyOptionName() 함수의 반환값을 int형으로 변경            
+
+#### 3.  EC2서버에 API 배포
+- 상품 등록 API, 상품 정보 수정 API
+- 배포 순서
+    - 로컬에서 API 테스트        
+    - 로컬에서 깃허브로 .jar 파일 업로드     
+    - 깃허브에서 jar 파일 받아와 EC2 서버에 API 배포
+- API 명세서에 반영               
+           
             
+            
+            
+                        
    
       
             
