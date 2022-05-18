@@ -25,6 +25,11 @@ public interface ProductOptionDao extends JpaRepository<ProductOption, Long> {
     /* 10. 상품 정보 수정 API */
 
 
+    /* 해당 상품의 상품옵션 개수 출력 (10. 상품 정보 수정 API에서 활용) */
+    @Query(value=" SELECT count(p) FROM ProductOption p where p.product =:productId and p.status = 'ACTIVE'")
+    int getPrdocutOptionCount(@Param("productId") Product product);
+
+
 
     /* 13. 상품 옵션 정보 삭제 API */
     @Modifying

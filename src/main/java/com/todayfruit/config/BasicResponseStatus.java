@@ -76,6 +76,7 @@ public enum BasicResponseStatus {  //enum 타입
     PATCH_PRODUCTS_DELETE_PRDOCUT("FAIL",3010,"삭제된 상품입니다."),
     PATCH_PRODUCTS_NOT_EXISTS_PRDOCUT_OPTION("FAIL", 3012, "해당 상품 옵션 인덱스에 해당하는 상품을 찾을 수 없습니다."),
     GET_PRODUCTS_NOT_EXISTS_PRDOCUT_OPTION("FAIL",3011,"상품 옵션을 찾을 수 없습니다."),
+    PATCH_PRODUCTS_DIFFERENT_COUNT_PRDOCUT_OPTION("FAIL", 3013, "해당 상품의 옵션 개수에 맞개 옵션 인덱스와 옵션 명을 입력해 주세요."),
 
 
     //purchase 도메인

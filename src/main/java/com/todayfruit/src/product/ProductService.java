@@ -111,6 +111,7 @@ public class ProductService {
     public String modifyProduct(PatchProductReq patchProductReq, Long productId) throws BasicException {
 
 
+
         //(할인율과 상품 가격 활용해서) 할인된 상품 가격 넣기
         String str_price = patchProductReq.getPrice().substring(0, patchProductReq.getPrice().length()-1);  //상품가격에서 "원" 제거
         int num_price = Integer.parseInt(str_price);  //int형으로 전환
@@ -149,23 +150,29 @@ public class ProductService {
 
 
 //        try{
-        /* 상품 옵션 변경 */
-
         //상품 id를 통해 상품 객체 불러오기
-        Product purchaseProduct = productDao.checkStatusPrdouct(productId);
+        Product product = productDao.checkStatusPrdouct(productId);
 
         //상품 삭제여부 확인
-        if(purchaseProduct == null){   //상품이 삭제되었다면..
+        if(product == null){   //상품이 삭제되었다면..
             throw new BasicException(PATCH_PRODUCTS_DELETE_PRDOCUT);  //"삭제된 상품 입니다."
         }
 
 
+        //실제 옵션 수보다 옵션인덱스와 옵션 명 개수가 일치하지 않을 경우 에러메시지 표출
+        int count = productOptionDao.getPrdocutOptionCount(product);
+        if(count != patchProductReq.getOptionName().size() || count != patchProductReq.getProductOptionId().size() ){
+            throw new BasicException(PATCH_PRODUCTS_DIFFERENT_COUNT_PRDOCUT_OPTION);  //"해당 상품의 옵션 개수에 맞게 입력해 주세요."
+        }
+
+
+        /* 상품 옵션 변경 */
         for(int i=0; i < patchProductReq.getOptionName().size(); i++) {
-                    int result = productOptionDao.modifyOptionName(patchProductReq.getOptionName().get(i), patchProductReq.getProductOptionId().get(i) , purchaseProduct);
+                    int result = productOptionDao.modifyOptionName(patchProductReq.getOptionName().get(i), patchProductReq.getProductOptionId().get(i) , product);
                     if(result == 0){  //상품 옵션 변경에 실패하면 (0이면)
                         throw new BasicException(PATCH_PRODUCTS_NOT_EXISTS_PRDOCUT_OPTION);
                     }
-                }
+        }
 //        } catch(Exception exception){
 //            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName);
 //        }
