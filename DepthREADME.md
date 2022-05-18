@@ -590,7 +590,7 @@
 - API 명세서에 반영 
             
             
-## 2022-05-17 진행상황
+## 2022-05-17 ~ 18 진행상황
 #### 1. Update 상품 등록 API
 - 변경사항 요약 : 상품 옵션 명 입력에 대한 형식적 형식적 Validation 처리 추가            
 - Dto에 형식적 Validation 적용 (상품 등록/수정 API 모두 해당)            
@@ -598,13 +598,13 @@
     - ProductController 구현 :  @Valid, BindingResult 어노테이션 적용        
                         
 #### 2. Update 상품 정보 수정 API
-- 변경사항 요약 : 상품 옵션 명 입력에 대한 형식적 형식적 Validation 처리 추가, 상품 옵션 번호에 대한 의미적 Validation 처리 추가  
+- 변경사항 요약 : 상품 옵션 명 입력에 대한 형식적 형식적 Validation 처리 추가, 상품 옵션 번호와 개수에 대한 의미적 Validation 처리 추가
 - Dto에 형식적 Validation 적용      
     - PostProductReq 구현 : List\<String> 타입의 optionName 변수에 @Pattern 어노테이션 적용             
     - ProductController 구현 :  @Valid, BindingResult 어노테이션 적용    
 - 상품 옵션 번호에 대한 의미적 Validation 처리 추가
-    - ProductService구현: modifyOptionName() 함수의 반환값이 0이면 “해당 상품 옵션 인덱스에 해당하는 상품을 찾을 수 없습니다." 메시지 출력             
-    - ProductOptionDao구현 : 기존 void 타입이였던 modifyOptionName() 함수의 반환값을 int형으로 변경            
+    - ProductService구현: modifyOptionName() 함수의 반환값이 0이면 “해당 상품 옵션 인덱스에 해당하는 상품을 찾을 수 없습니다." 메시지 출력,  getPrdocutOptionCount() 함수를 통해 입력한 옵션 수와 옵션 명의 개수가 실제 옵션 수와 다를 경우“해당 상품의 옵션 개수에 맞게 입력해 주세요.”라는 에러메시지 표출             
+    - ProductOptionDao구현 : 기존 void 타입이였던 modifyOptionName() 함수의 반환값을 int형으로 변경, 상품의 옵션개수를 출력하는 getPrdocutOptionCount() 함수 구현            
 
 #### 3.  EC2서버에 API 배포
 - 상품 등록 API, 상품 정보 수정 API
@@ -614,8 +614,6 @@
     - 깃허브에서 jar 파일 받아와 EC2 서버에 API 배포
 - API 명세서에 반영               
            
-            
-            
             
                         
    
