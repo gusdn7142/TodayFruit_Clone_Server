@@ -39,7 +39,7 @@ public class ProductService {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
     /* 9. 상품 등록 -  createProduct() */
-    @Transactional
+    @Transactional(rollbackFor = {Exception.class})
     public String createProduct(PostProductReq postProductReq, Long userId) throws BasicException {
 
 
@@ -113,7 +113,7 @@ public class ProductService {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
     /* 10. 상품 정보 수정 -  modifyProduct() */
-    @Transactional
+    @Transactional(rollbackFor = {Exception.class})
     public String modifyProduct(PatchProductReq patchProductReq, Long productId) throws BasicException {
 
 
