@@ -8,10 +8,10 @@
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/todayfruit/src/product/ProductService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponseStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/config/BasicResponseStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductOptionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductOptionDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/domain/ProductOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/product/model/domain/ProductOption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/UserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todayfruit/src/user/model/domain/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +85,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.20344828" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.annotationProcessors" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
@@ -182,7 +182,11 @@
       <workItem from="1652700273927" duration="27000" />
       <workItem from="1652703292083" duration="2427000" />
       <workItem from="1652775256846" duration="7948000" />
-      <workItem from="1652850372585" duration="3532000" />
+      <workItem from="1652850372585" duration="4941000" />
+      <workItem from="1653299267403" duration="21000" />
+      <workItem from="1653630705239" duration="1292000" />
+      <workItem from="1654057472447" duration="245000" />
+      <workItem from="1654078751095" duration="8623000" />
     </task>
     <servers />
   </component>

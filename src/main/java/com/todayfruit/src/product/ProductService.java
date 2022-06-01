@@ -19,6 +19,7 @@ import com.todayfruit.src.user.model.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -38,6 +39,7 @@ public class ProductService {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
     /* 9. 상품 등록 -  createProduct() */
+    @Transactional
     public String createProduct(PostProductReq postProductReq, Long userId) throws BasicException {
 
 
@@ -77,6 +79,7 @@ public class ProductService {
 
 
 
+
             //상품 인덱스를 통해 상품 객체를 불러옴
             Optional<Product> product = productDao.findById(productCreate.getId());   //product_id로 상품 객체를 불러옴.
 
@@ -91,7 +94,9 @@ public class ProductService {
 
                 productOptionListCreate.add(productOptionCreate);                       ///List 객체 ("productOptionListCreate")에 상품 옵션 객체를 1개씩 담는다.
             }
-            productOptionDao.saveAll(productOptionListCreate);
+
+
+            productOptionDao.saveAll(productOptionListCreate);  //상품 옵션 등록
 
 
             return "상품 등록에 성공하였습니다.";
@@ -108,6 +113,7 @@ public class ProductService {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
     /* 10. 상품 정보 수정 -  modifyProduct() */
+    @Transactional
     public String modifyProduct(PatchProductReq patchProductReq, Long productId) throws BasicException {
 
 
@@ -170,7 +176,7 @@ public class ProductService {
         for(int i=0; i < patchProductReq.getOptionName().size(); i++) {
                     int result = productOptionDao.modifyOptionName(patchProductReq.getOptionName().get(i), patchProductReq.getProductOptionId().get(i) , product);
                     if(result == 0){  //상품 옵션 변경에 실패하면 (0이면)
-                        throw new BasicException(PATCH_PRODUCTS_NOT_EXISTS_PRDOCUT_OPTION);
+                        throw new BasicException(PATCH_PRODUCTS_NOT_EXISTS_PRDOCUT_OPTION);  //해당 상품 옵션 인덱스에 해당하는 상품을 찾을 수 없습니다.
                     }
         }
 //        } catch(Exception exception){

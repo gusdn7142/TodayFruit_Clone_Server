@@ -11,6 +11,8 @@ import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -58,6 +60,10 @@ public class User {
     @Column (columnDefinition = "timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updateAt; //갱신 시각
 
+
+//    //영속성 전이(삭제)를 위해 선언
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)  //orphanRemoval=true
+//    private List<Logout> logout = new ArrayList<Logout>();
 
 
 

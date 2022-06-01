@@ -24,7 +24,7 @@ public class ProductOption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)   //DDL문이 생성될때 적용되는 것이다!!
     private Long id;  //상품 옵션 인덱스
 
-    @Column(nullable=true, columnDefinition="varchar(20) default '쿠배송'")  //NULL 허용여부와 타입 세부 지정
+    @Column(nullable=true, columnDefinition="varchar(20)")  //NULL 허용여부와 타입 세부 지정
     private String optionName;  //상품 옵션 이름
 
 
