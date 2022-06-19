@@ -13,9 +13,11 @@ import com.todayfruit.src.user.model.domain.Logout;
 import com.todayfruit.src.user.model.domain.User;
 import com.todayfruit.util.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -43,9 +45,11 @@ public class ProductController {
      * [POST] /products/:userId
      * @return BaseResponse
      */
-    // Body
-    @PostMapping("/{userId}") //
-    public BasicResponse createProduct(@PathVariable("userId") Long userId  , @Valid @RequestBody PostProductReq postProductReq, BindingResult bindingResult ) {  //@RequestBody PostUserReq postUserReq
+    @PostMapping(value = "/{userId}")      //, consumes = {"multipart/form-data"}
+    public BasicResponse createProduct(@PathVariable("userId") Long userId,
+                                       @Valid @RequestPart("postProductReq") PostProductReq postProductReq, BindingResult bindingResult,
+                                       @RequestPart("imageFile") MultipartFile imageFile) {  //@RequestBody PostUserReq postUserReq
+
 
         try {
             /* Access Token을 통한 사용자 인가 적용 */
@@ -71,6 +75,9 @@ public class ProductController {
 
 
 
+
+
+
         /* 유효성 검사 구현부 */
         if (bindingResult.hasErrors()) {   //에러가 있다면
             List<ObjectError> errorlist = bindingResult.getAllErrors();  //모든 에러를 뽑아온다.
@@ -81,8 +88,6 @@ public class ProductController {
                 return new BasicResponse(POST_PRODUCTS_INVALID_Title);
             } else if (errorlist.get(0).getDefaultMessage().equals("상품가격 형식을 확인해 주세요.")) {
                 return new BasicResponse(POST_PRODUCTS_INVALID_Price);
-            } else if (errorlist.get(0).getDefaultMessage().equals("상품 이미지를 입력해 주세요.")) {
-                return new BasicResponse(POST_PRODUCTS_EMPTY_IMAGE);
             } else if (errorlist.get(0).getDefaultMessage().equals("할인율 형식을 확인해 주세요.")) {
                 return new BasicResponse(POST_PRODUCTS_INVALID_DiscountRate);
             }
@@ -95,21 +100,25 @@ public class ProductController {
             else if (errorlist.get(0).getDefaultMessage().equals("상품옵션 형식을 확인해 주세요.")) {
                 return new BasicResponse(POST_PRODUCT_OPTIONS_INVALID_optionName);
             }
-
+        }
+        if (imageFile.isEmpty()) {   //이미지가 비었다면
+            return new BasicResponse(POST_PRODUCTS_EMPTY_IMAGE);
         }
         /* 유효성 검사 구현 끝*/
 
-        //System.out.println(postProductReq.getDeliveryType());
 
 
         try {
             //DB에 상품 등록
-            String responseMessage = productService.createProduct(postProductReq, userId);
+            String responseMessage = productService.createProduct(postProductReq, userId, imageFile);
 
             return new BasicResponse(responseMessage);
         } catch (BasicException exception) {
             return new BasicResponse(exception.getStatus());
         }
+
+
+
 
     }
 

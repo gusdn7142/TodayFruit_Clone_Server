@@ -92,6 +92,9 @@ public enum BasicResponseStatus {  //enum 타입
 
 
 
+
+
+
     /**
      * 4000 : 서버(DB) 오류
      */
@@ -130,7 +133,13 @@ public enum BasicResponseStatus {  //enum 타입
     DATABASE_ERROR_CREATE_REVIEW("FAIL", 4040, "DB에 리뷰 등록이 실패하였습니다."),
     DATABASE_ERROR_MODIFY_FAIL_REVIEW("FAIL", 4041, "상품 리뷰 수정시 오류가 발생하였습니다."),
     DATABASE_ERROR_DELETE_REVIEWS("FAIL", 4042, "리뷰 삭제에 실패하였습니다."),
-    DATABASE_ERROR_GET_FAIL_REVIEW("FAIL", 4043, "상품 리뷰 조회에 실패하였습니다.");
+    DATABASE_ERROR_GET_FAIL_REVIEW("FAIL", 4043, "상품 리뷰 조회에 실패하였습니다."),
+
+
+
+    //AWS S3 파일 업로드 관련
+    S3_ERROR_INCORRECT_FILENAME("FAIL", 4200, "S3에 업로드될 파일의 형식이 올바르지 않습니다."),
+    S3_ERROR_UPLOAD_FILE("FAIL", 4201, "S3에 파일 업로드에 실패하였습니다.");
 
 
 

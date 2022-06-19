@@ -102,7 +102,7 @@ public class UserService {
 
 
         //jwt 발급 (accessToken, refreshToken)
-        User userLogin = userDao.findByEmail(postLoginReq.getEmail());           //userIdx를 보내기 위함 (이미 앞에서 검증하여 오류X)
+        User userLogin = userDao.checkByemail(postLoginReq.getEmail());           //userIdx를 보내기 위함 (이미 앞에서 검증하여 오류X)
         String accessToken = jwtservice.createAccessToken(userLogin.getId());    //accessToken 발급 : 사용자 인가 절차 구현 (만료시간 3시간)
         String refreshToken = jwtservice.createRefreshToken(userLogin.getId());    //refreshToken 발급  : access 토큰 발급 용도 (만료시간 1개월)
 

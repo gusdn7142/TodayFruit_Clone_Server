@@ -47,11 +47,9 @@ src/main/java/com/todayfruit/config/secret
 
 #out/production/resources
 
-
-
-
-
-
+#Test info
+build/classes/java/main/com/todayfruit/util/AwsS3Controller.class
+src/main/java/com/todayfruit/util/AwsS3Controller.java
 
 
 

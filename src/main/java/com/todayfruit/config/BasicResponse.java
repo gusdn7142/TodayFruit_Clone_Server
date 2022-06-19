@@ -43,7 +43,7 @@ public class BasicResponse {  //제네릭
     /* 요청에 실패한 경우 */
     public BasicResponse(BasicResponseStatus status) {
         this.responseStatus = status.getResponseStatus();  //ex, DATABASE_ERROR의 FAIL에 해당
-        this.responseCode = status.getResponseCode();  //ex, DATABASE_ERROR의 5000에 해당
+        this.responseCode = status.getResponseCode();  //ex, DATABASE_ERROR의 4000에 해당
         this.message = status.getMessage();  //ex, DATABASE_ERROR의 "DB에서 조회에 실해하였습니다."에 해당
     }
 

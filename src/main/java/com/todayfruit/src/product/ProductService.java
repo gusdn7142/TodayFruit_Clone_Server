@@ -6,6 +6,7 @@ package com.todayfruit.src.product;
 
 
 import com.todayfruit.config.BasicException;
+import com.todayfruit.util.AwsS3Service;
 import com.todayfruit.src.product.model.domain.Product;
 import com.todayfruit.src.product.model.domain.ProductOption;
 import com.todayfruit.src.product.model.request.PatchProductReq;
@@ -16,11 +17,17 @@ import com.todayfruit.src.product.model.response.GetProductRes;
 import com.todayfruit.src.product.model.response.GetProductsRes;
 import com.todayfruit.src.user.UserDao;
 import com.todayfruit.src.user.model.domain.User;
+import com.todayfruit.util.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import com.todayfruit.config.secret.Secret;
 
+
+import java.net.URI;
 import java.util.*;
 
 import static com.todayfruit.config.BasicResponseStatus.*;
@@ -32,15 +39,16 @@ public class ProductService {
     private final ProductDao productDao;
     private final UserDao userDao;
     private final ProductOptionDao productOptionDao;
+    private final AwsS3Service awsS3Service;
     //private final JwtService jwtservice;
 
 
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
     /* 9. 상품 등록 -  createProduct() */
     @Transactional(rollbackFor = {Exception.class})
-    public String createProduct(PostProductReq postProductReq, Long userId) throws BasicException {
+    public String createProduct(PostProductReq postProductReq, Long userId, @RequestPart MultipartFile imageFile ) throws BasicException {
 
 
         //(할인율과 상품 가격 활용해서) 할인된 상품 가격 넣기
@@ -60,6 +68,16 @@ public class ProductService {
 
 
 
+        //UUID가 적용된 이미지 파일명 리턴
+        String UUID_fileName = awsS3Service.createFileNameToDB(imageFile);
+
+        //DB에 업로드할 파일명 DTO에 저장
+        postProductReq.setImage(Secret.AWS_S3_CONNECT_URL+UUID_fileName);
+
+
+
+
+
         //DB에 상품 등록 (배송타입 ,상품제목, 상품 이미지, 상품가격, 할인율 , 판매수량, 상품설명, 배송일  등)
         try{
             //판매자 인덱스를 통해 판매자 객체를 불러옴
@@ -72,7 +90,7 @@ public class ProductService {
             BeanUtils.copyProperties(postProductReq,productCreate);  //postProductReq(dto) 객체의 내용을 productCreate 옮긴다. (DB에 저장하기 위함.)
             //productCreate.setUser(seller);
 
-
+            //System.out.println(productCreate.getImage());
 
             productDao.save(productCreate);   //"product" DB에 정보 저장
             //System.out.println(productCreate.getId());
@@ -99,11 +117,21 @@ public class ProductService {
             productOptionDao.saveAll(productOptionListCreate);  //상품 옵션 등록
 
 
-            return "상품 등록에 성공하였습니다.";
+
+
+
 
         } catch (Exception exception) {
             throw new BasicException(DATABASE_ERROR_CREATE_PRODUCT);  //상품 등록 실패 에러
         }
+
+
+        //S3에 이미지 파일 업로드
+        URI imageUrlList = awsS3Service.uploadFile(imageFile, UUID_fileName);  //이미지 파일과 UUID가 적용된 파일명 인수로 전달
+
+
+        return "상품 등록에 성공하였습니다.";
+
     }
 
 
