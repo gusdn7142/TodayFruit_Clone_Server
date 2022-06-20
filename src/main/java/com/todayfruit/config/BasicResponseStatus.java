@@ -139,7 +139,8 @@ public enum BasicResponseStatus {  //enum 타입
 
     //AWS S3 파일 업로드 관련
     S3_ERROR_INCORRECT_FILENAME("FAIL", 4200, "S3에 업로드될 파일의 형식이 올바르지 않습니다."),
-    S3_ERROR_UPLOAD_FILE("FAIL", 4201, "S3에 파일 업로드에 실패하였습니다.");
+    S3_ERROR_UPLOAD_FILE("FAIL", 4201, "S3에 파일 업로드에 실패하였습니다."),
+    S3_ERROR_DELETE_FILE("FAIL", 4202, "S3에서 파일 삭제에 실패하였습니다.");
 
 
 

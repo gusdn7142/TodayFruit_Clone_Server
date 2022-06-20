@@ -142,7 +142,7 @@ public class ProductService {
 //////////////////////////////////////////////////////////////////////////////////////////////////
     /* 10. 상품 정보 수정 -  modifyProduct() */
     @Transactional(rollbackFor = {Exception.class})
-    public String modifyProduct(PatchProductReq patchProductReq, Long productId) throws BasicException {
+    public String modifyProduct(PatchProductReq patchProductReq, Long productId, MultipartFile imageFile) throws BasicException {
 
 
 
@@ -160,6 +160,20 @@ public class ProductService {
                 break;
         }
         patchProductReq.setDiscountPrice(discountPrice);
+
+
+
+        //변경 전에 DB에 저장된 상품 이미지 파일명을 DB에서 조회 - (S3에 업로드된 파일 삭제에서 사용)
+        Product beforeProduct = productDao.checkStatusPrdouct(productId);
+        String beforeS3_fileName = beforeProduct.getImage().replace(Secret.AWS_S3_CONNECT_URL,"");
+
+
+        //UUID가 적용된 이미지 파일명 리턴
+        String UUID_fileName = awsS3Service.createFileNameToDB(imageFile);
+
+        //DB에 업로드할 이미지 파일명 DTO에 저장
+        patchProductReq.setImage(Secret.AWS_S3_CONNECT_URL+UUID_fileName);
+
 
 
         try{
@@ -182,7 +196,6 @@ public class ProductService {
 
 
 
-
 //        try{
         //상품 id를 통해 상품 객체 불러오기
         Product product = productDao.checkStatusPrdouct(productId);
@@ -202,11 +215,24 @@ public class ProductService {
 
         /* 상품 옵션 변경 */
         for(int i=0; i < patchProductReq.getOptionName().size(); i++) {
-                    int result = productOptionDao.modifyOptionName(patchProductReq.getOptionName().get(i), patchProductReq.getProductOptionId().get(i) , product);
-                    if(result == 0){  //상품 옵션 변경에 실패하면 (0이면)
-                        throw new BasicException(PATCH_PRODUCTS_NOT_EXISTS_PRDOCUT_OPTION);  //해당 상품 옵션 인덱스에 해당하는 상품을 찾을 수 없습니다.
-                    }
+            int result = productOptionDao.modifyOptionName(patchProductReq.getOptionName().get(i), patchProductReq.getProductOptionId().get(i) , product);
+
+            if(result == 0){  //상품 옵션 변경에 실패하면 (0이면)
+                throw new BasicException(PATCH_PRODUCTS_NOT_EXISTS_PRDOCUT_OPTION);  //해당 상품 옵션 인덱스에 해당하는 상품을 찾을 수 없습니다.
+            }
         }
+
+
+
+        //S3에 이미지 파일 업로드
+        URI imageUrlList = awsS3Service.uploadFile(imageFile, UUID_fileName);  //이미지 파일과 UUID가 적용된 파일명 인수로 전달
+
+
+        //S3에서 변경 전 이미지 파일 삭제
+        awsS3Service.deleteFile(beforeS3_fileName);
+
+
+
 //        } catch(Exception exception){
 //            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName);
 //        }

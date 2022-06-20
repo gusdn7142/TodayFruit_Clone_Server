@@ -132,7 +132,11 @@ public class ProductController {
          */
         // Body
         @PatchMapping("/{userId}/{productId}") //
-        public BasicResponse modifyProduct(@PathVariable("userId") Long userId  , @PathVariable("productId") Long productId, @Valid @RequestBody  PatchProductReq patchProductReq, BindingResult bindingResult ) { //
+        public BasicResponse modifyProduct(@PathVariable("userId") Long userId  ,
+                                           @PathVariable("productId") Long productId,
+                                           @Valid @RequestPart PatchProductReq patchProductReq, BindingResult bindingResult,
+                                           @RequestPart("imageFile") MultipartFile imageFile) {
+
 
             try{
                 /* Access Token을 통한 사용자 인가 적용 */
@@ -157,11 +161,12 @@ public class ProductController {
 
 
 
+
+
             /* 유효성 검사 구현부 */
             if(bindingResult.hasErrors()) {   //에러가 있다면
                 List<ObjectError> errorlist = bindingResult.getAllErrors();  //모든 에러를 뽑아온다.
-//
-                System.out.println(bindingResult.getAllErrors());
+
                 if (errorlist.get(0).getDefaultMessage().equals("배송타입 형식을 확인해 주세요.")) {
                     return new BasicResponse(POST_PRODUCTS_INVALID_DeliveryType);
                 }
@@ -185,7 +190,10 @@ public class ProductController {
                 }
 
             }
-//            /* 유효성 검사 구현 끝*/
+            if (imageFile.isEmpty()) {   //이미지가 비었다면
+                return new BasicResponse(POST_PRODUCTS_EMPTY_IMAGE);
+            }
+            /* 유효성 검사 구현 끝*/
 
 
 
@@ -193,12 +201,13 @@ public class ProductController {
 
             try{
                 //DB에 상품 정보 수정
-                String responseMessage = productService.modifyProduct(patchProductReq, productId);
+                String responseMessage = productService.modifyProduct(patchProductReq, productId, imageFile);
 
                 return new BasicResponse(responseMessage);
             } catch(BasicException exception){
                 return new BasicResponse(exception.getStatus());
             }
+
 
 
         }

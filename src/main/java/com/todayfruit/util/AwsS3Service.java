@@ -101,10 +101,15 @@ public class AwsS3Service {
 
 
 
-//    //Amazon S3에 업로드 된 파일을 삭제
-//    public void deleteFile(String fileName) {
-//        amazonS3.deleteObject(bucket, fileName);   //S3에서 업로드된 해당 파일 삭제   //new DeleteObjectRequest()
-//    }
+    //Amazon S3에 업로드 된 파일을 삭제
+    public void deleteFile(String fileName) throws BasicException {
+        try {
+            amazonS3.deleteObject(bucket, fileName);   //S3에서 업로드된 해당 파일 삭제
+        } catch (Exception exception) {
+            throw new BasicException(S3_ERROR_DELETE_FILE);  //"S3에서 파일 삭제에 실패하였습니다."
+        }
+
+    }
 
 
 
