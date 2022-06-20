@@ -654,7 +654,7 @@
     - awsS3Service.createFileNameToDB(imageFile) : 입력받은 이미지 파일에서 파일명 추출 후 UUID 적용
     - awsS3Service.uploadFile(imageFile, UUID_fileName) : 이미지 파일과 UUID 파일명을 인수로 넘겨받아 S3에 파일 업로드  
     - awsS3Service.deleteFile(beforeS3_fileName) : 변경전 DB에 저장되어 있던 이미지 파일명을 인자로 받아 S3에서 해당 파일 삭제
-- AWS Service 추가 (AwsS3Service.class)    
+- AWS Service 수정 (AwsS3Service.class)    
     - uploadFile() 함수 활용 : amazonS3.putObject()를 통해 S3에 파일(Object) 업로드      
     - deleteFile() 함수 구현 : amazonS3.deleteObject()를 통해 S3에서 파일(Object) 삭제      
             
