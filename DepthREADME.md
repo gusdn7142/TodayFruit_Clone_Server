@@ -624,7 +624,22 @@
       
             
             
+## 2022-06-12 ~ 19 진행상황
+#### 1. Spring Boot와 S3 연동  
+- AWS S3 서비스 설정  
+    - S3 Bucket 생성
+    - S3 Bucket 정책 생성 : Public Access 허용
+    - IAM 사용자 권한 추가 : S3에 접근하기 위해 access-key와 secret-key를 가진 IAM 사용자 추가   
+- AWS Dependency 추가 : application.yml에서 설정
+- AwsS3Config 생성 : S3에 접근할 떄 어떤 IAM을 통해 접근하고, 어떤 region을 통해 접근하는지 등을 설정
             
-            
-            
-            
+#### 2. Update 상품 등록 API
+- 변경사항 요약 : 기존에는 이미지를 처리 로직에서 Product DB에 이미지 파일명만 저장하는 상태였으나, S3를 연동함으로써 S3에 파일 업로드를 하는것이 가능해졌습니다.            
+- 상품 등록 Controller 수정 (ProductController.class)
+    - @RequestPart를 통해 form 형식으로 PostProductReq 객체와 imageFile 변수를 불러옴
+    - imageFile.isEmpty()를 통해 form형식으로 받아온 imageFile변수에 값이 입력되었는지 유효성 검사 실행
+- 상품 등록 Service 수정 (ProductService.class)
+    - awsS3Service.createFileNameToDB(imageFile) : 입력받은 이미지 파일에서 파일명 추출 후 UUID 적용
+    - awsS3Service.uploadFile(imageFile, UUID_fileName) : 이미지 파일과 UUID 파일명을 인수로 넘겨받아 S3에 파일 업로드  
+- AWS Service 추가 (AwsS3Service.class)    
+    - uploadFile() 함수 구현 : amazonS3.putObject()를 통해 S3에 파일(Object) 업로드   
