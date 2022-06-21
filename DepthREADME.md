@@ -634,12 +634,34 @@
 - AwsS3Config 생성 : S3에 접근할 떄 어떤 IAM을 통해 접근하고, 어떤 region을 통해 접근하는지 등을 설정
             
 #### 2. Update 상품 등록 API
-- 변경사항 요약 : 기존에는 이미지를 처리 로직에서 Product DB에 이미지 파일명만 저장하는 상태였으나, S3를 연동함으로써 S3에 파일 업로드를 하는것이 가능해졌습니다.            
-- 상품 등록 Controller 수정 (ProductController.class)
+- 변경사항 요약 : 기존에는 이미지 처리 로직에서 Product DB에 이미지 파일명만 저장하는 상태였으나, S3를 연동함으로써 S3에 파일 업로드를 하는것이 가능해졌습니다.            
+- 상품 Controller 수정 (ProductController.class)
     - @RequestPart를 통해 form 형식으로 PostProductReq 객체와 imageFile 변수를 불러옴
     - imageFile.isEmpty()를 통해 form형식으로 받아온 imageFile변수에 값이 입력되었는지 유효성 검사 실행
-- 상품 등록 Service 수정 (ProductService.class)
+- 상품 Service 수정 (ProductService.class)
     - awsS3Service.createFileNameToDB(imageFile) : 입력받은 이미지 파일에서 파일명 추출 후 UUID 적용
     - awsS3Service.uploadFile(imageFile, UUID_fileName) : 이미지 파일과 UUID 파일명을 인수로 넘겨받아 S3에 파일 업로드  
 - AWS Service 추가 (AwsS3Service.class)    
     - uploadFile() 함수 구현 : amazonS3.putObject()를 통해 S3에 파일(Object) 업로드   
+
+## 2022-06-20 진행상황
+#### 1. Update 상품 수정 API
+- 변경사항 요약 : 기존에는 상품 이미지 수정 로직에서 Product DB에 이미지 파일명만 변경하는 상태였으나, S3를 연동함으로써 S3에 파일 삭제 및 업로드가 가능해졌습니다.            
+- 상품 Controller 수정 (ProductController.class)
+    - @RequestPart를 통해 form 형식으로 PatchProductReq 객체와 imageFile 변수를 불러옴
+    - imageFile.isEmpty()를 통해 form형식으로 받아온 imageFile변수에 값이 입력되었는지 유효성 검사 실행
+- 상품 Service 수정 (ProductService.class)
+    - awsS3Service.createFileNameToDB(imageFile) : 입력받은 이미지 파일에서 파일명 추출 후 UUID 적용
+    - awsS3Service.uploadFile(imageFile, UUID_fileName) : 이미지 파일과 UUID 파일명을 인수로 넘겨받아 S3에 파일 업로드  
+    - awsS3Service.deleteFile(beforeS3_fileName) : 변경전 DB에 저장되어 있던 이미지 파일명을 인자로 받아 S3에서 해당 파일 삭제
+- AWS Service 수정 (AwsS3Service.class)    
+    - uploadFile() 함수 활용 : amazonS3.putObject()를 통해 S3에 파일(Object) 업로드      
+    - deleteFile() 함수 구현 : amazonS3.deleteObject()를 통해 S3에서 파일(Object) 삭제      
+            
+            
+## 2022-06-21 진행상황
+#### 1. Update 상품 삭제 API
+- 변경사항 요약 : 기존에는 상품 삭제 로직에서 Product DB에서 해당 상품 레코드만 비활성화하는 상태였으나, S3를 연동함으로써 S3에서 파일 삭제가 가능해졌습니다.     
+- 상품 Service 수정 (ProductService.class)
+    - @Transactional(rollbackFor = {Exception.class}) 어노테이션 사용 : 모든 예외 클래스에 대해 트랜잭션 적용
+    - awsS3Service.deleteFile(fileName) : 이미지 파일명을 인자로 받아 S3에서 해당 파일 삭제
