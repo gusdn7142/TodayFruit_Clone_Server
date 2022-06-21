@@ -664,4 +664,4 @@
 - 변경사항 요약 : 기존에는 상품 삭제 로직에서 Product DB에서 해당 상품 레코드만 비활성화하는 상태였으나, S3를 연동함으로써 S3에서 파일 삭제가 가능해졌습니다.     
 - 상품 Service 수정 (ProductService.class)
     - @Transactional(rollbackFor = {Exception.class}) 어노테이션 사용 : 모든 예외 클래스에 대해 트랜잭션 적용
-    - awsS3Service.deleteFile(beforeS3_fileName) : 이미지 파일명을 인자로 받아 S3에서 해당 파일 삭제
+    - awsS3Service.deleteFile(fileName) : 이미지 파일명을 인자로 받아 S3에서 해당 파일 삭제
