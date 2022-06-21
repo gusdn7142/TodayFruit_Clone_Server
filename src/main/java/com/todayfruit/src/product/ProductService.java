@@ -300,10 +300,12 @@ public class ProductService {
 
  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* 13. 상품 삭제 API - deleteUser()   */
+    @Transactional(rollbackFor = {Exception.class})
     public void deleteProduct(Long productId) throws BasicException {
 
         //상품 삭제 여부 조회 (유저가 계속 클릭시..)
-        if(productDao.checkStatusPrdouct(productId) == null){   //상품이 삭제되었다면..
+        Product product = productDao.checkStatusPrdouct(productId);
+        if(product == null){   //상품이 삭제되었다면..
             throw new BasicException(PATCH_PRODUCTS_DELETE_PRDOCUT);  //"삭제된 상품 입니다."
         }
 
@@ -320,6 +322,13 @@ public class ProductService {
         } catch(Exception exception){
             throw new BasicException(DATABASE_ERROR_DELETE_PRODUCTS);   //'상품 삭제에 실패하였습니다.'
         }
+
+
+        //S3에서 이미지 파일 삭제
+        String fileName = product.getImage().replace(Secret.AWS_S3_CONNECT_URL,"");
+        awsS3Service.deleteFile(fileName);
+
+
 
     }
 

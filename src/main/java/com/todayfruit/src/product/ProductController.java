@@ -302,7 +302,7 @@ public class ProductController {
 
 
 
-            //유저 상태 비활성화
+            //상품 상태 비활성화
             productService.deleteProduct(productId);
 
             String result = "상품 정보가 삭제되었습니다.";
