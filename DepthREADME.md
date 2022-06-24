@@ -665,3 +665,12 @@
 - 상품 Service 수정 (ProductService.class)
     - @Transactional(rollbackFor = {Exception.class}) 어노테이션 사용 : 모든 예외 클래스에 대해 트랜잭션 적용
     - awsS3Service.deleteFile(fileName) : 이미지 파일명을 인자로 받아 S3에서 해당 파일 삭제
+            
+            
+## 2022-06-24 진행상황
+#### 1. Update 상품 등록&수정 API
+- 변경사항 요약 : 상품 등록과 수정 과정에서 이미지 파일 업로드시 파일 확장자와 파일 크기 제한
+- 상품 Controller 수정 (ProductController .class)
+    - 상품등록 함수 createProduct()와 상품수정 함수 modifyProduct()에서 다음의 유효성 검사 적용
+    - 화이트 리스트(gif, jpg, jpeg, png 확장자)에 대해서만 요청을 허용
+    - 파일 크기가 10MB 미만에 대해서만 요청을 허용   
