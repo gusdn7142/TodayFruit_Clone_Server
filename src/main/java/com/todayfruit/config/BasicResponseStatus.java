@@ -47,10 +47,12 @@ public enum BasicResponseStatus {  //enum 타입
     POST_PRODUCTS_INVALID_saleCount("FAIL", 2015, "판매수량 형식을 확인해 주세요. (최소 10개, 최대 3000개)"),
     POST_PRODUCTS_EMPTY_DeliveryDay("FAIL", 2016, "배송일을 입력해 주세요."),
     POST_PRODUCT_OPTIONS_INVALID_optionName("FAIL", 2017, "상품옵션 형식을 확인해 주세요."),
+    POST_PRODUCTS_INVALID_FORM_IMAGE("FAIL", 2018, "지원되지 않는 이미지 파일 형식입니다."),
+    POST_PRODUCTS_INVALID_SIZE_IMAGE("FAIL", 2019, "업로드할 이미지 파일의 최대 크기는 10MB입니다. 파일 크기를 다시 확인 해주세요."),
 
 
     //purchase 도메인
-    POST_PURCHASE_INVALID_PurchaseCount("FAIL", 2017, "구매 수량은 1~100개 까지만 입력 가능합니다."),
+    POST_PURCHASE_INVALID_PurchaseCount("FAIL", 2100, "구매 수량은 1~100개 까지만 입력 가능합니다."),
 
 
     //Review 도메인

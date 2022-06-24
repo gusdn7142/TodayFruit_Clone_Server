@@ -104,7 +104,23 @@ public class ProductController {
         if (imageFile.isEmpty()) {   //이미지가 비었다면
             return new BasicResponse(POST_PRODUCTS_EMPTY_IMAGE);
         }
+
+
+        //이미지 파일의 확장자가 git, jpg, jpeg, png가 아니면 예외 발생
+        String fileExt = imageFile.getOriginalFilename().substring(imageFile.getOriginalFilename().lastIndexOf(".")+1).toLowerCase();
+
+        if(! "gif".equals(fileExt) && ! "jpg".equals(fileExt) && ! "jpeg".equals(fileExt) && ! "png".equals(fileExt)){
+            return new BasicResponse(POST_PRODUCTS_INVALID_FORM_IMAGE);
+
+        }
+
+        //이미지 파일 크기 제한 (10MB)
+        if(imageFile.getSize() > 10485760){
+            return new BasicResponse(POST_PRODUCTS_INVALID_SIZE_IMAGE);
+        }
         /* 유효성 검사 구현 끝*/
+
+
 
 
 
@@ -193,6 +209,20 @@ public class ProductController {
             if (imageFile.isEmpty()) {   //이미지가 비었다면
                 return new BasicResponse(POST_PRODUCTS_EMPTY_IMAGE);
             }
+
+            //이미지 파일의 확장자가 git, jpg, jpeg, png가 아니면 예외 발생
+            String fileExt = imageFile.getOriginalFilename().substring(imageFile.getOriginalFilename().lastIndexOf(".")+1).toLowerCase();
+
+            if(! "gif".equals(fileExt) && ! "jpg".equals(fileExt) && ! "jpeg".equals(fileExt) && ! "png".equals(fileExt)){
+                return new BasicResponse(POST_PRODUCTS_INVALID_FORM_IMAGE);
+
+            }
+
+            //이미지 파일 크기 제한 (10MB)
+            if(imageFile.getSize() > 10485760){
+                return new BasicResponse(POST_PRODUCTS_INVALID_SIZE_IMAGE);
+            }
+
             /* 유효성 검사 구현 끝*/
 
 
