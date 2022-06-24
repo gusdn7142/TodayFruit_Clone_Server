@@ -672,5 +672,5 @@
 - 변경사항 요약 : 상품 등록과 수정 과정에서 이미지 파일 업로드시 파일 확장자와 파일 크기 제한
 - 상품 Controller 수정 (ProductController .class)
     - 상품등록 함수 createProduct()와 상품수정 함수 modifyProduct()에서 다음의 유효성 검사 적용
-    - 화이트 리스트(gif, jpg, jpeg, png 확장자)에 대해서만 요청을 허용
-    - 파일 크기가 10MB 미만에 대해서만 요청을 허용   
+    - 화이트 리스트(gif, jpg, jpeg, png 확장자)에 대해서만 파일 요청을 허용
+    - 파일 크기가 10MB 미만에 대해서만 파일 요청을 허용   
