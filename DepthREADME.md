@@ -670,7 +670,23 @@
 ## 2022-06-24 진행상황
 #### 1. Update 상품 등록&수정 API
 - 변경사항 요약 : 상품 등록과 수정 과정에서 이미지 파일 업로드시 파일 확장자와 파일 크기 제한
-- 상품 Controller 수정 (ProductController .class)
+- 상품 Controller 수정 (ProductController.class)
     - 상품등록 함수 createProduct()와 상품수정 함수 modifyProduct()에서 다음의 유효성 검사 적용
     - 화이트 리스트(gif, jpg, jpeg, png 확장자)에 대해서만 파일 요청을 허용
     - 파일 크기가 10MB 미만에 대해서만 파일 요청을 허용   
+            
+## 2022-06-26 진행상황
+#### 1. Update 상품 수정 API
+- 변경사항 요약 : 변경 전 상품 이미지 파일이 S3에서 삭제되는 과정에서 오류 발생시 S3에
+새로 업로드된 상품 이미지 파일도 같이 삭제되도록 로직 추가
+- 상품 Service 수정 (ProductService class)
+    - try-catch문 추가 : catch문 안에 awsS3Service.deleteFile("새로 업로드된 파일명") 코드 추가
+    - 연구과제 : 향후 @TransactionalEventListener를 사용하는 방식으로 변경 예정        
+#### 2. EC2서버에 API 수정사항 반영
+- 대상 : 상품 등록 API, 상품 정보 수정 API, 상품 삭제 API
+- 배포 순서
+    - 로컬에서 API 테스트        
+    - 로컬에서 깃허브로 .jar 파일 업로드     
+    - 깃허브에서 jar 파일 받아와 EC2 서버에 API 배포
+- API 명세서에 반영                
+ 
