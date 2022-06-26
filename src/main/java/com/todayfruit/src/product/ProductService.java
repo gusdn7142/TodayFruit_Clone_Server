@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import com.todayfruit.config.secret.Secret;
@@ -165,6 +166,12 @@ public class ProductService {
 
         //변경 전에 DB에 저장된 상품 이미지 파일명을 DB에서 조회 - (S3에 업로드된 파일 삭제에서 사용)
         Product beforeProduct = productDao.checkStatusPrdouct(productId);
+
+        //상품 삭제여부 확인
+        if(beforeProduct == null){   //상품이 삭제되었다면..
+            throw new BasicException(PATCH_PRODUCTS_DELETE_PRDOCUT);  //"삭제된 상품 입니다."
+        }
+
         String beforeS3_fileName = beforeProduct.getImage().replace(Secret.AWS_S3_CONNECT_URL,"");
 
 
@@ -195,15 +202,8 @@ public class ProductService {
         }
 
 
-
         //상품 id를 통해 상품 객체 불러오기
         Product product = productDao.checkStatusPrdouct(productId);
-
-        //상품 삭제여부 확인
-        if(product == null){   //상품이 삭제되었다면..
-            throw new BasicException(PATCH_PRODUCTS_DELETE_PRDOCUT);  //"삭제된 상품 입니다."
-        }
-
 
         //실제 옵션 수보다 옵션인덱스와 옵션 명 개수가 일치하지 않을 경우 에러메시지 표출
         int count = productOptionDao.getPrdocutOptionCount(product);
