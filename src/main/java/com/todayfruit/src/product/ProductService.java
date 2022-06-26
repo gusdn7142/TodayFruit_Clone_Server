@@ -127,7 +127,7 @@ public class ProductService {
 
 
         //S3에 이미지 파일 업로드
-        URI imageUrlList = awsS3Service.uploadFile(imageFile, UUID_fileName);  //이미지 파일과 UUID가 적용된 파일명 인수로 전달
+        URI imageUrl = awsS3Service.uploadFile(imageFile, UUID_fileName);  //이미지 파일과 UUID가 적용된 파일명 인수로 전달
 
 
         return "상품 등록에 성공하였습니다.";
@@ -168,7 +168,7 @@ public class ProductService {
         String beforeS3_fileName = beforeProduct.getImage().replace(Secret.AWS_S3_CONNECT_URL,"");
 
 
-        //UUID가 적용된 이미지 파일명 리턴
+        //UUID가 적용된 새로운 이미지 파일명 리턴
         String UUID_fileName = awsS3Service.createFileNameToDB(imageFile);
 
         //DB에 업로드할 이미지 파일명 DTO에 저장
@@ -196,7 +196,6 @@ public class ProductService {
 
 
 
-//        try{
         //상품 id를 통해 상품 객체 불러오기
         Product product = productDao.checkStatusPrdouct(productId);
 
@@ -225,17 +224,19 @@ public class ProductService {
 
 
         //S3에 이미지 파일 업로드
-        URI imageUrlList = awsS3Service.uploadFile(imageFile, UUID_fileName);  //이미지 파일과 UUID가 적용된 파일명 인수로 전달
+        URI imageUrl = awsS3Service.uploadFile(imageFile, UUID_fileName);  //이미지 파일과 UUID가 적용된 파일명 인수로 전달
 
 
         //S3에서 변경 전 이미지 파일 삭제
-        awsS3Service.deleteFile(beforeS3_fileName);
+        try {
+            awsS3Service.deleteFile(beforeS3_fileName);
+        }
+        catch(Exception exception){    //이전 이미지 파일 삭제 실패시 업로드된 새로운 파일을 삭제
+            awsS3Service.deleteFile(UUID_fileName);
+            throw new BasicException(S3_ERROR_DELETE_FILE);  //"S3에서 파일 삭제에 실패하였습니다."
+        }
 
 
-
-//        } catch(Exception exception){
-//            throw new BasicException(DATABASE_ERROR_MODIFY_FAIL_PRODUCTS_OptionName);
-//        }
 
             return "상품 정보 변경에 성공하였습니다.";
     }

@@ -76,10 +76,7 @@ public class AwsS3Service {
     //UUID를 포함하는 이미지 파일명 리턴
     public String createFileNameToDB(MultipartFile imageFile) {
 
-
         String UUID_fileName = UUID.randomUUID().toString() + "-" + imageFile.getOriginalFilename(); //파일명을 불러와서 고유 식별자와 합친 문자열을 생성
-
-
         return UUID_fileName;  //UUID 파일명 리턴
     }
 
