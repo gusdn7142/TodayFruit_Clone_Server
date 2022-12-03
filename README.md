@@ -11,8 +11,7 @@
 - 📌 Ground Rule
 - ✍ [개발일지](추가예정)
 - 📰 [API 명세서](https://docs.google.com/spreadsheets/d/1j0TwTTBAfpImfMHDNU-MxWzNfHTtMLbpIxqJPdOMmJY/edit#gid=1272810478)
-- 📦 [ERD 설계도](https://aquerytool.com/aquerymain/index/?rurl=28b4d08a-e25b-40ff-8221-5bc99bffb2fb&)    
-    - 비밀번호 : kn348k   
+- 📦 [ERD 설계도](https://user-images.githubusercontent.com/62496215/180647907-2412c611-a51b-47ac-b05d-91b174fe0f85.png)  
 - 📁 [디렉토리 구조](https://github.com/gusdn7142/TodayFruit_Clone_Server/wiki/%F0%9F%93%81-Directory-Structure)
 - 📽 시연 영상 : 추가예정
 
@@ -29,10 +28,9 @@
 #### `DevOps`  
   - AWS EC2 (Ubuntu 20.04)  
   - AWS RDS (Mysql 8.0)
-  - AWS S3 (추가예정)
+  - AWS S3 
   - Nginx
   - GitHub
-  - Docker (추가예정)
 #### `Etc`  
   - JWT
 
@@ -62,6 +60,33 @@
 ## 🌟 트러블 슈팅
 추가 예정
 
+<details>
+<summary> 1. JPA native query 사용시 dto mapping 실패 </summary>
+<div markdown="1">
+
+- **Issue** : JPA native query 사용시 dto mapping에 실패하는 문제가 발생하였습니다.  
+![Untitled (24)](https://user-images.githubusercontent.com/62496215/205444000-8700df2a-cd42-4f2b-8b36-a3258ed4998e.png)
+- **Problem** : user 테이블의 칼럼들을 조회하는 과정에서 쿼리의 칼럼들과 GetUserRes.java (DTO 클래스)의 멤버 변수들이 매핑 되지 않는 문제가 발생하였습니다.  
+- **Solution1** : GetUserRes.java(DTO 클래스) 파일을 interface 타입으로 변경 후 각 칼럼과 매핑될 getter() 함수를 직접 생성  
+  ```sql
+      public interface GetUserRes {
+            Long getId();
+            String getImage();
+            String getNickName();
+            String getIntroduction();
+            String getEmail();
+      }
+  ```    
+- **Solution2** :  @Query 쿼리문의 nativeQuery 속성을 false로 바꾸어 JPQL을 사용하고 new 키워드를 통해 GetUserRes.java(DTO 클래스)를 매핑할 수 있습니다.  
+  ```sql
+     @Query(value="select new com.todayfruit.src.user.model.GetUserRes(id, image, nickName, introduction, email) from User where id = :id", nativeQuery = false)   
+     GetUserRes getUser(@Param("id") Long userId); 
+  ```    
+</div>
+</details>
+
+
+
 </br>
 
 ## ❕ 회고 / 느낀점
@@ -72,6 +97,8 @@
 
 
 ## 👩‍💻 리팩토링 계획
-추가 예정
-
-
+- [ ] Access-Token을 활용한 사용자 인가 로직을 인터셉터를 활용해 공통 로직으로 처리
+- [ ] 전체 상품 조회 API와 상품 리뷰 조회 API에 페이징 기능 적용 
+- [ ] GET 방식의 PathVarilabe과 Query String으로 받아온 입력 값에 대한 유효성 검사 추가  
+- [ ] Docker를 이용해 Spring Boot 애플리케이션 배포
+- [ ] 모든 API에 Swagger 적용
