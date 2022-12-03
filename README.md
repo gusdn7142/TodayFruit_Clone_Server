@@ -65,7 +65,7 @@
 <div markdown="1">
 
 - **Issue** : JPA native query 사용시 dto mapping에 실패하는 문제가 발생하였습니다.  
-![Untitled (24)](https://user-images.githubusercontent.com/62496215/205444000-8700df2a-cd42-4f2b-8b36-a3258ed4998e.png)
+![image](https://user-images.githubusercontent.com/62496215/205446013-913ab66e-496c-4473-b564-969d7d546033.png)
 - **Problem** : user 테이블의 칼럼들을 조회하는 과정에서 쿼리의 칼럼들과 GetUserRes.java (DTO 클래스)의 멤버 변수들이 매핑 되지 않는 문제가 발생하였습니다.  
 - **Solution1** : GetUserRes.java(DTO 클래스) 파일을 interface 타입으로 변경 후 각 칼럼과 매핑될 getter() 함수를 직접 생성  
   ```sql
@@ -85,6 +85,44 @@
 </div>
 </details>
 
+<details>
+<summary> 2. Spring Security CSRF 공격 보호 이슈 </summary>
+<div markdown="1">
+
+- **Issue** : SecurityConfig 적용후 postman으로 API 실행시 403 Forbidden 에러 발생
+![image](https://user-images.githubusercontent.com/62496215/205445937-523dffc2-df30-468a-aa9e-a0534ad53366.png)
+- **Problem** : SpringSecurity 라이브러리의  CSRF protection이 deafult로 설정되어 GET 요청을 제외한 POST, PUT, DELETE 요청에 대한 모든 호출은 403 에러로 처리합니다.
+- **Solution** : WebSecurityConfigurerAdapter 클래스를 상속받는 SecurityConfig 클래스에 http.csrf().disable() 설정 적용
+  ```java
+      @Configuration   
+      @EnableWebSecurity 
+      public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.csrf().disable(); 
+        }
+      }
+  ```    
+</div>
+</details>
+
+
+<details>
+<summary> 3. RefreshToken 보안 이슈 </summary>
+<div markdown="1">
+
+- **Issue** : 프로필 편집 API에서 Accesstoken 값에 Refreshtoken 값을 넣어도 정상적으로 APi가 동작하는데,  만료시간이 긴 Refreshtoken이 탈취되어 Accesstoken으로도 활용된다면 인가 절차가 필요한 기능들에 무단으로 접근이 가능합니다.
+- **Problem** : Accesstoken과 Refreshtoken을 생성시 같은 암호화 키를 사용하고 있었습니다.
+- **Solution** : Accesstoken과 Refreshtoken 토큰의 암호화 키를 다르게 해줌으로써 역할을 명확하게 구분할 수 있었습니다.
+  ```java
+      public class Secret {
+        public static String ACCESS_TOKEN_KEY = "Access Token 키 값 입력!";
+        public static String REFRESH_TOKEN_KEY = "Refresh Token 키 값 입력!";
+      }
+  ```    
+</div>
+</details>
 
 
 </br>
