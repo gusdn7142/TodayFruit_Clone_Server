@@ -58,7 +58,6 @@
 </br>
 
 ## 🌟 트러블 슈팅
-추가 예정
 
 <details>
 <summary> 1. JPA native query 사용시 dto mapping 실패 </summary>
