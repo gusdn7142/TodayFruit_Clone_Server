@@ -9,8 +9,8 @@
 ## 2022-04-28 진행상황
 #### 1. '오늘과일' 서비스 ERD 설계 (70% 완료)
 - ERD 설계 전 [MySQL DB 명명 규칙](https://velog.io/@ohsol/MySQL-DB-%EB%AA%85%EB%AA%85-%EA%B7%9C%EC%B9%99-%EC%A0%95%EB%A6%AC)  재확인
-- [ERD 구조도](https://drive.google.com/file/d/1rR1QeKPXdiCvhH1K4VlrKqYN3tTJwhd5/view) 작성 완료
-- ERD 설계도 : [Aqeury tool 링크](https://aquerytool.com/aquerymain/index/?rurl=28b4d08a-e25b-40ff-8221-5bc99bffb2fb&)  (비밀번호 : kn348k) 
+- ERD 구조도  작성 완료  
+- [ERD 설계도](https://user-images.githubusercontent.com/62496215/180647907-2412c611-a51b-47ac-b05d-91b174fe0f85.png)  
 - ERD 설계 (진행 중)
     - DB 유형 : Mysql 
     - 담당 테이블 
