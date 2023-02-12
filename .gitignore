@@ -37,6 +37,26 @@
 ##.vscode/
 
 
+#default
+.gradle
+.idea
+build/classes
+build/reports
+build/test-results
+build/tmp
+build/bootJarMainClassName
+gradle/
+HELP.md
+build.gradle
+gradlew
+gradlew.bat
+settings.gradle
+.DS_Store
+logs/
+out/
+
+
+
 #RDS Info
 src/main/resources
 build/resources

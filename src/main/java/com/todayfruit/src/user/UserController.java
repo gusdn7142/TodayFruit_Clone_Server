@@ -10,7 +10,11 @@ import com.todayfruit.src.user.model.domain.Logout;
 import com.todayfruit.src.user.model.domain.User;
 import com.todayfruit.src.user.model.request.PatchUserReq;
 import com.todayfruit.src.user.model.request.PostLoginReq;
-import com.todayfruit.src.user.model.request.PostLoginRes;
+
+
+import com.todayfruit.src.user.model.response.PostLoginRes;
+
+
 import com.todayfruit.src.user.model.request.PostUserReq;
 import com.todayfruit.src.user.model.response.GetUserRes;
 import com.todayfruit.src.user.model.response.PostAccessTokenRes;

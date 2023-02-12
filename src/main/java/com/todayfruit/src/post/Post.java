@@ -1,4 +1,4 @@
-package com.todayfruit.post;
+package com.todayfruit.src.post;
 
 public class Post {
 }

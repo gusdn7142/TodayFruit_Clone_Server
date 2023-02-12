@@ -51,6 +51,9 @@ public enum BasicResponseStatus {  //enum 타입
     POST_PRODUCTS_INVALID_SIZE_IMAGE("FAIL", 2019, "업로드할 이미지 파일의 최대 크기는 10MB입니다. 파일 크기를 다시 확인 해주세요."),
 
 
+
+
+
     //purchase 도메인
     POST_PURCHASE_INVALID_PurchaseCount("FAIL", 2100, "구매 수량은 1~100개 까지만 입력 가능합니다."),
 
@@ -140,7 +143,7 @@ public enum BasicResponseStatus {  //enum 타입
 
 
     //AWS S3 파일 업로드 관련
-    S3_ERROR_INCORRECT_FILENAME("FAIL", 4200, "S3에 업로드될 파일의 형식이 올바르지 않습니다."),
+    //S3_ERROR_INCORRECT_FILENAME("FAIL", 4200, "S3에 업로드될 파일의 형식이 올바르지 않습니다."),
     S3_ERROR_UPLOAD_FILE("FAIL", 4201, "S3에 파일 업로드에 실패하였습니다."),
     S3_ERROR_DELETE_FILE("FAIL", 4202, "S3에서 파일 삭제에 실패하였습니다.");
 
